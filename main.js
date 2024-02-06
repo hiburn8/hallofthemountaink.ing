@@ -112,9 +112,9 @@
             shapeColour: 'orange'
           },
           yellow: {
-            startColor: 'black',
-            bgColor: 'yellow',
-            gridColor: 'black',
+            startColor: '#594400',
+            bgColor: '#f4c000',
+            gridColor: '#594400',
             playerLineColor: 'white',
             shapeColour: 'orange'
           },
@@ -289,6 +289,31 @@
 
 
         const levelData = [
+        {
+          theme: 'yellow',
+          gridSizeX: 3,
+          gridSizeY: 1,
+          gridName: 'level0',
+          puzzles: [],
+          blockedLines: [],
+          hiddenLines: [
+
+            { x1: 0, y1: 0, x2: 0, y2: 1 },
+            { x1: 1, y1: 0, x2: 1, y2: 1 },
+            { x1: 2, y1: 0, x2: 2, y2: 1 },
+            { x1: 3, y1: 0, x2: 3, y2: 1 },
+            { x1: 0, y1: 1, x2: 1, y2: 1 },
+            { x1: 1, y1: 1, x2: 2, y2: 1 },
+            { x1: 2, y1: 1, x2: 3, y2: 1 },
+
+
+          ],
+          hexagons: [],
+          startingPoint: { x: 3, y: 0 },
+          endingPoint: { x: 0, y: 0 }
+        },
+
+
         {
           theme: 'yellow',
           gridSizeX: 3,
@@ -950,6 +975,10 @@ const isSharedEdge = (line1, line2) => {
 
             if (blockedLines[x1][y1][x2][y2] === 1 || blockedLines[x2][y2][x1][y1] === 1) {
               return; // Don't draw the line if it's blocked
+            }
+
+            if (hiddenLines[x1][y1][x2][y2] === 1 || hiddenLines[x2][y2][x1][y1] === 1) {
+              return; // Don't draw the line if it's hidden
             }
             
             
