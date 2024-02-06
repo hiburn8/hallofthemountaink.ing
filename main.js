@@ -123,7 +123,7 @@
           },
           blue: {
             startColor: '#2202ab',
-            endColor: '#2f4f3e',
+            endColor: '#00FF00',
             bgColor: '#5554fe',
             gridColor: '#2202ab',
             playerLineColor: 'white',
@@ -1004,13 +1004,13 @@
             // Redraw start and end points
             
             // Start
-            ctx.fillStyle = startColor;
+            ctx.fillStyle = (isDrawing ? playerLineColor : (completed ? playerLineColorSuccess : startColor));
             ctx.beginPath();
             ctx.arc(startingPoint.x * squareSize, startingPoint.y * squareSize, startSize, 0, 2 * Math.PI);
             ctx.fill();
             
             // End
-            ctx.fillStyle = endColor; 
+            ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : endColor); 
             ctx.beginPath();
             ctx.arc(endingPoint.x * squareSize, endingPoint.y * squareSize, endSize, 0, 2 * Math.PI);
             ctx.fill();
@@ -1175,6 +1175,16 @@ function animate() {
      
      for (let i = 1; i < drawnPoints.length; i++) {
         drawLine(drawnPoints[i - 1], drawnPoints[i], color);  // wooo! 
+
+        ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(startingPoint.x * squareSize, startingPoint.y * squareSize, startSize, 0, 2 * Math.PI);
+            ctx.fill();
+
+        ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : color;
+            ctx.beginPath();
+            ctx.arc(endingPoint.x * squareSize, endingPoint.y * squareSize, endSize, 0, 2 * Math.PI);
+            ctx.fill();
     }
 
     // Schedule the next frame
