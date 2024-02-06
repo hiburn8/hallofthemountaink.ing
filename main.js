@@ -83,26 +83,67 @@
         }, { passive: false });
 
         // Grid and line styling
-        const bgColor = "#02b35a";
-        const gridColor = "#2f4f3e";
-        const playerLineColor = "white";//"#FFCC00";
         const playerLineColorFail = "#FF0000";
         const playerLineColorFinish = "#FFFFFF";
         const playerLineColorSuccess = "#00FF00";
-        const startColor = "#2f4f3e";//playerLineColor;
         const endColor = playerLineColorSuccess;
+
+        /**
+        let startColor = "#2f4f3e";
+        let bgColor = "#02b35a";
+        let gridColor = "#2f4f3e";
+        let playerLineColor = "white";;
+        let shapeColour = 'orange';
+        **/
+
+        let startColor;
+        let bgColor;
+        let gridColor;
+        let playerLineColor;
+        let shapeColour;
+
+
+        const themes = {
+          default: {
+            startColor: '#2f4f3e',
+            bgColor: '#02b35a',
+            gridColor: '#2f4f3e',
+            playerLineColor: 'white',
+            shapeColour: 'orange'
+          },
+          yellow: {
+            startColor: 'black',
+            bgColor: 'yellow',
+            gridColor: 'black',
+            playerLineColor: 'white',
+            shapeColour: 'orange'
+          },
+        };
+
+
+        //applyTheme(themes[levelData[level].theme]);
+
+        function applyTheme(theme = 'default'){
+
+            tm = themes[theme];
+            startColor = tm.startColor;
+            bgColor = tm.bgColor;
+            gridColor = tm.gridColor;
+            playerLineColor = tm.playerLineColor;
+            shapeColour = tm.shapeColour;
+            document.body.style.backgroundColor = tm.bgColor;
+            canvas.style.backgroundColor = tm.bgColor;
+        
+        }
+        
 
         //Global Vars
 
         let soundPlayed = false;
         
         // Grid size and other constants
-
-        
         const squareSize = 100;
-
         const shapeSize = squareSize / 8;
-        const shapeColour = 'orange';
         const shapeGapSize = squareSize / 32;
         const startSize = squareSize / 4;
         const endSize = squareSize / 4;
@@ -245,18 +286,38 @@
         //let grid = createEmptyGrid(gridSizeX,gridSizeY);
         // Y/X <- this was an accident i will regret
         
-        
+
 
         const levelData = [
         {
-          gridSizeX: 1,
-          gridSizeY: 1,
+          theme: 'yellow',
+          gridSizeX: 3,
+          gridSizeY: 2,
           gridName: 'level0',
           puzzles: [],
           blockedLines: [],
+          hiddenLines: [
+            { x1: 0, y1: 0, x2: 1, y2: 0 },
+            { x1: 1, y1: 0, x2: 2, y2: 0 },
+            { x1: 2, y1: 0, x2: 3, y2: 0 },
+
+            { x1: 0, y1: 2, x2: 1, y2: 2 },
+            { x1: 1, y1: 2, x2: 2, y2: 2 },
+            { x1: 2, y1: 2, x2: 3, y2: 2 },
+
+            { x1: 0, y1: 0, x2: 0, y2: 1 },
+            { x1: 1, y1: 0, x2: 1, y2: 1 },
+            { x1: 2, y1: 0, x2: 2, y2: 1 },
+
+            { x1: 1, y1: 1, x2: 1, y2: 2 },
+            { x1: 2, y1: 1, x2: 2, y2: 2 },
+            { x1: 3, y1: 1, x2: 3, y2: 2 },
+
+
+          ],
           hexagons: [],
-          startingPoint: { x: 0, y: 0 },
-          endingPoint: { x: 1, y: 1 },
+          startingPoint: { x: 3, y: 0 },
+          endingPoint: { x: 0, y: 2 }
         },
 
         {
@@ -265,9 +326,10 @@
           gridName: 'level0',
           puzzles: [],
           blockedLines: [],
+          hiddenLines: [],
           hexagons: [],
           startingPoint: { x: 0, y: 0 },
-          endingPoint: { x: 2, y: 2 },
+          endingPoint: { x: 2, y: 2 }
         },
 
         {
@@ -276,9 +338,10 @@
           gridName: 'level0',
           puzzles: [],
           blockedLines: [],
+          hiddenLines: [],
           hexagons: [],
           startingPoint: { x: 0, y: 0 },
-          endingPoint: { x: 3, y: 3 },
+          endingPoint: { x: 3, y: 3 }
         },
 
         {
@@ -306,9 +369,9 @@
             ],
           blockedLines: [
             { x1: 3, y1: 3, x2: 3, y2: 4 },
-            { x1: 2, y1: 4, x2: 2, y2: 5 },
-            // Add more connections between two points
+            { x1: 2, y1: 4, x2: 2, y2: 5 }
           ],
+          hiddenLines: [],
           hexagons: [
             { x: 3, y: 12 },
             { x: 4, y: 12 },
@@ -330,8 +393,8 @@
           blockedLines: [
             { x1: 3, y1: 3, x2: 3, y2: 4 },
             { x1: 2, y1: 4, x2: 2, y2: 5 },
-            // Add more connections between two points
           ],
+          hiddenLines: [],
           hexagons: [
             { x: 1, y: 12 },
             { x: 2, y: 12 },
@@ -362,6 +425,7 @@
         let startingPoint;
         let endingPoint;
         let blockedLines;
+        let hiddenLines;
         let grid;
         let gridSizeX;
         let gridSizeY;
@@ -379,6 +443,9 @@
         let scaleY;
 
         function loadLevel(n){
+
+
+            applyTheme(levelData[n].theme);
 
             grid = convertToMultidimensional(levelData[n].puzzles, levelData[n].gridSizeX,levelData[n].gridSizeY);
 
@@ -416,6 +483,18 @@
             for (let i = 0; i < levelData[n].blockedLines.length; i++){
                 blockedLines[levelData[n].blockedLines[i].x1][levelData[n].blockedLines[i].y1][levelData[n].blockedLines[i].x2][levelData[n].blockedLines[i].y2] = 1;
             }
+
+            //Set up hidden lines structure. pretty, but needs impossible lines pruning. i.e. [0][0][0][5]
+            hiddenLines = Array.from({ length: gridSizeX + 1 }, () =>
+              Array.from({ length: gridSizeY + 1 }, () =>
+                Array.from({ length: gridSizeX + 1 }, () =>
+                  Array.from({ length: gridSizeY + 1 }, () => 0)
+                )
+              )
+            );
+            for (let i = 0; i < levelData[n].hiddenLines.length; i++){
+                hiddenLines[levelData[n].hiddenLines[i].x1][levelData[n].hiddenLines[i].y1][levelData[n].hiddenLines[i].x2][levelData[n].hiddenLines[i].y2] = 1;
+            }
             
         } 
         
@@ -429,25 +508,51 @@
         let lastPoint = null;
         let completed = false;
         
-        const drawnPoints = [];
+        let drawnPoints = [];
 
         // Function to draw the grid and points
         const drawGridAndPoints = () => {
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.strokeStyle = gridColor;
-            ctx.beginPath();
-            for (let i = 0; i <= gridSizeX; i++) {
-                ctx.moveTo(i * squareSize, 0);
-                ctx.lineTo(i * squareSize, maxCoordinateY);
+
+            for (let i = 0; i <= gridSizeX -1; i++) {
+                for (let j = 0; j <= gridSizeY-1; j++) {
                 
+                    // Draw top edge
+                    if (!hiddenLines[i][j][i+1][j]) {
+                        ctx.beginPath();
+                        ctx.moveTo(i * squareSize, j * squareSize);
+                        ctx.lineTo(i * squareSize + squareSize, j * squareSize);
+                        ctx.stroke();
+                    }
+
+                    // Draw right edge
+                    if (!hiddenLines[i+1][j][i+1][j+1]) {
+                        ctx.beginPath();
+                        ctx.moveTo(i * squareSize + squareSize, j * squareSize);
+                        ctx.lineTo(i * squareSize + squareSize, j * squareSize + squareSize);
+                        ctx.stroke();
+                    }
+
+                    // Draw bottom edge
+                    if (!hiddenLines[i][j+1][i+1][j+1]) {
+                        ctx.beginPath();
+                        ctx.moveTo(i * squareSize, j * squareSize + squareSize);
+                        ctx.lineTo(i * squareSize + squareSize, j * squareSize + squareSize);
+                        ctx.stroke();
+                    }
+
+                    // Draw left edge
+                    if (!hiddenLines[i][j][i][j+1]) {
+                        ctx.beginPath();
+                        ctx.moveTo(i * squareSize, j * squareSize);
+                        ctx.lineTo(i * squareSize, j * squareSize + squareSize);
+                        ctx.stroke();
+                    }
+                }
             }
-            for (let i = 0; i <= gridSizeY; i++) {
-                
-                ctx.moveTo(0, i * squareSize);
-                ctx.lineTo(maxCoordinateX, i * squareSize);
-            }
-            ctx.stroke();
+        
             
           
             // draw the blocked-line features
@@ -591,7 +696,12 @@ const validateLine = () => {
       
         console.log("Valid line!");
         completed = true;
+        if (level === 0){
+                playSFX("challenge");
+        }
         level ++;
+
+
 
         playSFX("success");
         redrawCanvas();
@@ -764,7 +874,7 @@ const isSharedEdge = (line1, line2) => {
             if (completed){
                 loadLevel(level);
                 completed = false;
-                drawnPoints = [];
+                drawnPoints.length = 0;
             }
 
             offsetMousePos = getAdjustedMousePos(e);
@@ -902,6 +1012,9 @@ const playSFX = (sfx) => {
         break;
       case "success":
         fx = new Audio("success.mp3");
+        break;
+      case "challenge":
+        fx = new Audio("kevin-macleod-hall-of-the-mountain-king.mp3");
         break;
     }
     fx.play();
