@@ -1,3 +1,23 @@
+// Low effort features: 
+//add proper end position 'tails'
+//add rounded line corners
+//scale squareSize to viewport for large/small levels
+//add fullscreen
+//kill game after audio finish
+
+// Fixes:
+//find out why level changes are sometimes black (usually when a theme changes) 
+//fix abort SFX when starting new level
+//fix multiple start locations
+//fix multiple end locations
+//fix aggressive backtracking player line
+
+// High effort features: 
+//support Y shapes
+//support rotated tetris shapes
+//support symmetry
+//support inverted/negative tetris shapes
+//support audio hexagons
 
     
         // Initialize canvas and context
@@ -66,7 +86,7 @@
           );
         }
 
-        canvas.addEventListener('dblclick', goFullScreen);
+        //canvas.addEventListener('dblclick', goFullScreen);
          
         //Disable Default Browser Touch Controls
         canvas.addEventListener('touchstart', function(e) {
@@ -87,15 +107,7 @@
         const playerLineColorFinish = "#FFFFFF";
         const playerLineColorSuccess = "#00FF00";
         
-
-        /**
-        let startColor = "#2f4f3e";
-        let bgColor = "#02b35a";
-        let gridColor = "#2f4f3e";
-        let playerLineColor = "white";;
-        let shapeColour = 'orange';
-        **/
-
+        
         let startColor;
         let bgColor;
         let gridColor;
@@ -149,7 +161,6 @@
 
 
         //applyTheme(themes[levelData[level].theme]);
-
         function applyTheme(theme = 'default'){
 
             tm = themes[theme];
@@ -161,7 +172,6 @@
             shapeColour = tm.shapeColour;
             document.body.style.backgroundColor = tm.bgColor;
             canvas.style.backgroundColor = tm.bgColor;
-        
         }
         
 
@@ -176,10 +186,6 @@
         const startSize = squareSize / 4;
         const endSize = squareSize / 4;
         
-
-
-        
-
 
         //Shapes
         const tetrisShapes = [
@@ -235,8 +241,6 @@
         grid[4] = [ , , , , ];
         
     
-
-
         //Level 1
         let grid0 = createEmptyGrid(gridSizeX,gridSizeY);
         grid0[0] = [ , , , , , , ];
@@ -317,6 +321,7 @@
 
 
         const levelData = [
+        
         {
           theme: 'yellow_basic',
           gridSizeX: 3,
@@ -466,8 +471,9 @@
           hexagons: [],
           startingPoint: { x: 3, y: 0 },
           endingPoint: { x: 0, y: 0 }
-        },
+        }
         **/
+        ,
         //Blue row
         {
           theme: 'blue',
@@ -682,6 +688,7 @@
           startingPoint: { x: 0, y: 3 },
           endingPoint: { x: 3, y: 0 }
         },
+        
         {
           theme: 'green',
           gridSizeX: 3,
@@ -703,11 +710,10 @@
             { x: 2, y: 4 },
             { x: 6, y: 6 },
             ],
-          startingPoint: { x: 0, y: 3 },
+          startingPoint: { x: 1, y: 2 },
           endingPoint: { x: 3, y: 0 }
         },
         
-
         {
           theme: 'yellow',
           gridSizeX: 3,
@@ -932,7 +938,7 @@
         // Function to draw the grid and points
         const drawGridAndPoints = () => {
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0 -offset, 0 -offset, canvas.width +offset, canvas.height +offset);
             ctx.strokeStyle = gridColor;
 
             for (let i = 0; i <= gridSizeX -1; i++) {
@@ -1003,11 +1009,13 @@
 
             // Redraw start and end points
             
-            // Start
+            
+            
             ctx.fillStyle = (isDrawing ? playerLineColor : (completed ? playerLineColorSuccess : startColor));
             ctx.beginPath();
             ctx.arc(startingPoint.x * squareSize, startingPoint.y * squareSize, startSize, 0, 2 * Math.PI);
             ctx.fill();
+
             
             // End
             ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : endColor); 
@@ -1172,10 +1180,14 @@ function animate() {
     const luminance = minLuminance + (Math.sin(elapsedTime / pulsingSpeed) + 1) / 2 * (maxLuminance - minLuminance);
 
     const color = `hsl(${fixedHue}, ${fixedSaturation}%, ${luminance}%)`;
+
      
      for (let i = 1; i < drawnPoints.length; i++) {
-        drawLine(drawnPoints[i - 1], drawnPoints[i], color);  // wooo! 
 
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = color;
+
+        drawLine(drawnPoints[i - 1], drawnPoints[i], color);  // wooo!
         ctx.fillStyle = color;
             ctx.beginPath();
             ctx.arc(startingPoint.x * squareSize, startingPoint.y * squareSize, startSize, 0, 2 * Math.PI);
@@ -1185,6 +1197,9 @@ function animate() {
             ctx.beginPath();
             ctx.arc(endingPoint.x * squareSize, endingPoint.y * squareSize, endSize, 0, 2 * Math.PI);
             ctx.fill();
+
+        // Disable shadow blur effect
+        ctx.shadowBlur = 0;
     }
 
     // Schedule the next frame
