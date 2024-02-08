@@ -449,7 +449,7 @@
           hexagons: [],
           startingPoint: { x: 4, y: 4 },
           endingPoint: { x: 2, y: 0 }
-        },
+        }
         /**
           {
           theme: 'yellow',
