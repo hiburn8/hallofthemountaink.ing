@@ -10,7 +10,7 @@
 //fix abort SFX when starting new level
 //fix multiple start locations
 //fix multiple end locations
-//fix aggressive backtracking player line
+//fix aggressive backtracking player line :line 1433
 
 // High effort features: 
 //support Y shapes
@@ -135,7 +135,7 @@
           },
           blue: {
             startColor: '#2202ab',
-            endColor: '#00FF00',
+            endColor: '#FFFFFF',
             bgColor: '#5554fe',
             gridColor: '#2202ab',
             playerLineColor: 'white',
@@ -172,6 +172,8 @@
             shapeColour = tm.shapeColour;
             document.body.style.backgroundColor = tm.bgColor;
             canvas.style.backgroundColor = tm.bgColor;
+            //why not
+            document.querySelector('a').style.color = tm.bgColor;
         }
         
 
@@ -450,7 +452,7 @@
           startingPoint: { x: 4, y: 4 },
           endingPoint: { x: 2, y: 0 }
         }
-        /**
+        ,
           {
           theme: 'yellow',
           gridSizeX: 10,
@@ -472,7 +474,7 @@
           startingPoint: { x: 3, y: 0 },
           endingPoint: { x: 0, y: 0 }
         }
-        **/
+        
         ,
         //Blue row
         {
@@ -935,6 +937,13 @@
         
         let drawnPoints = [];
 
+        function drawCorner(x, y){
+            ctx.beginPath();
+            ctx.arc(x*squareSize, y*squareSize, 0.1, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+        }
+
         // Function to draw the grid and points
         const drawGridAndPoints = () => {
 
@@ -946,6 +955,8 @@
                 
                     // Draw top edge
                     if (!hiddenLines[i][j][i+1][j]) {
+                        drawCorner(i,j);
+                        drawCorner(i+1,j);
                         ctx.beginPath();
                         ctx.moveTo(i * squareSize, j * squareSize);
                         ctx.lineTo(i * squareSize + squareSize, j * squareSize);
@@ -954,6 +965,8 @@
 
                     // Draw right edge
                     if (!hiddenLines[i+1][j][i+1][j+1]) {
+                        drawCorner(i+1,j);
+                        drawCorner(i+1,j+1);
                         ctx.beginPath();
                         ctx.moveTo(i * squareSize + squareSize, j * squareSize);
                         ctx.lineTo(i * squareSize + squareSize, j * squareSize + squareSize);
@@ -962,6 +975,8 @@
 
                     // Draw bottom edge
                     if (!hiddenLines[i][j+1][i+1][j+1]) {
+                        drawCorner(i,j+1);
+                        drawCorner(i+1,j+1);
                         ctx.beginPath();
                         ctx.moveTo(i * squareSize, j * squareSize + squareSize);
                         ctx.lineTo(i * squareSize + squareSize, j * squareSize + squareSize);
@@ -970,6 +985,8 @@
 
                     // Draw left edge
                     if (!hiddenLines[i][j][i][j+1]) {
+                        drawCorner(i,j);
+                        drawCorner(i,j+1);
                         ctx.beginPath();
                         ctx.moveTo(i * squareSize, j * squareSize);
                         ctx.lineTo(i * squareSize, j * squareSize + squareSize);
@@ -1008,7 +1025,6 @@
             }
 
             // Redraw start and end points
-            
             
             
             ctx.fillStyle = (isDrawing ? playerLineColor : (completed ? playerLineColorSuccess : startColor));
@@ -1124,6 +1140,7 @@ const validateLine = () => {
         console.log("Valid line!");
         completed = true;
         if (level === 0){
+                // Hall of the Mountain Kind
                 playSFX("challenge");
         }
         level ++;
@@ -1258,6 +1275,7 @@ const redrawCanvas = () => {
     for (let i = 1; i < drawnPoints.length; i++) {
         const lineColor = completed ? playerLineColorSuccess : playerLineColor;
         drawLine(drawnPoints[i - 1], drawnPoints[i], lineColor);
+        //drawCorner(drawnPoints[i].x / squareSize, drawnPoints[i].y / squareSize);
     }
 };
 
@@ -1280,8 +1298,12 @@ const isSharedEdge = (line1, line2) => {
         };
 
         const drawLine = (from, to, color) => {
+           
+
             ctx.strokeStyle = color;
             ctx.beginPath();
+             //drawCorner(from.x / squareSize, from.y / squareSize);
+            drawCorner(to.x / squareSize, to.y / squareSize);
             ctx.moveTo(from.x, from.y);
             ctx.lineTo(to.x, to.y);
             ctx.stroke();
