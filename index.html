@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="0">
+    -->
 
     <title>Hall of the Mountain King</title>
     <style>
@@ -36,6 +38,14 @@
     </style>
 </head>
  <body>
+       
+<audio id="start" preload="auto"><source src="start.mp3" type="audio/mpeg"></audio>
+<audio id="abort" preload="auto"><source src="abort.mp3" type="audio/mpeg"></audio>
+<audio id="finish" preload="auto"><source src="finish.mp3" type="audio/mpeg"></audio>
+<audio id="failure" preload="auto"><source src="failure.mp3" type="audio/mpeg"></audio>
+<audio id="success" preload="auto"><source src="success.mp3" type="audio/mpeg"></audio>
+<audio id="challenge" preload="auto"><source src="kevin-macleod-hall-of-the-mountain-king.mp3" type="audio/mpeg"></audio>
+
     <canvas id="myCanvas" style="touch-action: none"></canvas>
     
     <script src="validation.js" defer></script>
