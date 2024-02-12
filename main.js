@@ -950,43 +950,73 @@
             ctx.clearRect(0 -offset, 0 -offset, canvas.width +offset, canvas.height +offset);
             ctx.strokeStyle = gridColor;
 
-            for (let i = 0; i <= gridSizeX -1; i++) {
+
+let drawTop = false;
+let drawRight = false;
+let drawBottom = false;
+let drawLeft = false;
+
+ for (let i = 0; i <= gridSizeX -1; i++) {
                 for (let j = 0; j <= gridSizeY-1; j++) {
-                
+                    drawTop = false;
+                    drawRight = false;
+                    drawBottom = false;
+                    drawLeft = false;
+                    
                     // Draw top edge
-                    if (!hiddenLines[i][j][i+1][j]) {
-                        drawCorner(i,j);
-                        drawCorner(i+1,j);
+                    if (!hiddenLines[i][j][i+1][j]){
+                        drawTop = true;
+                    }
+                    // Draw right edge
+                    if (!hiddenLines[i+1][j][i+1][j+1]){
+                        drawRight = true;
+                    }
+                    // Draw bottom edge
+                    if (!hiddenLines[i][j+1][i+1][j+1]){
+                        drawBottom = true;
+                    }
+                    // Draw left edge
+                    if (!hiddenLines[i][j][i][j+1]){
+                        drawLeft = true;
+                    }
+                         
+                    if (drawTop) {
+                        if (drawLeft) {
+                            drawCorner(i,j);
+                        }
+                        if (drawRight) {
+                            drawCorner(i+1,j);
+                        }
+                        
                         ctx.beginPath();
                         ctx.moveTo(i * squareSize, j * squareSize);
                         ctx.lineTo(i * squareSize + squareSize, j * squareSize);
                         ctx.stroke();
                     }
-
-                    // Draw right edge
-                    if (!hiddenLines[i+1][j][i+1][j+1]) {
-                        drawCorner(i+1,j);
-                        drawCorner(i+1,j+1);
+                    
+                    if (drawRight) {
                         ctx.beginPath();
                         ctx.moveTo(i * squareSize + squareSize, j * squareSize);
                         ctx.lineTo(i * squareSize + squareSize, j * squareSize + squareSize);
                         ctx.stroke();
                     }
 
-                    // Draw bottom edge
-                    if (!hiddenLines[i][j+1][i+1][j+1]) {
-                        drawCorner(i,j+1);
-                        drawCorner(i+1,j+1);
+                    if (drawBottom) {
+                    
+                        if (drawLeft) {
+                            drawCorner(i,j+1);
+                        }
+                        if (drawRight) {
+                            drawCorner(i+1,j+1);
+                        }
+                        
                         ctx.beginPath();
                         ctx.moveTo(i * squareSize, j * squareSize + squareSize);
                         ctx.lineTo(i * squareSize + squareSize, j * squareSize + squareSize);
                         ctx.stroke();
                     }
 
-                    // Draw left edge
-                    if (!hiddenLines[i][j][i][j+1]) {
-                        drawCorner(i,j);
-                        drawCorner(i,j+1);
+                    if (drawLeft) {
                         ctx.beginPath();
                         ctx.moveTo(i * squareSize, j * squareSize);
                         ctx.lineTo(i * squareSize, j * squareSize + squareSize);
@@ -994,8 +1024,6 @@
                     }
                 }
             }
-        
-            
           
             // draw the blocked-line features
             for (let x1 = 0; x1 <= gridSizeX; x1++) {
@@ -1026,7 +1054,6 @@
 
             // Redraw start and end points
             
-            
             ctx.fillStyle = (isDrawing ? playerLineColor : (completed ? playerLineColorSuccess : startColor));
             ctx.beginPath();
             ctx.arc(startingPoint.x * squareSize, startingPoint.y * squareSize, startSize, 0, 2 * Math.PI);
@@ -1034,6 +1061,9 @@
 
             
             // End
+
+            drawCorner(endingPoint.x,endingPoint.y); //hack for first levels
+
             ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : endColor); 
             ctx.beginPath();
             ctx.arc(endingPoint.x * squareSize, endingPoint.y * squareSize, endSize, 0, 2 * Math.PI);
