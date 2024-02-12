@@ -1,6 +1,4 @@
 // Low effort features: 
-//add proper end position 'tails'
-//add rounded line corners
 //scale squareSize to viewport for large/small levels
 //add fullscreen
 //kill game after audio finish
@@ -19,13 +17,27 @@
 //support inverted/negative tetris shapes
 //support audio hexagons
 
+// Done
+//add proper end position 'tails'
+//add rounded line corners
+
     
         // Initialize canvas and context
         const canvas = document.getElementById('myCanvas');
         const ctx = canvas.getContext('2d');
         
-
-        
+        //Scaling hacks
+        /**
+        var scaleFactor = 0.3;
+        // Store the original width and height
+        var originalWidth = canvas.width;
+        var originalHeight = canvas.height;
+        // Scale the canvas
+        canvas.width *= scaleFactor;
+        canvas.height *= scaleFactor;
+        // Scale the drawing context
+        ctx.scale(scaleFactor, scaleFactor);
+        **/
 
         // Fullscreen Touch Hacks
         /**
@@ -174,6 +186,7 @@
             canvas.style.backgroundColor = tm.bgColor;
             //why not
             document.querySelector('a').style.color = tm.bgColor;
+
         }
         
 
@@ -404,6 +417,7 @@
           startingPoint: { x: 0, y: 4 },
           endingPoint: { x: 4, y: 0 }
         },
+
         {
           theme: 'yellow',
           gridSizeX: 6,
@@ -453,6 +467,7 @@
           endingPoint: { x: 2, y: 0 }
         }
         ,
+        /**
           {
           theme: 'yellow',
           gridSizeX: 10,
@@ -465,17 +480,20 @@
             { x1: 3, y1: 0, x2: 4, y2: 0 },
             { x1: 6, y1: 0, x2: 7, y2: 0 },
 
-            { x1: 3, y1: 0, x2: 3, y2: 1 },
+            { x1: 1, y1: 1, x2: 1, y2: 2 },
             { x1: 0, y1: 1, x2: 1, y2: 1 },
-            { x1: 1, y1: 1, x2: 2, y2: 1 },
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
+             { x1: 2, y1: 1, x2: 2, y2: 2 },
+             { x1: 2, y1: 0, x2: 2, y2: 1 },
+            
           ],
           hexagons: [],
-          startingPoint: { x: 3, y: 0 },
-          endingPoint: { x: 0, y: 0 }
+          startingPoint: { x: 0, y: 10 },
+          endingPoint: { x: 10, y: 0 }
         }
         
         ,
+        **/
+        
         //Blue row
         {
           theme: 'blue',
@@ -928,8 +946,6 @@
 
         loadLevel(level);
 
-        
-
         // Drawing state variables
         let isDrawing = false;
         let lastPoint = null;
@@ -944,6 +960,54 @@
             ctx.stroke();
         }
 
+        function drawTail(x, y, color){
+
+
+            ctx.strokeStyle = color;
+
+            let isTop = y === 0;
+            let isBottom = y === gridSizeY;
+            let isLeft = x === 0;
+            let isRight = x === gridSizeX;
+
+            let tailSize = squareSize/3;
+
+            ctx.beginPath();
+
+            ctx.moveTo(x * squareSize, y * squareSize);
+
+            let destinationX, destinationY;
+
+            if (isTop && isLeft) {
+                destinationX = x * squareSize - (tailSize / Math.sqrt(2)); //Pythagoras baby.
+                destinationY = y * squareSize - (tailSize / Math.sqrt(2));
+            } else if (isTop && isRight) {
+                destinationX = x * squareSize + (tailSize / Math.sqrt(2));
+                destinationY = y * squareSize - (tailSize / Math.sqrt(2));
+            } else if (isBottom && isLeft) {
+                destinationX = x * squareSize - (tailSize / Math.sqrt(2));
+                destinationY = y * squareSize + (tailSize / Math.sqrt(2));
+            } else if (isBottom && isRight) {
+                destinationX = x * squareSize + (tailSize / Math.sqrt(2));
+                destinationY = y * squareSize + (tailSize / Math.sqrt(2));
+            } else if (isTop) {
+                destinationX = x * squareSize;
+                destinationY = y * squareSize - tailSize;
+            } else if (isBottom) {
+                destinationX = x * squareSize;
+                destinationY = y * squareSize + tailSize;
+            } else if (isLeft) {
+                destinationX = x * squareSize - tailSize;
+                destinationY = y * squareSize;
+            } else if (isRight) {
+                destinationX = x * squareSize + tailSize;
+                destinationY = y * squareSize;
+            }
+            ctx.lineTo(destinationX, destinationY);
+            ctx.stroke();
+            drawCorner(destinationX/100, destinationY/100);
+        }
+
         // Function to draw the grid and points
         const drawGridAndPoints = () => {
 
@@ -951,12 +1015,12 @@
             ctx.strokeStyle = gridColor;
 
 
-let drawTop = false;
-let drawRight = false;
-let drawBottom = false;
-let drawLeft = false;
+            let drawTop = false;
+            let drawRight = false;
+            let drawBottom = false;
+            let drawLeft = false;
 
- for (let i = 0; i <= gridSizeX -1; i++) {
+            for (let i = 0; i <= gridSizeX -1; i++) {
                 for (let j = 0; j <= gridSizeY-1; j++) {
                     drawTop = false;
                     drawRight = false;
@@ -1061,13 +1125,17 @@ let drawLeft = false;
 
             
             // End
-
+            ctx.strokeStyle = gridColor;
             drawCorner(endingPoint.x,endingPoint.y); //hack for first levels
 
-            ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : endColor); 
-            ctx.beginPath();
-            ctx.arc(endingPoint.x * squareSize, endingPoint.y * squareSize, endSize, 0, 2 * Math.PI);
-            ctx.fill();
+            drawTail(endingPoint.x,endingPoint.y, ((endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : gridColor)));
+
+
+            //TODO: replace below with a 'tail'
+            //ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : endColor); 
+            //ctx.beginPath();
+            //ctx.arc(endingPoint.x * squareSize, endingPoint.y * squareSize, endSize, 0, 2 * Math.PI);
+            //ctx.fill();
 
 
             // Draw puzzle elements
@@ -1171,7 +1239,7 @@ const validateLine = () => {
         completed = true;
         if (level === 0){
                 // Hall of the Mountain Kind
-                playSFX("challenge");
+                //playSFX("challenge");
         }
         level ++;
 
@@ -1240,10 +1308,8 @@ function animate() {
             ctx.arc(startingPoint.x * squareSize, startingPoint.y * squareSize, startSize, 0, 2 * Math.PI);
             ctx.fill();
 
-        ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : color;
-            ctx.beginPath();
-            ctx.arc(endingPoint.x * squareSize, endingPoint.y * squareSize, endSize, 0, 2 * Math.PI);
-            ctx.fill();
+
+        drawTail(endingPoint.x,endingPoint.y, ((endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : color)));
 
         // Disable shadow blur effect
         ctx.shadowBlur = 0;
