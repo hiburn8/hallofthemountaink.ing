@@ -80,18 +80,58 @@
         **/
        
         // Fullscreen
-        function goFullScreen() {
-            if (canvas.requestFullscreen) {
-                canvas.requestFullscreen();
-            } else if (canvas.mozRequestFullScreen) { /* Firefox */
-                canvas.mozRequestFullScreen();
-            } else if (canvas.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
-                canvas.webkitRequestFullscreen();
-            } else if (canvas.msRequestFullscreen) { /* IE/Edge */
-                canvas.msRequestFullscreen();
+        // Listen for fullscreen change events
+        document.addEventListener('fullscreenchange', function() {
+            document.getElementById('footer').style.display = document.fullscreenElement ? 'none' : '';
+        });
+        document.addEventListener('mozfullscreenchange', function() {
+            document.getElementById('footer').style.display = document.mozFullScreenElement ? 'none' : '';
+        });
+        document.addEventListener('webkitfullscreenchange', function() {
+            document.getElementById('footer').style.display = document.webkitFullscreenElement ? 'none' : '';
+        });
+        document.addEventListener('msfullscreenchange', function() {
+            document.getElementById('footer').style.display = document.msFullscreenElement ? 'none' : '';
+        });
+
+
+        function toggleFullScreen() {
+            if (!!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)){
+
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) { // Safari
+                    document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) { // Firefox
+                    document.mozCancelFullScreen();
+                } else if (document.msExitFullscreen) { // Internet Explorer and Edge
+                    document.msExitFullscreen();
+                }
+            }
+            else{
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
+                    document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    document.documentElement.webkitRequestFullscreen();
+                } else if (document.documentElement.msRequestFullscreen) { /* IE/Edge */
+                    document.documentElement.msRequestFullscreen();
+                }
             }
         }
+        
+        
+        //canvas.addEventListener('dblclick', toggleFullScreen);
+        //document.addEventListener('dblclick', toggleFullScreen);
+        window.addEventListener('click', function (evt) {
+            if (evt.detail === 3) {
+                toggleFullScreen();
+            }
+        });
 
+
+        /**
         function isCanvasFullscreen() {
           return (
             document.fullscreenElement === canvas ||
@@ -100,8 +140,7 @@
             document.msFullscreenElement === canvas
           );
         }
-
-        //canvas.addEventListener('dblclick', goFullScreen);
+        **/
          
         //Disable Default Browser Touch Controls
         canvas.addEventListener('touchstart', function(e) {
@@ -1880,14 +1919,6 @@ const isSharedEdge = (line1, line2) => {
             let x = e.clientX - rect.left - (squareSize/2); // Adjust for translation
             let y = e.clientY - rect.top - (squareSize/2); // Adjust for translation
 
-            //Adjust for fullscreen scalefactor
-            if (isCanvasFullscreen()){
-                //Does not work.
-                //x = (viewportWidth - canvas.width * scaleX) / 2;;
-                //y = (viewportHeight - canvas.height * scaleX) / 2;
-                //drawHexagon(x,y,20);
-            }
-
             return { x, y };
         }
 
@@ -2050,6 +2081,10 @@ const playSFX = (sfx) => {
             alert('you reached level '+(level+1)+' before the music ended. keep playing new puzzles, or try again.');
         });
         break;
+      
+      //default to playing nothing if we dont have a case for sfx
+      default:
+        return;
     }
     fx.play();
 }

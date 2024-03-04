@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--
+    
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="0">
-    -->
-
+    
     <title>Hall of the Mountain King</title>
     <style>
         #myCanvas {
@@ -31,6 +30,7 @@
         pointer-events: none; /* Allows mouse events to pass through the overlay */
         }
         .footer {
+        user-select: none;
         position: fixed;
         left: 0;
         bottom: 0;
@@ -56,16 +56,16 @@
 <audio id="success" preload="auto"><source src="success.mp3" type="audio/mpeg"></audio>
 <audio id="challenge" preload="auto"><source src="kevin-macleod-hall-of-the-mountain-king.mp3" type="audio/mpeg"></audio>
 
-    <div class="overlay"></div>
+    <div class="overlay" style="touch-action: none"></div>
 
-    <canvas id="myCanvas" style="touch-action: none"></canvas>
+    <canvas id="myCanvas"></canvas>
     
     <script src="validation.js" defer></script>
     <script src="drawing.js" defer></script>
     <script src="main.js" defer></script>
 
-    <div class="footer">
-        A vanilla JS implementation of <a href="http://the-witness.net/" target="_blank">The Witness</a>' puzzles. by <a href="https://www.linkedin.com/in/hiburn8/" target="_blank">hiburn8</a>.
+    <div id="footer" class="footer">
+        A vanilla JS implementation of <a href="http://the-witness.net/" target="_blank">The Witness</a> puzzles by <a href="https://www.linkedin.com/in/hiburn8/" target="_blank">hiburn8</a>. Triple-click for fullscreen.
     </div>
 
 </body>
