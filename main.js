@@ -120,8 +120,7 @@
                 }
             }
         }
-        
-        
+                
         //canvas.addEventListener('dblclick', toggleFullScreen);
         //document.addEventListener('dblclick', toggleFullScreen);
         window.addEventListener('click', function (evt) {
@@ -129,7 +128,6 @@
                 toggleFullScreen();
             }
         });
-
 
         /**
         function isCanvasFullscreen() {
@@ -1694,15 +1692,66 @@ const validateLine = () => {
     let isValid = true;
     failed = {};
 
-    const puzzlesInAreas = getPuzzlesInAreas();
 
     //Validate Line
-    if (!(Array.isArray(drawnPoints)) || (drawnPoints.length === 0) || 
-        (drawnPoints[0].x /100 != chosenStartingPoint.x) || (drawnPoints[0].y /100 != chosenStartingPoint.y) || 
-        (drawnPoints[drawnPoints.length - 1].y /100 != levelData[level].endingPoint.y) || (drawnPoints[drawnPoints.length - 1].y /100 != levelData[level].endingPoint.y)){
+    
+    //PreValidation sanity check - dont validate puzzles if this fails
+    if (!(Array.isArray(drawnPoints)) || (drawnPoints.length === 0)){
         isValid = false;
-        console.log("failed line!");
+        console.log("failed line! the line is empty?!");
+    }  
+    else{
+
+        if (drawnPoints.length === 1){
+            isValid = false;
+            console.log("failed line! the line is a dot to you?!");
+        }  
+
+        if ((drawnPoints[0].x /100 != chosenStartingPoint.x) || (drawnPoints[0].y /100 != chosenStartingPoint.y)){
+        isValid = false;
+        console.log("failed line! you didnt start on a startingPoint");
+        }
+        
+        if ((drawnPoints[drawnPoints.length - 1].x /100 != levelData[level].endingPoint.x) || (drawnPoints[drawnPoints.length - 1].y /100 != levelData[level].endingPoint.y)){
+            isValid = false;
+            console.log("failed line! you complete the line / reach an endingPoint");
+        }
+
+        for (let i = 1; i < drawnPoints.length; i++) {
+            let prevPoint = drawnPoints[i - 1];
+            let currentPoint = drawnPoints[i];
+            
+            let xDiff = Math.abs(currentPoint.x - prevPoint.x);
+            let yDiff = Math.abs(currentPoint.y - prevPoint.y);
+            
+            if (!((xDiff === 100 && yDiff === 0) || (xDiff === 0 && yDiff === 100))) {
+                isValid = false;
+                console.log("failed line! each point is not exactly 100 x or y coordinate away");
+                break;
+            }
+        }
+
+        for (let i = 0; i < drawnPoints.length; i++) {
+            const obj1 = drawnPoints[i];
+            
+            // Compare against each subsequent object in the array
+            for (let j = i + 1; j < drawnPoints.length; j++) {
+                const obj2 = drawnPoints[j];
+                // If any two objects are the same, set isValid to false and break out of the loop
+                if (obj1.x === obj2.x && obj1.y === obj2.y) {
+                    isValid = false;
+                    console.log("failed line! you've used a vertices twice");
+                    break;
+                }
+            }
+            // Break out of the outer loop if isValid is false
+            if (!isValid) {
+                break;
+            }
+        }
     }
+
+    const puzzlesInAreas = getPuzzlesInAreas();
 
     //Validate Hexagons
     if (checkHexagons(hexagons).length != 0){
@@ -1743,20 +1792,15 @@ const validateLine = () => {
         }
         level ++;
 
-
-
         playSFX("success");
         redrawCanvas();
-
-
-
-        
 
     } else {
         
         //console.log(failed);
         playSFX("failure");
-            
+        
+        
         redrawInvalidLine();
         
         // Clear the line after a short delay
@@ -1956,7 +2000,9 @@ const isSharedEdge = (line1, line2) => {
 
             const currentPoint = getClosestPoint(offsetMousePos.x, offsetMousePos.y);
             if (currentPoint.x !== endingPoint.x * squareSize || currentPoint.y !== endingPoint.y * squareSize) {
-                playSFX("abort");
+                if (isDrawing){
+                    playSFX("abort");
+                }
                 isDrawing = false;
                 lastPoint = null;
                 drawnPoints.length = 0;
