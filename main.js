@@ -1,7 +1,6 @@
 // Fixes:
 //find out why level changes are sometimes empty (usually when a theme changes) 
 //fix aggressive backtracking player line :line 1433
-//fix input not drawn while in failure second
 //fix playing fail sound when clicking directly on an endPoint
 
 // Low effort features:
@@ -19,14 +18,6 @@
 //support symmetry
 //support inverted/negative tetris shapes
 //support audio hexagons
-
-// Done
-//fixed skipping drawing the full line (march through drawnLine)
-//fixed abort SFX when starting new level
-//added fullscreen
-//added multiple start locations
-//added proper end position 'tails'
-//added rounded line corners
 
     
         // Initialize canvas and context
@@ -1806,12 +1797,12 @@ const validateLine = () => {
         
         
         redrawInvalidLine();
+        drawnPoints.length = 0;
+        lastPoint = null;
         
         // Clear the line after a short delay
         setTimeout(() => {
-            drawnPoints.length = 0;
-            lastPoint = null;
-            drawGridAndPoints();
+            redrawCanvas();
         }, 1000);  // 1 second delay
         
     }
