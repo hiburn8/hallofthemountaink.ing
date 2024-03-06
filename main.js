@@ -1,15 +1,16 @@
 // Fixes:
 //find out why level changes are sometimes empty (usually when a theme changes) 
-//fix abort SFX when starting new level
 //fix aggressive backtracking player line :line 1433
-//fix skipping drawing the full line (march through drawnLine)
+//fix input not drawn while in failure second
+//fix playing fail sound when clicking directly on an endPoint
 
-// Low effort features: 
+// Low effort features:
+//create basic line sanity check function (pre-puzzle)
 //localstorage score
 //add multiple end locations
+//split out level and shape data
 
 //Medium effort features:
-//add fullscreen
 //scale game to viewport for large/small levels.
 
 // High effort features: 
@@ -20,9 +21,12 @@
 //support audio hexagons
 
 // Done
-//add multiple start locations
-//add proper end position 'tails'
-//add rounded line corners
+//fixed skipping drawing the full line (march through drawnLine)
+//fixed abort SFX when starting new level
+//added fullscreen
+//added multiple start locations
+//added proper end position 'tails'
+//added rounded line corners
 
     
         // Initialize canvas and context
@@ -1788,7 +1792,7 @@ const validateLine = () => {
         completed = true;
         if (level === 0){
                 // Hall of the Mountain Kind
-                playSFX("challenge");
+                //playSFX("challenge");
         }
         level ++;
 
@@ -1865,8 +1869,19 @@ function animate() {
 }
 
 const redrawInvalidLine = () => {
-    for (let i = 1; i < drawnPoints.length; i++) {
-        drawLine(drawnPoints[i - 1], drawnPoints[i], playerLineColorFail);  // Red for invalid
+
+    if ((Array.isArray(drawnPoints)) && (drawnPoints.length !== 0)){
+
+        //red line
+        for (let i = 1; i < drawnPoints.length; i++) {
+            drawLine(drawnPoints[i - 1], drawnPoints[i], playerLineColorFail);  // Red for invalid
+        }
+        //red start
+        ctx.fillStyle = playerLineColorFail;               
+        ctx.beginPath();
+        ctx.arc(chosenStartingPoint.x * squareSize, chosenStartingPoint.y * squareSize, startSize, 0, 2 * Math.PI);
+        ctx.fill();
+
     }
 };
 
