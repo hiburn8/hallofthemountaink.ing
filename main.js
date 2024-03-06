@@ -1783,7 +1783,7 @@ const validateLine = () => {
         completed = true;
         if (level === 0){
                 // Hall of the Mountain Kind
-                //playSFX("challenge");
+                playSFX("challenge");
         }
         level ++;
 
