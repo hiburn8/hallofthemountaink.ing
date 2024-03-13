@@ -98,7 +98,14 @@ function tetrisString2Shape(string) {
       tetromino_T_R180,
       tetromino_T_R270,
       tetromino_Straight,
-      tetromino_Straight_R90
+      tetromino_Straight_R90,
+      //BS marsh ones
+      octomino_Skewed,
+      domino_Skewed,
+      domino_Skewed_R90,
+      tromino_Skewed,
+      tetromino_Skewed,
+      pentomino_Skewed
     };
 
     return shapeArrays[string];

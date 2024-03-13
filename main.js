@@ -1,24 +1,32 @@
-// Fixes:
-//find out why level changes are sometimes empty (usually when a theme changes) 
-//fix aggressive backtracking player line :line 1433
-//fix playing fail sound when clicking directly on an endPoint
+/**
 
-// Low effort features:
-//create basic line sanity check function (pre-puzzle)
-//localstorage score
-//add multiple end locations
-//split out level and shape data
+Fixes:
+    find out why level changes are sometimes empty (usually when a theme changes) 
+    fix aggressive backtracking player line :line 1433
+    fix playing fail sound when clicking directly on an endPoint
+    support:
+        remove the canvas bg colour, since sRGB colour profiles issues on old machines makes the canvas stand out.
+        for some reason old browsers have issues with fill on drawCorner. i must have missed something.
+    cleanup:
+        -remove all the legacy fullscreen/scaling hacks.
+    optimization:
+        +draw and redraw grid calls
+        +validation
 
-//Medium effort features:
-//scale game to viewport for large/small levels.
+Low effort features:
+    create basic line sanity check function (pre-puzzle)
+    localstorage score
 
-// High effort features: 
-//support Y shapes
-//support rotated tetris shapes
-//support symmetry
-//support inverted/negative tetris shapes
-//support audio hexagons
+Medium effort features:
+    scale game to viewport for large/small levels.
 
+High effort features: 
+    support Y shapes
+    support rotated tetris shapes
+    support symmetry
+    support inverted/negative tetris shapes
+
+**/
     
         // Initialize canvas and context
         const canvas = document.getElementById('myCanvas');
@@ -155,7 +163,6 @@
         const playerLineColorSuccess = "#00FF00";
         
         
-        let startColor;
         let bgColor;
         let gridColor;
         let playerLineColor;
@@ -165,7 +172,6 @@
 
         const themes = {
           default: {
-            startColor: '#2f4f3e',
             endColor: '#00FF00',
             bgColor: '#02b35a',
             gridColor: '#2f4f3e',
@@ -173,7 +179,6 @@
             shapeColour: 'orange'
           },
           yellow_basic: {
-            startColor: '#594400',
             endColor: 'rgba(0, 0, 0, 0)',
             bgColor: '#f4c000',
             gridColor: '#594400',
@@ -181,7 +186,6 @@
             shapeColour: 'orange'
           },
           yellow: {
-            startColor: '#594400',
             endColor: 'white',
             bgColor: '#f4c000',
             gridColor: '#594400',
@@ -189,7 +193,6 @@
             shapeColour: 'orange'
           },
           blue: {
-            startColor: '#2202ab',
             endColor: '#FFFFFF',
             bgColor: '#5554fe',
             gridColor: '#2202ab',
@@ -197,7 +200,6 @@
             shapeColour: 'orange'
           },
           green: {
-            startColor: '#027b30',
             endColor: '#00FF00',
             bgColor: '#00e255',
             gridColor: '#027b30',
@@ -205,26 +207,44 @@
             shapeColour: 'orange'
           },
           grey: {
-            startColor: '#676053',
             endColor: '#00FF00',
             bgColor: '#bfc3c2',
             gridColor: '#676053',
             playerLineColor: 'white',
             shapeColour: 'orange'
           },
-          marsh_red: {
-            startColor: '#ff5d4c',
+          red: {
             endColor: '#00FF00',
             bgColor: '#db1901',
             gridColor: '#ff5d4c',
             playerLineColor: 'white',
             shapeColour: 'orange'
           },
-          marsh_olive: {
-            startColor: '#c1bf65',
+          olive: {
             endColor: '#00FF00',
             bgColor: '#a1b002',
             gridColor: '#c1bf65',
+            playerLineColor: 'white',
+            shapeColour: 'orange'
+          },
+          turquoise: {
+            endColor: '#00FF00',
+            bgColor: '#01abac',
+            gridColor: '#264860',
+            playerLineColor: 'white',
+            shapeColour: 'orange'
+          },
+            orange: {
+            endColor: '#00FF00',
+            bgColor: '#a15d0f',
+            gridColor: '#3c2d1e',
+            playerLineColor: 'white',
+            shapeColour: 'orange'
+          },
+            purple: {
+            endColor: '#00FF00',
+            bgColor: '#8421a4',
+            gridColor: '#4c4b50',
             playerLineColor: 'white',
             shapeColour: 'orange'
           },
@@ -236,7 +256,6 @@
         function applyTheme(theme = 'default'){
 
             tm = themes[theme];
-            startColor = tm.startColor;
             endColor = tm.endColor;
             bgColor = tm.bgColor;
             gridColor = tm.gridColor;
@@ -291,7 +310,15 @@
         'tetromino_T_R180',
         'tetromino_T_R270',
         'tetromino_Straight',
-        'tetromino_Straight_R90'];
+        'tetromino_Straight_R90',
+        //BS marsh ones
+        'octomino_Skewed',
+        'domino_Skewed',
+        'domino_Skewed_R90',
+        'tromino_Skewed',
+        'tetromino_Skewed',
+        'pentomino_Skewed',
+        ];
         
         // Initialise Grid
         function createEmptyGrid(x,y) {
@@ -305,980 +332,6 @@
           }
           return grid;
         }
-
-
-        //Template
-        /**
-        grid[0] = [ , , , , ];
-        grid[1] = [ , , , , ];
-        grid[2] = [ , , , , ];
-        grid[3] = [ , , , , ];
-        grid[4] = [ , , , , ];
-        
-    
-        //Level 1
-        let grid0 = createEmptyGrid(gridSizeX,gridSizeY);
-        grid0[0] = [ , , , , , , ];
-        grid0[1] = [ , , , , , , ];
-        grid0[2] = [ , , , , , , ];
-        grid0[3] = [ , , , , , , ];
-        grid0[4] = [ , , , , , , ];
-        grid0[5] = [ , , , , , , ];
-        grid0[6] = [ , , , , , , ];
-        grid0[7] = [ , , , , , , ];
-
-
-        //Level 1
-        let grid1 = createEmptyGrid(gridSizeX,gridSizeY);
-        grid1[0] = [ , , , , ];
-        grid1[1] = [ , , , , ];
-        grid1[2] = [ , ,'whitesquare' , , ];
-        grid1[3] = [ , , , , ];
-        grid1[4] = [ , , , , ];
-
-        //Level 2
-        let grid2 = createEmptyGrid(gridSizeX,gridSizeY);
-        grid2[0] = [ , , , , ];
-        grid2[1] = [ , , , , ];
-        grid2[2] = [ , ,'whitesquare' ,'blacksquare', , ];
-        grid2[3] = [ , , , , ];
-        grid2[4] = [ , , , , ];
-
-        
-
-        // Bit of everything
-        let grid3 = createEmptyGrid(gridSizeX,gridSizeY);
-        grid3[0] = ['blacksquare', 'tetromino_L_R180', 'domino_R90', , 'whitesquare'];
-        grid3[1] = ['redsun', 'doubletriangle', 'tripletriangle', , 'tripletriangle'];
-        grid3[2] = [, 'tripletriangle', 'doubletriangle', 'tetromino_Skew_R90', ];
-        grid3[3] = [, , , 'doubletriangle', ];
-        grid3[4] = ['redsun', 'triangle',,'yellowsun' , 'yellowsun'];
-
-        //All trominoes and tetrominoes
-        let grid4 = createEmptyGrid(gridSizeX,gridSizeY);
-        grid4[0] = ['tromino_Right','tromino_Right_R90','tromino_Right_R180','tromino_Right_R270','tromino_Straight'];
-        grid4[1] = ['tromino_Straight_R90','tetromino_Square','tetromino_L','tetromino_L_R90','tetromino_L_R180'];
-        grid4[2] = ['tetromino_L_R270','tetromino_L_FH','tetromino_L_FH_R90','tetromino_L_FH_R180','tetromino_L_FH_R270'];
-        grid4[3] = ['tetromino_Skew','tetromino_Skew_R90','tetromino_Skew_FH','tetromino_Skew_FH_R90','tetromino_T'];
-        grid4[4] = ['tetromino_T_R90','tetromino_T_R180','tetromino_T_R270','tetromino_Straight','tetromino_Straight_R90'];
-
-
-        // SAVED
-        let grid5 = createEmptyGrid(gridSizeX,gridSizeY);
-        grid5[0] = ['blacksquare', 'tetromino_L_R180', , , 'tetromino_Straight_R90', ];
-        grid5[1] = ['redsun', 'doubletriangle', 'tripletriangle', , 'tripletriangle','whitesquare'];
-        grid5[2] = [, 'tripletriangle', 'doubletriangle', 'tetromino_Skew_R90', ,];
-        grid5[3] = [, , , 'doubletriangle', ];
-        grid5[4] = ['redsun', 'triangle',,'yellowsun' , 'yellowsun',];
-        grid5[5] = [ , , , , , ];
-        grid5[6] = [ , , , , , ];
-        grid5[7] = [ , , 'tripletriangle', , , ];
-
-        // Bit of everything2
-        let grid6 = createEmptyGrid(gridSizeX,gridSizeY);
-        grid6[0] = [, 'tetromino_L_R180', 'domino_R90', , ,];
-        grid6[1] = [, , , , ,];
-        grid6[2] = [, , , 'tetromino_Skew_R90', ,];
-        grid6[3] = [, , , , ];
-        grid6[4] = [, ,, , ,];
-        grid6[5] = [ , , , , , ];
-        grid6[6] = [ , , , , , ];
-        grid6[7] = [ , , , , , ];
-
-
-
-        
-        **/
-
-        //let grid = createEmptyGrid(gridSizeX,gridSizeY);
-        // Y/X <- this was an accident i will regret
-        
-
-
-        const levelData = [
-        
-        //Breakout
-        {
-          theme: 'yellow_basic',
-          gridSizeX: 3,
-          gridSizeY: 1,
-          gridName: 'level1',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [
-            { x1: 0, y1: 0, x2: 0, y2: 1 },
-            { x1: 1, y1: 0, x2: 1, y2: 1 },
-            { x1: 2, y1: 0, x2: 2, y2: 1 },
-            { x1: 3, y1: 0, x2: 3, y2: 1 },
-            { x1: 0, y1: 1, x2: 1, y2: 1 },
-            { x1: 1, y1: 1, x2: 2, y2: 1 },
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
-          ],
-          hexagons: [],
-          startingPoints: [{ x: 3, y: 0 }],
-          endingPoint: { x: 0, y: 0 }
-        },
-        {
-          theme: 'yellow_basic',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [
-            { x1: 0, y1: 0, x2: 0, y2: 1 },
-            { x1: 0, y1: 1, x2: 0, y2: 2 },
-            { x1: 0, y1: 2, x2: 0, y2: 3 },
-            { x1: 1, y1: 0, x2: 1, y2: 1 },
-            { x1: 1, y1: 1, x2: 1, y2: 2 },
-            { x1: 1, y1: 2, x2: 1, y2: 3 },
-            { x1: 2, y1: 0, x2: 2, y2: 1 },
-            { x1: 2, y1: 1, x2: 2, y2: 2 },
-            { x1: 2, y1: 2, x2: 2, y2: 3 },
-            { x1: 0, y1: 0, x2: 1, y2: 0 },
-            { x1: 1, y1: 0, x2: 2, y2: 0 },
-            { x1: 2, y1: 0, x2: 3, y2: 0 },
-            { x1: 0, y1: 1, x2: 1, y2: 1 },
-            { x1: 1, y1: 1, x2: 2, y2: 1 },
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
-            { x1: 0, y1: 2, x2: 1, y2: 2 },
-            { x1: 1, y1: 2, x2: 2, y2: 2 },
-            { x1: 2, y1: 2, x2: 3, y2: 2 },
-
-          ],
-          hexagons: [],
-          startingPoints: [{ x: 3, y: 0 }],
-          endingPoint: { x: 0, y: 3 }
-        },
-        //StartingArea
-        {
-          theme: 'yellow',
-          gridSizeX: 4,
-          gridSizeY: 4,
-          gridName: 'level3',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [
-            { x1: 1, y1: 0, x2: 1, y2: 1 },
-            { x1: 2, y1: 0, x2: 2, y2: 1 },
-            { x1: 3, y1: 0, x2: 3, y2: 1 },
-            { x1: 4, y1: 0, x2: 4, y2: 1 },
-            { x1: 0, y1: 1, x2: 0, y2: 2 },
-            { x1: 1, y1: 2, x2: 1, y2: 3 },
-            { x1: 3, y1: 2, x2: 3, y2: 3 },
-            { x1: 0, y1: 3, x2: 0, y2: 4 },
-            { x1: 4, y1: 3, x2: 4, y2: 4 },
-            { x1: 1, y1: 1, x2: 2, y2: 1 },
-            { x1: 3, y1: 1, x2: 4, y2: 1 },
-            { x1: 0, y1: 3, x2: 1, y2: 3 },
-            { x1: 1, y1: 4, x2: 2, y2: 4 },
-            { x1: 3, y1: 2, x2: 4, y2: 2 },
-
-          ],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 4 }],
-          endingPoint: { x: 4, y: 0 }
-        },
-
-        {
-          theme: 'yellow',
-          gridSizeX: 6,
-          gridSizeY: 6,
-          gridName: 'level4',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [
-            { x1: 1, y1: 0, x2: 1, y2: 1 },
-            { x1: 0, y1: 1, x2: 1, y2: 1 },
-            { x1: 1, y1: 1, x2: 2, y2: 1 },
-            { x1: 2, y1: 1, x2: 2, y2: 2 },
-            { x1: 3, y1: 1, x2: 3, y2: 2 },
-            { x1: 4, y1: 1, x2: 4, y2: 2 },
-            { x1: 5, y1: 1, x2: 5, y2: 2 },
-            { x1: 0, y1: 5, x2: 1, y2: 5 },
-            { x1: 1, y1: 5, x2: 2, y2: 5 },
-            { x1: 2, y1: 5, x2: 3, y2: 5 },
-            { x1: 4, y1: 5, x2: 5, y2: 5 },
-            { x1: 2, y1: 2, x2: 3, y2: 2 },
-            { x1: 3, y1: 2, x2: 3, y2: 3 },
-            { x1: 5, y1: 2, x2: 5, y2: 3 },
-            { x1: 4, y1: 3, x2: 5, y2: 3 },
-            { x1: 5, y1: 3, x2: 6, y2: 3 },
-            { x1: 5, y1: 4, x2: 6, y2: 4 },
-            { x1: 3, y1: 3, x2: 3, y2: 4 },
-            { x1: 4, y1: 3, x2: 4, y2: 4 },
-            { x1: 1, y1: 3, x2: 2, y2: 3 },
-            { x1: 1, y1: 4, x2: 2, y2: 4 },
-            { x1: 2, y1: 0, x2: 3, y2: 0 },
-            { x1: 4, y1: 0, x2: 5, y2: 0 },
-            { x1: 3, y1: 1, x2: 4, y2: 1 },
-            { x1: 5, y1: 1, x2: 6, y2: 1 },
-            { x1: 0, y1: 2, x2: 1, y2: 2 },
-            { x1: 0, y1: 3, x2: 1, y2: 3 },
-            { x1: 0, y1: 3, x2: 0, y2: 4 },
-            { x1: 0, y1: 4, x2: 0, y2: 5 },
-            { x1: 2, y1: 4, x2: 2, y2: 5 },
-            { x1: 6, y1: 4, x2: 6, y2: 5 },
-            { x1: 1, y1: 5, x2: 1, y2: 6 },
-            { x1: 3, y1: 5, x2: 3, y2: 6 },
-            { x1: 4, y1: 5, x2: 4, y2: 6 },
-            { x1: 5, y1: 5, x2: 5, y2: 6 },
-          ],
-          hexagons: [],
-          startingPoints: [{ x: 4, y: 4 }],
-          endingPoint: { x: 2, y: 0 }
-        }
-        ,
-
-          {
-          theme: 'yellow',
-          gridSizeX: 6,
-          gridSizeY: 6,
-          gridName: 'level5',
-          puzzles: [],
-          blockedLines: [
-            { x1: 0, y1: 0, x2: 1, y2: 0 },
-            { x1: 2, y1: 0, x2: 3, y2: 0 },
-            { x1: 3, y1: 0, x2: 4, y2: 0 },
-            { x1: 0, y1: 1, x2: 1, y2: 1 },
-            { x1: 3, y1: 1, x2: 4, y2: 1 },
-            { x1: 0, y1: 2, x2: 1, y2: 2 },
-            { x1: 2, y1: 2, x2: 3, y2: 2 },
-            { x1: 1, y1: 3, x2: 2, y2: 3 },
-            { x1: 3, y1: 3, x2: 4, y2: 3 },
-            { x1: 3, y1: 4, x2: 4, y2: 4 },
-            { x1: 4, y1: 4, x2: 5, y2: 4 },
-            { x1: 1, y1: 5, x2: 2, y2: 5 },
-            { x1: 4, y1: 5, x2: 5, y2: 5 },
-            { x1: 2, y1: 6, x2: 3, y2: 6 },
-            { x1: 4, y1: 6, x2: 5, y2: 6 },
-
-            { x1: 4, y1: 0, x2: 4, y2: 1 },
-            { x1: 5, y1: 0, x2: 5, y2: 1 },
-            { x1: 2, y1: 1, x2: 2, y2: 2 },
-            { x1: 3, y1: 1, x2: 3, y2: 2 },
-            { x1: 5, y1: 1, x2: 6, y2: 2 },
-            { x1: 1, y1: 2, x2: 1, y2: 3 },
-            { x1: 4, y1: 2, x2: 4, y2: 3 },
-            { x1: 5, y1: 2, x2: 5, y2: 3 },
-            { x1: 2, y1: 3, x2: 2, y2: 4 },
-            { x1: 3, y1: 3, x2: 3, y2: 4 },
-            { x1: 6, y1: 3, x2: 6, y2: 4 },
-            { x1: 1, y1: 4, x2: 1, y2: 5 },
-            { x1: 4, y1: 4, x2: 4, y2: 5 },
-            { x1: 5, y1: 4, x2: 5, y2: 5 },
-
-             ],
-          hiddenLines: [
-
-          ],
-          hexagons: [],
-          startingPoints: [
-            { x: 0, y: 6 },
-            { x: 6, y: 6 },
-            ],
-          endingPoint: { x: 3, y: 0 }
-        },
-
-//          {
-//          theme: 'yellow',
-//          gridSizeX: 10,
-//          gridSizeY: 10,
-//          gridName: 'level5',
-//          puzzles: [],
-//          blockedLines: [],
-//          hiddenLines: [
-//            { x1: 1, y1: 0, x2: 2, y2: 0 },
-//            { x1: 3, y1: 0, x2: 4, y2: 0 },
-//            { x1: 6, y1: 0, x2: 7, y2: 0 },
-//
-//            { x1: 1, y1: 1, x2: 1, y2: 2 },
-//            { x1: 0, y1: 1, x2: 1, y2: 1 },
-//             { x1: 2, y1: 1, x2: 2, y2: 2 },
-//             { x1: 2, y1: 0, x2: 2, y2: 1 },
-//            
-//          ],
-//          hexagons: [],
-//          startingPoints: [{ x: 0, y: 0 }],
-//          endingPoint: { x: 10, y: 0 }
-//        },
-              
-        //Blue Tutorial Levels
-        {
-          theme: 'blue',
-          gridSizeX: 1,
-          gridSizeY: 2,
-          gridName: 'level6',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },
-            { x: 0, y: 1, value: 'whitesquare' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 1 }],
-          endingPoint: { x: 1, y: 1 }
-        },
-        {
-          theme: 'blue',
-          gridSizeX: 1,
-          gridSizeY: 2,
-          gridName: 'level7',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },
-            { x: 0, y: 1, value: 'whitesquare' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 2 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'blue',
-          gridSizeX: 1,
-          gridSizeY: 3,
-          gridName: 'level8',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },
-            { x: 0, y: 1, value: 'blacksquare' },
-            { x: 0, y: 2, value: 'whitesquare' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'blue',
-          gridSizeX: 2,
-          gridSizeY: 2,
-          gridName: 'level9',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },
-            { x: 0, y: 1, value: 'blacksquare' },
-            { x: 1, y: 0, value: 'blacksquare' },
-            { x: 1, y: 1, value: 'whitesquare' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 2 }],
-          endingPoint: { x: 2, y: 0 }
-        },
-        {
-          theme: 'blue',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level10',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },
-            { x: 1, y: 0, value: 'blacksquare' },
-            { x: 2, y: 0, value: 'blacksquare' },
-            { x: 0, y: 1, value: 'blacksquare' },
-            { x: 1, y: 1, value: 'whitesquare' },
-            { x: 2, y: 1, value: 'blacksquare' },
-            { x: 0, y: 2, value: 'whitesquare' },
-            { x: 1, y: 2, value: 'whitesquare' },
-            { x: 2, y: 2, value: 'whitesquare' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-               {
-          theme: 'blue',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level11',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },
-            { x: 1, y: 0, value: 'blacksquare' },
-            { x: 2, y: 0, value: 'blacksquare' },
-            { x: 0, y: 1, value: 'blacksquare' },
-            { x: 1, y: 1, value: 'whitesquare' },
-            { x: 2, y: 1, value: 'blacksquare' },
-            { x: 0, y: 2, value: 'whitesquare' },
-            { x: 1, y: 2, value: 'whitesquare' },
-            { x: 2, y: 2, value: 'whitesquare' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 0, y: 2 }
-        },
-        {
-          theme: 'blue',
-          gridSizeX: 4,
-          gridSizeY: 4,
-          gridName: 'level12',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },{ x: 2, y: 0, value: 'whitesquare' },{ x: 3, y: 0, value: 'blacksquare' },
-            { x: 0, y: 1, value: 'blacksquare' },{ x: 1, y: 1, value: 'blacksquare' },{ x: 2, y: 1, value: 'blacksquare' },{ x: 3, y: 1, value: 'blacksquare' },
-            { x: 0, y: 2, value: 'blacksquare' },{ x: 1, y: 2, value: 'whitesquare' },{ x: 2, y: 2, value: 'blacksquare' },{ x: 3, y: 2, value: 'blacksquare' },
-            { x: 0, y: 3, value: 'whitesquare' },{ x: 1, y: 3, value: 'whitesquare' },{ x: 2, y: 3, value: 'whitesquare' },{ x: 3, y: 3, value: 'blacksquare' },
-            ],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 4 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'blue',
-          gridSizeX: 4,
-          gridSizeY: 4,
-          gridName: 'level13',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },{ x: 1, y: 0, value: 'blacksquare' },{ x: 2, y: 0, value: 'whitesquare' },{ x: 3, y: 0, value: 'blacksquare' },
-            { x: 1, y: 1, value: 'blacksquare' },{ x: 2, y: 1, value: 'blacksquare' },{ x: 3, y: 1, value: 'blacksquare' },
-            { x: 0, y: 2, value: 'blacksquare' },{ x: 1, y: 2, value: 'whitesquare' },{ x: 2, y: 2, value: 'blacksquare' },{ x: 3, y: 2, value: 'blacksquare' },
-            { x: 0, y: 3, value: 'whitesquare' },{ x: 1, y: 3, value: 'whitesquare' },{ x: 2, y: 3, value: 'whitesquare' },{ x: 3, y: 3, value: 'blacksquare' },
-            ],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 4 }],
-          endingPoint: { x: 4, y: 2 }
-        },
-        {
-          theme: 'blue',
-          gridSizeX: 4,
-          gridSizeY: 4,
-          gridName: 'level14',
-          puzzles: [
-            { x: 1, y: 0, value: 'blacksquare' },{ x: 2, y: 0, value: 'whitesquare' },{ x: 3, y: 0, value: 'blacksquare' },
-            { x: 0, y: 1, value: 'blacksquare' },{ x: 3, y: 1, value: 'blacksquare' },
-            { x: 0, y: 2, value: 'blacksquare' },{ x: 1, y: 2, value: 'whitesquare' },{ x: 2, y: 2, value: 'blacksquare' },
-            { x: 0, y: 3, value: 'whitesquare' },{ x: 1, y: 3, value: 'whitesquare' },{ x: 2, y: 3, value: 'whitesquare' },{ x: 3, y: 3, value: 'blacksquare' },
-            ],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 4 }],
-          endingPoint: { x: 3, y: 4 }
-        },
-        
-        //Greenshed
-        {
-          theme: 'green',
-          gridSizeX: 2,
-          gridSizeY: 2,
-          gridName: 'green1',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [
-            { x: 0, y: 0 },
-            { x: 4, y: 4 },],
-          startingPoints: [{ x: 0, y: 2 }],
-          endingPoint: { x: 2, y: 0 }
-        },
-        {
-          theme: 'green',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'green2',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [
-            { x1: 0, y1: 0, x2: 1, y2: 0 },
-            { x1: 0, y1: 0, x2: 0, y2: 1 },
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
-            { x1: 2, y1: 2, x2: 2, y2: 3 },],
-          hexagons: [
-            { x: 2, y: 0 },
-            { x: 4, y: 2 },
-            { x: 0, y: 4 },
-            { x: 2, y: 4 },
-            { x: 6, y: 6 },
-            ],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        {
-          theme: 'green',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'green3',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [
-            { x1: 0, y1: 0, x2: 1, y2: 0 },
-            { x1: 0, y1: 0, x2: 0, y2: 1 },
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
-            { x1: 2, y1: 2, x2: 2, y2: 3 },
-            { x1: 1, y1: 1, x2: 2, y2: 1 },],
-          hexagons: [
-            { x: 2, y: 0 },
-            { x: 4, y: 2 },
-            { x: 0, y: 4 },
-            { x: 2, y: 4 },
-            { x: 6, y: 6 },
-            ],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        
-        {
-          theme: 'green',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'green4',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [
-            { x1: 0, y1: 0, x2: 1, y2: 0 },
-            { x1: 0, y1: 0, x2: 0, y2: 1 },
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
-            { x1: 2, y1: 2, x2: 2, y2: 3 },],
-          hexagons: [
-            { x: 2, y: 0 },
-            { x: 4, y: 2 },
-            { x: 6, y: 2 },
-            { x: 0, y: 4 },
-            { x: 2, y: 4 },
-            { x: 6, y: 6 },
-            ],
-          startingPoints: [
-            { x: 1, y: 1 },
-            { x: 2, y: 2 }],
-          endingPoint: { x: 0, y: 1 }
-        },
-        {
-          theme: 'green',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'green5',
-          puzzles: [],
-          blockedLines: [],
-          hiddenLines: [
-            { x1: 0, y1: 0, x2: 1, y2: 0 },
-            { x1: 0, y1: 0, x2: 0, y2: 1 },
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
-            { x1: 2, y1: 2, x2: 2, y2: 3 },],
-          hexagons: [
-            { x: 2, y: 0 },
-            { x: 4, y: 2 },
-            { x: 6, y: 2 },
-            { x: 0, y: 4 },
-            { x: 2, y: 4 },
-            { x: 6, y: 6 },
-            ],
-          startingPoints: [
-            { x: 2, y: 0 },
-            { x: 3, y: 0 },
-            { x: 3, y: 2 }],
-          endingPoint: { x: 0, y: 1 }
-        },
-        //StartAreaSecrets
-        {
-          theme: 'green',
-          gridSizeX: 4,
-          gridSizeY: 4,
-          gridName: 'level1',
-          puzzles: [],
-          blockedLines: [{ x1: 2, y1: 0, x2: 3, y2: 0 }],
-          hiddenLines: [],
-          hexagons: [
-            { x: 0, y: 0 },
-            { x: 0, y: 2 },
-            { x: 0, y: 4 },
-            { x: 0, y: 6 },
-            { x: 0, y: 8 },
-            { x: 2, y: 0 },
-            { x: 2, y: 2 },
-            { x: 2, y: 4 },
-            { x: 2, y: 6 },
-            { x: 2, y: 8 },
-            { x: 4, y: 0 },
-            { x: 4, y: 2 },
-            { x: 4, y: 6 },
-            { x: 4, y: 8 },
-            { x: 6, y: 0 },
-            { x: 6, y: 2 },
-            { x: 6, y: 4 },
-            { x: 6, y: 6 },
-            { x: 6, y: 8 },
-            { x: 8, y: 2 },
-            { x: 8, y: 4 },
-            { x: 8, y: 6 },
-            { x: 8, y: 8 }],
-          startingPoints: [{ x: 2, y: 2 }],
-          endingPoint: { x: 4, y: 0 }
-        },
-        
-        {
-          theme: 'grey',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level1',
-          puzzles: [{ x: 0, y: 2, value: 'triangle' },],
-          blockedLines: [
-            { x1: 0, y1: 0, x2: 0, y2: 1 },
-            { x1: 2, y1: 0, x2: 2, y2: 0 },
-            { x1: 3, y1: 0, x2: 3, y2: 1 },
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
-            { x1: 2, y1: 1, x2: 2, y2: 2 },
-            { x1: 1, y1: 3, x2: 2, y2: 3 }],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        
-            {
-          theme: 'green',
-          gridSizeX: 4,
-          gridSizeY: 4,
-          gridName: 'level1',
-          puzzles: [],
-          blockedLines: [
-            { x1: 1, y1: 0, x2: 1, y2: 1 },
-            { x1: 1, y1: 3, x2: 1, y2: 4 }],
-          hiddenLines: [],
-          hexagons: [
-            { x: 0, y: 0 },
-            { x: 0, y: 2 },
-            { x: 0, y: 4 },
-            { x: 0, y: 6 },
-            { x: 0, y: 8 },
-            { x: 2, y: 0 },
-            { x: 2, y: 2 },
-            { x: 2, y: 4 },
-            { x: 2, y: 6 },
-            { x: 2, y: 8 },
-            { x: 4, y: 0 },
-            { x: 4, y: 2 },
-            { x: 4, y: 6 },
-            { x: 4, y: 8 },
-            { x: 6, y: 0 },
-            { x: 6, y: 2 },
-            { x: 6, y: 4 },
-            { x: 6, y: 6 },
-            { x: 6, y: 8 },
-            { x: 8, y: 2 },
-            { x: 8, y: 4 },
-            { x: 8, y: 6 },
-            { x: 8, y: 8 }],
-          startingPoints: [{ x: 2, y: 2 }],
-          endingPoint: { x: 4, y: 0 }
-        },
-
-        //Tetris
-        {
-          theme: 'marsh_red',
-          gridSizeX: 1,
-          gridSizeY: 1,
-          gridName: 'level1',
-          puzzles: [{ x: 0, y: 0, value: 'monomino' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 1 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 1,
-          gridSizeY: 2,
-          gridName: 'level2',
-          puzzles: [{ x: 0, y: 1, value: 'monomino' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 2 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 1,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [{ x: 0, y: 2, value: 'monomino' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 1,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [{ x: 0, y: 2, value: 'domino' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 2,
-          gridSizeY: 2,
-          gridName: 'level2',
-          puzzles: [{ x: 0, y: 1, value: 'tromino_Right_R90' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 2 }],
-          endingPoint: { x: 2, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [{ x: 1, y: 1, value: 'tetromino_Square' }],
-          blockedLines: [
-            { x1: 2, y1: 1, x2: 3, y2: 1 },
-            { x1: 1, y1: 2, x2: 2, y2: 2 },
-            { x1: 2, y1: 3, x2: 3, y2: 3 }
-            ],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 5,
-          gridSizeY: 5,
-          gridName: 'level2',
-          puzzles: [{ x: 2, y: 2, value: 'tetromino_L_FH_R180' }],
-          blockedLines: [
-            { x1: 2, y1: 0, x2: 2, y2: 1 },
-            { x1: 4, y1: 0, x2: 4, y2: 1 },
-            { x1: 5, y1: 0, x2: 5, y2: 1 },
-            { x1: 0, y1: 2, x2: 0, y2: 3 },
-            { x1: 1, y1: 4, x2: 2, y2: 4 },
-            { x1: 4, y1: 5, x2: 5, y2: 5 }
-            ],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 5 }],
-          endingPoint: { x: 5, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 1,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [
-            { x: 0, y: 1, value: 'monomino' },
-            { x: 0, y: 2, value: 'monomino' }],
-          blockedLines: [
-            { x1: 1, y1: 1, x2: 1, y2: 2 },
-            { x1: 0, y1: 2, x2: 0, y2: 3 }],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 1,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [
-            { x: 0, y: 1, value: 'monomino' },
-            { x: 0, y: 2, value: 'monomino' }],
-          blockedLines: [
-            { x1: 0, y1: 2, x2: 1, y2: 2 },
-            { x1: 0, y1: 2, x2: 1, y2: 2 }],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 1, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 2,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [
-            { x: 1, y: 1, value: 'monomino' },
-            { x: 0, y: 2, value: 'tromino_Right_R90' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 2, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [
-            { x: 0, y: 0, value: 'domino_R90' },
-            { x: 0, y: 2, value: 'tetromino_Square' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [
-            { x: 1, y: 0, value: 'domino_R90' },
-            { x: 0, y: 2, value: 'tetromino_Square' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [
-            { x: 1, y: 2, value: 'domino_R90' },
-            { x: 0, y: 2, value: 'tetromino_Square' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [
-            { x: 1, y: 1, value: 'tromino_Straight_R90' },
-            { x: 0, y: 1, value: 'tetromino_Square' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        {
-          theme: 'marsh_olive',
-          gridSizeX: 3,
-          gridSizeY: 3,
-          gridName: 'level2',
-          puzzles: [
-            { x: 0, y: 0, value: 'tromino_Straight_R90' },
-            { x: 2, y: 2, value: 'tetromino_Square' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 3 }],
-          endingPoint: { x: 3, y: 0 }
-        },
-        {
-          theme: 'marsh_red',
-          gridSizeX: 4,
-          gridSizeY: 4,
-          gridName: 'level2',
-          puzzles: [
-            { x: 0, y: 1, value: 'tetromino_Straight_R90' },
-            { x: 1, y: 3, value: 'tromino_Straight' },
-            { x: 2, y: 3, value: 'tromino_Straight' }],
-          blockedLines: [{ x1: 3, y1: 1, x2: 3, y2: 2 },],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 4 }],
-          endingPoint: { x: 4, y: 0 }
-        },
-        {
-          theme: 'marsh_red',
-          gridSizeX: 4,
-          gridSizeY: 4,
-          gridName: 'level2',
-          puzzles: [
-            { x: 0, y: 1, value: 'tetromino_Straight_R90' },
-            { x: 1, y: 3, value: 'tromino_Straight' },
-            { x: 2, y: 3, value: 'tromino_Straight' }],
-          blockedLines: [{ x1: 2, y1: 1, x2: 2, y2: 2 },],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 4 }],
-          endingPoint: { x: 4, y: 0 }
-        },
-        {//FYI this is the puzzle that broke me
-          theme: 'marsh_red',
-          gridSizeX: 5,
-          gridSizeY: 5,
-          gridName: 'level2',
-          puzzles: [
-            { x: 4, y: 0, value: 'tetromino_Straight' },
-            { x: 2, y: 2, value: 'monomino' },
-            { x: 2, y: 4, value: 'domino_R90' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 5 }],
-          endingPoint: { x: 5, y: 0 }
-        },
-        {
-          theme: 'marsh_red',
-          gridSizeX: 5,
-          gridSizeY: 5,
-          gridName: 'level2',
-          puzzles: [
-            { x: 0, y: 0, value: 'tetromino_L_FH_R270' },
-            { x: 4, y: 0, value: 'domino_R90' },
-            { x: 1, y: 4, value: 'tromino_Straight' },
-            { x: 4, y: 4, value: 'tromino_Straight_R90' }],
-          blockedLines: [],
-          hiddenLines: [],
-          hexagons: [],
-          startingPoints: [{ x: 0, y: 5 }],
-          endingPoint: { x: 5, y: 0 }
-        },
-        
-        //Flex
-
-        {
-          gridSizeX: 5,
-          gridSizeY: 7,
-          gridName: 'level1',
-          puzzles: [
-            { x: 0, y: 0, value: 'blacksquare' },
-            { x: 1, y: 0, value: 'tetromino_L_R180' },
-            { x: 2, y: 0, value: 'domino_R90' },
-            { x: 4, y: 0, value: 'whitesquare' },
-            { x: 0, y: 1, value: 'redsun' },
-            { x: 1, y: 1, value: 'doubletriangle' },
-            { x: 2, y: 1, value: 'tripletriangle' },
-            { x: 4, y: 1, value: 'tripletriangle' },
-            { x: 1, y: 2, value: 'tripletriangle' },
-            { x: 2, y: 2, value: 'doubletriangle' },
-            { x: 3, y: 2, value: 'tetromino_Skew_R90' },
-            { x: 3, y: 3, value: 'doubletriangle' },
-            { x: 0, y: 4, value: 'redsun' },
-            { x: 1, y: 4, value: 'triangle' },
-            { x: 3, y: 4, value: 'yellowsun' },
-            { x: 4, y: 4, value: 'yellowsun' },
-
-            ],
-          blockedLines: [
-            { x1: 3, y1: 3, x2: 3, y2: 4 },
-            { x1: 2, y1: 4, x2: 2, y2: 5 }
-          ],
-          hiddenLines: [],
-          hexagons: [
-            { x: 3, y: 12 },
-            { x: 4, y: 12 },
-            { x: 5, y: 12 },
-            { x: 7, y: 10 },
-            { x: 10, y: 13 },
-          ],
-          startingPoints: [{ x: 0, y: 5 }],
-          endingPoint: { x: 5, y: 0 },
-        },
-
-        ];
 
         function convertToMultidimensional(newFormat, gridSizeX, gridSizeY) {
           const grid = createEmptyGrid(gridSizeX, gridSizeY);
@@ -1297,6 +350,8 @@
         let startingPoints;
         let chosenStartingPoint = { x: null, y: null};
         let endingPoint;
+        let endingPoints;
+        let chosenEndingPoint = { x: null, y: null};
         let blockedLines;
         let hiddenLines;
         let grid;
@@ -1316,18 +371,19 @@
         let scaleY;
 
         function loadLevel(n){
+            let level = levelData[n];
 
+            applyTheme(level.theme);
 
-            applyTheme(levelData[n].theme);
+            grid = convertToMultidimensional(level.puzzles, level.gridSizeX,level.gridSizeY);
 
-            grid = convertToMultidimensional(levelData[n].puzzles, levelData[n].gridSizeX,levelData[n].gridSizeY);
-
-            gridSizeX = levelData[n].gridSizeX;
-            gridSizeY = levelData[n].gridSizeY;
+            gridSizeX = level.gridSizeX;
+            gridSizeY = level.gridSizeY;
             
-            hexagons = levelData[n].hexagons;
-            startingPoints = levelData[n].startingPoints;
-            endingPoint = levelData[n].endingPoint;
+            hexagons = level.hexagons;
+            startingPoints = level.startingPoints;
+            endingPoints = level.endingPoints;
+            endingPoint = level.endingPoint;
             maxCoordinateX = gridSizeX * squareSize;
             maxCoordinateY = gridSizeY * squareSize;
 
@@ -1353,8 +409,8 @@
                 )
               )
             );
-            for (let i = 0; i < levelData[n].blockedLines.length; i++){
-                blockedLines[levelData[n].blockedLines[i].x1][levelData[n].blockedLines[i].y1][levelData[n].blockedLines[i].x2][levelData[n].blockedLines[i].y2] = 1;
+            for (let i = 0; i < level.blockedLines.length; i++){
+                blockedLines[level.blockedLines[i].x1][level.blockedLines[i].y1][level.blockedLines[i].x2][level.blockedLines[i].y2] = 1;
             }
 
             //Set up hidden lines structure. pretty, but needs impossible lines pruning. i.e. [0][0][0][5]
@@ -1365,13 +421,12 @@
                 )
               )
             );
-            for (let i = 0; i < levelData[n].hiddenLines.length; i++){
-                hiddenLines[levelData[n].hiddenLines[i].x1][levelData[n].hiddenLines[i].y1][levelData[n].hiddenLines[i].x2][levelData[n].hiddenLines[i].y2] = 1;
+            for (let i = 0; i < level.hiddenLines.length; i++){
+                hiddenLines[level.hiddenLines[i].x1][level.hiddenLines[i].y1][level.hiddenLines[i].x2][level.hiddenLines[i].y2] = 1;
             }
-            
+    
         } 
         
-
         loadLevel(level);
 
         // Drawing state variables
@@ -1604,10 +659,10 @@
             for (const startCircle of startingPoints) {
 
                 if (startCircle === chosenStartingPoint){
-                    ctx.fillStyle = (isDrawing ? playerLineColor : (completed ? playerLineColorSuccess : startColor));
+                    ctx.fillStyle = (isDrawing ? playerLineColor : (completed ? playerLineColorSuccess : gridColor));
                 }
                 else{
-                    ctx.fillStyle = startColor;
+                    ctx.fillStyle = gridColor;
                 }
                 
                 ctx.beginPath();
@@ -1618,9 +673,16 @@
             
             // End
             ctx.strokeStyle = gridColor;
-            drawCorner(endingPoint.x,endingPoint.y); //hack for first levels
+            
 
-            drawTail(endingPoint.x,endingPoint.y, ((endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : gridColor)));
+            for (const endTail of endingPoints) {
+
+                    drawCorner(endTail.x,endTail.y); //hack for first levels
+                    //colour the tail depending on if its the chosen end and success
+                    drawTail(endTail.x,endTail.y, ((endColor === 'rgba(0, 0, 0, 0)') ? endColor : (((completed && (endTail.x === chosenEndingPoint.x && endTail.y === chosenEndingPoint.y)) ? playerLineColorSuccess : gridColor))));
+            }
+
+            
 
             //TODO: replace below with a 'tail'
             //ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : endColor); 
@@ -1680,6 +742,12 @@
         };
         
         
+function containsMatchingObject(targetObj, arr) {
+    return arr.some(obj => {
+        // Check every key in the target object against the current object
+        return Object.keys(targetObj).every(key => obj[key] === targetObj[key]);
+    });
+}
 
 // Function to check if the user-drawn line meets the success criteria
 let failed = {};
@@ -1707,7 +775,9 @@ const validateLine = () => {
         console.log("failed line! you didnt start on a startingPoint");
         }
         
-        if ((drawnPoints[drawnPoints.length - 1].x /100 != levelData[level].endingPoint.x) || (drawnPoints[drawnPoints.length - 1].y /100 != levelData[level].endingPoint.y)){
+        //if ((drawnPoints[drawnPoints.length - 1].x /100 != levelData[level].endingPoint.x) || (drawnPoints[drawnPoints.length - 1].y /100 != levelData[level].endingPoint.y)){
+        if (!containsMatchingObject({x:(drawnPoints[drawnPoints.length - 1].x /100),y:(drawnPoints[drawnPoints.length - 1].y /100)}, endingPoints)){
+
             isValid = false;
             console.log("failed line! you complete the line / reach an endingPoint");
         }
@@ -1776,7 +846,6 @@ const validateLine = () => {
         isValid = false;
         console.log("failed tetris!");
     }
-
     if (isValid) {
       
         console.log("Valid line!");
@@ -1806,6 +875,8 @@ const validateLine = () => {
         }, 1000);  // 1 second delay
         
     }
+    chosenStartingPoint = { x: null, y: null};
+    chosenEndingPoint = { x: null, y: null};
 };
 
 
@@ -1848,7 +919,7 @@ function animate() {
             ctx.fill();
 
 
-        drawTail(endingPoint.x,endingPoint.y, ((endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : color)));
+        drawTail(chosenEndingPoint.x,chosenEndingPoint.y, ((endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : color)));
 
         // Disable shadow blur effect
         ctx.shadowBlur = 0;
@@ -2005,7 +1076,12 @@ const isSharedEdge = (line1, line2) => {
             offsetMousePos = getAdjustedMousePos(e);
 
             const currentPoint = getClosestPoint(offsetMousePos.x, offsetMousePos.y);
-            if (currentPoint.x !== endingPoint.x * squareSize || currentPoint.y !== endingPoint.y * squareSize) {
+
+            //if (currentPoint.x !== endingPoint.x * squareSize || currentPoint.y !== endingPoint.y * squareSize) {
+            if (!containsMatchingObject({x:(currentPoint.x /squareSize),y:(currentPoint.y /squareSize)}, endingPoints)){
+
+                //chosenEndingPoint = { x: null, y: null};
+            
                 if (isDrawing){
                     playSFX("abort");
                 }
@@ -2014,6 +1090,7 @@ const isSharedEdge = (line1, line2) => {
                 drawnPoints.length = 0;
                 drawGridAndPoints();
             } else {
+                //chosenEndingPoint = {x:(currentPoint.x /squareSize),y:(currentPoint.y /squareSize)};
                 isDrawing = false;
                 lastPoint = null;
                 validateLine();
@@ -2091,13 +1168,18 @@ const isSharedEdge = (line1, line2) => {
             lastPoint = currentPoint;
 
             //Play finish tracing sound and recolour line
-            if (x2 === endingPoint.x && y2 === endingPoint.y) {
+            //if (x2 === endingPoint.x && y2 === endingPoint.y) {
+            if (containsMatchingObject({x: x2, y: y2}, endingPoints)){
+
+                chosenEndingPoint = {x: x2, y: y2};
+
                 drawFinishLine();
                 if (!soundPlayed) {
                     playSFX("finish");
                     soundPlayed = true;
                 }
             } else {
+                chosenEndingPoint = { x: null, y: null};
                 // Reset the sound played flag if the mouse moves away from the ending point
                 cancelAnimationFrame(animationId);
                 animationId = null;
@@ -2141,7 +1223,16 @@ const playSFX = (sfx) => {
     fx.play();
 }
 function findAreas() {   
-    let visited = new Array(gridSizeX).fill(null).map(() => new Array(gridSizeY).fill(false));     
+    let visited = new Array(gridSizeX).fill(null).map(() => new Array(gridSizeY).fill(false));
+
+
+    // If we have some bizzare squares in our level we dont want to inlcude in our Areas, remove them now.
+    if (levelData[level].nonvisitingSquares && Array.isArray(levelData[level].nonvisitingSquares) && levelData[level].nonvisitingSquares.length > 0){
+        for (let y = 0; y < levelData[level].nonvisitingSquares.length; y++) {
+            visited[levelData[level].nonvisitingSquares[y].x][levelData[level].nonvisitingSquares[y].y] = true;
+        }
+    }
+    
     let areas = []; // Array of areas, where each area is an array of squares
 
     
@@ -2171,7 +1262,8 @@ function findAreas() {
 
       // Check if there's a player line between (x, y) and (neighborX, neighborY)
       let edge = calculateEdge(x, y, neighborX, neighborY);
-      if (segmentExists(edge.x1,edge.y1,edge.x2,edge.y2)) {
+      //if ((segmentExists(edge.x1,edge.y1,edge.x2,edge.y2)) || (blockExists(edge.x1,edge.y1,edge.x2,edge.y2))) {
+      if (segmentExists(edge.x1,edge.y1,edge.x2,edge.y2)){
         continue;
       }
 
@@ -2204,7 +1296,6 @@ function findAreas() {
 // Function to check if a segment exists
 //segmentExists(0, 5, 1, 5);  // Will return true if this segment exists in `drawnPoints`
 function segmentExists(x1, y1, x2, y2) {
-    
 
     // Initialize a 4D array with dimensions based on the grid size
     let gridSegments = new Array(gridSizeX+1).fill(null).map(() =>
@@ -2227,6 +1318,14 @@ function segmentExists(x1, y1, x2, y2) {
     return gridSegments[x1][y1][x2][y2];
 }
 
+function blockExists(x1, y1, x2, y2) {
+    const blocksArray = [...levelData[level].blockedLines , ...levelData[level].hiddenLines , ...levelData[level].edgeLines ];
+
+    return blocksArray.some(item => 
+        item.x1 === x1 && item.y1 === y1 && 
+        item.x2 === x2 && item.y2 === y2
+    );
+}
 
 function calculateEdge(x1, y1, x2, y2) {
     let edge = {};

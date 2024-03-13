@@ -258,3 +258,54 @@ const tetromino_Straight = [
     {x: 0, y: 3}
 ];
 const tetromino_Straight_R90 = normalizeShape(transformShape(tetromino_Straight, false, false, 90));
+
+
+//The BS shapes in Marsh. I will give them lame names to make myself cope.
+const octomino_Skewed = [
+    {x: 0, y: 0},
+    {x: 1, y: 0},
+    {x: 2, y: 0},
+    {x: 0, y: 1},
+    {x: 2, y: 1},
+    {x: 0, y: 2},
+    {x: 1, y: 2},
+    {x: 2, y: 2},
+];
+
+const domino_Skewed = [
+    {x: 0, y: 0},
+    {x: 1, y: -1}
+];
+
+const domino_Skewed_R90 = [
+    {x: 0, y: 0},
+    {x: 1, y: 1}
+];
+
+const tromino_Skewed = [
+    {x: 0, y: 0},
+    {x: 1, y: -1},
+    {x: 0, y: 1},
+];
+
+const tetromino_Skewed = [
+    {x: 0, y: 0},
+    {x: 0, y: 1},
+    {x: 3, y: 0},
+    {x: 3, y: 1},
+];
+
+const pentomino_Skewed = [
+    {x: 0, y: 0},
+    {x: 1, y: 0},
+    {x: 2, y: 0},
+    {x: 2, y: 1},
+    {x: 2, y: 2},
+];
+
+
+
+
+
+
+
