@@ -22,6 +22,7 @@ Medium effort features:
 
 High effort features: 
     support Y shapes
+        the Speedhack/early-exit in checkTetrisShapesInArea() will need to go. as we'll need to know exactly how many shapes can be fit. or we can use it if there are no negations.
     support rotated tetris shapes
     support symmetry
     support inverted/negative tetris shapes
@@ -318,6 +319,13 @@ High effort features:
         'tromino_Skewed',
         'tetromino_Skewed',
         'pentomino_Skewed',
+        //ROTATABLES
+        //Bunker
+        'tetromino_T_R270_Rotatable',
+        //Castle
+        'tetromino_L_FH_R90_Rotatable',
+        //Marsh
+        'tetromino_Straight_R90_Rotatable'
         ];
         
         // Initialise Grid

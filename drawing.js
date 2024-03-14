@@ -1,3 +1,12 @@
+function makeRotatable(shape){
+
+    const magic = {x:null,y:null};
+    
+    return [magic].concat(shape);
+
+}
+
+
 // Function to draw a triangle (used as a puzzle element)
 const drawTriangle = (x, y, size) => {
     ctx.fillStyle = "yellow";
@@ -103,7 +112,7 @@ function normalizeShape(shape) {
   return normalizedShape;
 }
 
-function getShapeHightWidth(shape) {
+function getShapeHeightWidth(shape) {
   // Find the maximum x and y values in the shape
   let maxX = 0;
   let maxY = 0;
@@ -122,24 +131,52 @@ function getShapeHightWidth(shape) {
     return {x: maxX, y: maxY};
 }
 
-function drawTetrisShape(x, y, shape) {
-    //console.log(shape);
-    // x and y are the starting positions on the grid
+function drawTetrisShape(x, y, shape) { // Added isShapeRotatable as a parameter
 
-    const dimensions = getShapeHightWidth(shape);
+    isShapeRotatable = isRotatable(shape);
 
+    if (isShapeRotatable){
+        shape = removeRotationMarker(shape);
+    }
+
+    const dimensions = getShapeHeightWidth(shape);
+    const totalWidth = (dimensions.x + 1) * (shapeSize + shapeGapSize) - shapeGapSize;
+    const totalHeight = (dimensions.y + 1) * (shapeSize + shapeGapSize) - shapeGapSize;
+
+    const startX = x - totalWidth / 2;
+    const startY = y - totalHeight / 2;
+
+    // Move the rotation point to the center of the shape
+    const centerX = startX + totalWidth / 2;
+    const centerY = startY + totalHeight / 2;
+
+    // Check if the shape is rotatable and should be rotated
+    if (isShapeRotatable) {
+        // Save the current state of the canvas
+        ctx.save();
+
+        // Move the canvas origin to the center of the shape for rotation
+        ctx.translate(centerX, centerY);
+
+        // Rotate the canvas by 15 degrees (converted to radians)
+        ctx.rotate(-15 * Math.PI / 180);
+
+        // Move the canvas origin back
+        ctx.translate(-centerX, -centerY);
+    }
+
+    // Draw the shape blocks as usual but with potentially rotated context
     shape.forEach(square => {
-        //const xPos = x + (square.x * (squareSize + shapeGapSize));
-        //const yPos = y + (square.y * (squareSize + shapeGapSize));
-
-
-        const xPos = x + (square.x * (shapeSize + shapeGapSize));
-        const yPos = y + (square.y * (shapeSize + shapeGapSize));
-
-
+        const xPos = startX + (square.x * (shapeSize + shapeGapSize));
+        const yPos = startY + (square.y * (shapeSize + shapeGapSize));
         ctx.fillStyle = shapeColour;
-        ctx.fillRect(xPos - ((dimensions.x * squareSize) / 8), yPos - ((dimensions.y * squareSize) / 8), shapeSize , shapeSize);
+        ctx.fillRect(xPos, yPos, shapeSize, shapeSize);
     });
+
+    // If the shape was rotatable, restore the canvas to its original state
+    if (isShapeRotatable) {
+        ctx.restore();
+    }
 }
 
 
@@ -250,7 +287,6 @@ const tetromino_T_R90 = normalizeShape(transformShape(tetromino_T, false, false,
 const tetromino_T_R180 = normalizeShape(transformShape(tetromino_T, false, false, 180));
 const tetromino_T_R270 = normalizeShape(transformShape(tetromino_T, false, false, 270));
 
-
 const tetromino_Straight = [
     {x: 0, y: 0},
     {x: 0, y: 1},
@@ -303,6 +339,16 @@ const pentomino_Skewed = [
     {x: 2, y: 2},
 ];
 
+//ROTATABLES
+
+//Castle
+const tetromino_L_FH_R90_Rotatable = makeRotatable(tetromino_L_FH_R90);
+
+//Bunker
+const tetromino_T_R270_Rotatable = makeRotatable(tetromino_T_R270);
+
+//Marsh
+const tetromino_Straight_R90_Rotatable = makeRotatable(tetromino_Straight_R90);
 
 
 
