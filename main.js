@@ -889,7 +889,7 @@ const validateLine = () => {
                 playSFX("challenge");
         }
 
-        //set check on level in menu. TODO: this needs abstracting to an event. 
+        //set check on level in menu. TODO: this needs abstracting to an event.
         document.getElementById(level).checked = true;
 
         level ++;
@@ -1250,7 +1250,14 @@ const playSFX = (sfx) => {
       case "challenge":
         fx = new Audio("kevin-macleod-hall-of-the-mountain-king.mp3");
         fx.addEventListener('ended', function() {
-            alert('you reached level '+(level+1)+' before the music ended. keep playing new puzzles, or try again.');
+            
+            var userResponse = window.confirm('you reached level '+(level+1)+' before the music ended. keep playing new puzzles with level-select unlocked [OK], or try again from level 1 [Cancel].');
+            if (userResponse) {
+                debug();
+            } else {
+                level = 0;
+                loadLevel(level);
+            }
         });
         break;
       
