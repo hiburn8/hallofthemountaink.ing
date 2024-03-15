@@ -171,6 +171,23 @@ function tetrisString2Shape(string) {
       tetromino_L_FH_R90_Rotatable,
       //Marsh
       tetromino_Straight_R90_Rotatable,
+      tetromino_L_FH_R180_Rotatable,
+      tetromino_L_FH_R270_Rotatable,
+      tetromino_Straight_Rotatable,
+      tetromino_L_Rotatable,
+      tromino_Right_R270_Rotatable,
+      domino_Skewed_Rotatable,
+      tetromino_T_R180_Rotatable,
+      pentomino_L_Rotatable,
+      tetromino_L_R90_Rotatable,
+      hexomino_Rectangle,
+      tromino_T_R90,
+      tromino_T_R270,
+      tromino_T_R90_Rotatable,
+      tromino_T_R270_Rotatable,
+      pentomino_V_R270,
+      pentomino_V_R270_Rotatable,
+      tromino_Straight_Rotatable
     };
 
     return shapeArrays[string];

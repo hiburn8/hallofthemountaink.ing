@@ -240,6 +240,9 @@ const tromino_Straight = [
     {x: 0, y: 1},
     {x: 0, y: 2}
 ];
+
+const tromino_Straight_Rotatable = makeRotatable(tromino_Straight);
+
 const tromino_Straight_R90 = normalizeShape(transformShape(tromino_Straight, false, false, 90));
 
 const tetromino_Square = [
@@ -339,9 +342,49 @@ const pentomino_Skewed = [
     {x: 2, y: 2},
 ];
 
+const pentomino_L = [
+    {x: 0, y: 0},
+    {x: 0, y: 1},
+    {x: 0, y: 2},
+    {x: 0, y: 3},
+    {x: 1, y: 3},
+];
+
+const pentomino_V = [
+    {x: 0, y: 0},
+    {x: 0, y: 1},
+    {x: 0, y: 2},
+    {x: 1, y: 2},
+    {x: 2, y: 2},
+];
+
+const pentomino_V_R270 = normalizeShape(transformShape(pentomino_V, false, false, 270));
+const pentomino_V_R270_Rotatable = makeRotatable(pentomino_V_R270);
+
+
+const hexomino_Rectangle = [
+    {x: 0, y: 0},
+    {x: 1, y: 0},
+    {x: 0, y: 1},
+    {x: 1, y: 1},
+    {x: 0, y: 2},
+    {x: 1, y: 2},
+];
+
+const tromino_T = [
+    {x: 0, y: 0},
+    {x: 1, y: -1},
+    {x: 2, y: 0},
+];
+
+const tromino_T_R90 = normalizeShape(transformShape(tromino_T, false, false, 90));
+const tromino_T_R270 = normalizeShape(transformShape(tromino_T, false, false, 270));
+const tromino_T_R90_Rotatable = makeRotatable(tromino_T_R90);
+const tromino_T_R270_Rotatable = makeRotatable(tromino_T_R270);
+
 //ROTATABLES
 
-//Castle
+//Castle & Marsh
 const tetromino_L_FH_R90_Rotatable = makeRotatable(tetromino_L_FH_R90);
 
 //Bunker
@@ -349,6 +392,15 @@ const tetromino_T_R270_Rotatable = makeRotatable(tetromino_T_R270);
 
 //Marsh
 const tetromino_Straight_R90_Rotatable = makeRotatable(tetromino_Straight_R90);
+const tetromino_L_FH_R180_Rotatable = makeRotatable(tetromino_L_FH_R180);
+const tetromino_L_FH_R270_Rotatable = makeRotatable(tetromino_L_FH_R270);
+const tetromino_Straight_Rotatable = makeRotatable(tetromino_Straight);
+const tetromino_L_Rotatable = makeRotatable(tetromino_L);
+const tromino_Right_R270_Rotatable = makeRotatable(tromino_Right_R270);
+const domino_Skewed_Rotatable = makeRotatable(domino_Skewed);
+const tetromino_T_R180_Rotatable = makeRotatable(tetromino_T_R180);
+const pentomino_L_Rotatable = makeRotatable(pentomino_L);
+const tetromino_L_R90_Rotatable = makeRotatable(tetromino_L_R90);
 
 
 

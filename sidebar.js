@@ -33,11 +33,13 @@ for (let i = 0; i < uniqueSections.length; i++) {
       // Create the checkbox input, set its type and id
       const checkbox = document.createElement('input');
       checkbox.setAttribute('type', 'checkbox');
+      checkbox.disabled = true;
       checkbox.id = levels[j].level; // Adjust id for each checkbox
 
       // Create the span for the custom checkbox appearance
       const span = document.createElement('span');
       span.className = 'checkbox-span';
+      span.style.backgroundColor = themes[levels[j].theme].bgColor;
 
       span.onclick = function() {
           level = levels[j].level;

@@ -87,15 +87,24 @@ High effort features:
         // Listen for fullscreen change events
         document.addEventListener('fullscreenchange', function() {
             document.getElementById('footer').style.display = document.fullscreenElement ? 'none' : '';
+            document.getElementById('sidebar').style.display = document.fullscreenElement ? 'none' : 'block';
+            document.getElementById('sidebar-tab').style.display = document.fullscreenElement ? 'none' : 'block';
         });
         document.addEventListener('mozfullscreenchange', function() {
             document.getElementById('footer').style.display = document.mozFullScreenElement ? 'none' : '';
+            document.getElementById('sidebar').style.display = document.mozFullScreenElement ? 'none' : 'block';
+            document.getElementById('sidebar-tab').style.display = document.mozFullScreenElement ? 'none' : 'block';
+
         });
         document.addEventListener('webkitfullscreenchange', function() {
             document.getElementById('footer').style.display = document.webkitFullscreenElement ? 'none' : '';
+            document.getElementById('sidebar').style.display = document.webkitFullscreenElement ? 'none' : 'block';
+            document.getElementById('sidebar-tab').style.display = document.webkitFullscreenElement ? 'none' : 'block';
         });
         document.addEventListener('msfullscreenchange', function() {
             document.getElementById('footer').style.display = document.msFullscreenElement ? 'none' : '';
+            document.getElementById('sidebar').style.display = document.msFullscreenElement ? 'none' : 'block';
+            document.getElementById('sidebar-tab').style.display = document.msFullscreenElement ? 'none' : 'block';
         });
 
 
@@ -237,10 +246,10 @@ High effort features:
           },
             orange: {
             endColor: '#00FF00',
-            bgColor: '#a15d0f',
-            gridColor: '#3c2d1e',
+            bgColor: '#f48e02',
+            gridColor: '#966300',
             playerLineColor: 'white',
-            shapeColour: 'orange'
+            shapeColour: 'yellow'
           },
             purple: {
             endColor: '#00FF00',
@@ -325,7 +334,24 @@ High effort features:
         //Castle
         'tetromino_L_FH_R90_Rotatable',
         //Marsh
-        'tetromino_Straight_R90_Rotatable'
+        'tetromino_Straight_R90_Rotatable',
+        'tetromino_L_FH_R180_Rotatable',
+        'tetromino_L_FH_R270_Rotatable',
+        'tetromino_Straight_Rotatable',
+        'tetromino_L_Rotatable',
+        'tromino_Right_R270_Rotatable',
+        'domino_Skewed_Rotatable',
+        'tetromino_T_R180_Rotatable',
+        'pentomino_L_Rotatable',
+        'tetromino_L_R90_Rotatable',
+        'hexomino_Rectangle',
+        'tromino_T_R90',
+        'tromino_T_R270',
+        'tromino_T_R90_Rotatable',
+        'tromino_T_R270_Rotatable',
+        'pentomino_V_R270',
+        'pentomino_V_R270_Rotatable',
+        'tromino_Straight_Rotatable'
         ];
         
         // Initialise Grid
@@ -862,6 +888,10 @@ const validateLine = () => {
                 // Hall of the Mountain Kind
                 playSFX("challenge");
         }
+
+        //set check on level in menu. TODO: this needs abstracting to an event. 
+        document.getElementById(level).checked = true;
+
         level ++;
 
         playSFX("success");
