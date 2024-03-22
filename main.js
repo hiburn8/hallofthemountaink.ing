@@ -33,7 +33,7 @@ High effort features:
         // Initialize canvas and context
         const canvas = document.getElementById('myCanvas');
         const ctx = canvas.getContext('2d');
-        
+
         //Scaling hacks
         /**
         var scaleFactor = 0.3;
@@ -45,45 +45,12 @@ High effort features:
         canvas.height *= scaleFactor;
         // Scale the drawing context
         ctx.scale(scaleFactor, scaleFactor);
-        **/
 
-        // Fullscreen Touch Hacks
-        /**
         // Calculate scale factors
         let scaleX = window.innerWidth / canvas.width;
         let scaleY = window.innerHeight / canvas.height;
-
-        // Helper function to dispatch adjusted events
-        function dispatchAdjustedEvent(originalEvent, eventName) {
-            let adjustedX = originalEvent.clientX / scaleX;
-            let adjustedY = originalEvent.clientY / scaleY;
-
-            // Create a new custom event
-            let adjustedEvent = new MouseEvent(eventName, {
-                clientX: adjustedX,
-                clientY: adjustedY,
-                bubbles: true,  // This allows the event to bubble up the DOM
-                cancelable: true // This allows the event to be cancelable
-                
-            });
-
-            // Dispatch the new custom event
-            canvas.dispatchEvent(adjustedEvent);
-        }
-
-        canvas.addEventListener('mousedown', function(e) {
-            dispatchAdjustedEvent(e, 'adjustedMousedown');
-        });
-
-        canvas.addEventListener('mousemove', function(e) {
-            dispatchAdjustedEvent(e, 'adjustedMousemove');
-        });
-
-        canvas.addEventListener('mouseup', function(e) {
-            dispatchAdjustedEvent(e, 'adjustedMouseup');
-        });
         **/
-       
+
         // Fullscreen
         // Listen for fullscreen change events
         document.addEventListener('fullscreenchange', function() {
@@ -143,30 +110,45 @@ High effort features:
             }
         });
 
-        /**
-        function isCanvasFullscreen() {
-          return (
-            document.fullscreenElement === canvas ||
-            document.mozFullScreenElement === canvas ||
-            document.webkitFullscreenElement === canvas ||
-            document.msFullscreenElement === canvas
-          );
-        }
-        **/
-         
-        //Disable Default Browser Touch Controls
-        canvas.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-        }, { passive: false }); 
-        // Setting passive to false ensures that we can call preventDefault()
+        //Convert touch events to mouse events, we should have used pointer events, but i didn't know about them.
+        //Props to vetruvet for this idea @ https://blog.vetruvet.com/2010/12/converting-single-touch-events-to-mouse.html?m=1
+        var touchToMouse = function(event) {
+            // Exit if multi-touch
+            if (event.touches.length > 1) return;
 
-        canvas.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-        }, { passive: false });
+            let mouseEventType;
+            switch (event.type) {
+                case "touchstart": mouseEventType = "mousedown"; break;
+                case "touchmove":  mouseEventType = "mousemove"; break;
+                case "touchend":   mouseEventType = "mouseup"; break;
+                default: return;
+            }
 
-        canvas.addEventListener('touchend', function(e) {
-            e.preventDefault();
-        }, { passive: false });
+            // Only proceed if a valid mouse event type is set
+            if (!mouseEventType) return;
+
+            const touch = event.changedTouches[0];
+            const simulatedEvent = new MouseEvent(mouseEventType, {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+                detail: 1,
+                screenX: touch.screenX,
+                screenY: touch.screenY,
+                clientX: touch.clientX,
+                clientY: touch.clientY,
+                button: 0
+            });
+
+            // Dispatch the event to the target of the touch event
+            touch.target.dispatchEvent(simulatedEvent);
+            event.preventDefault();
+        };
+
+        canvas.ontouchstart = touchToMouse;
+        canvas.ontouchmove = touchToMouse;
+        canvas.ontouchend = touchToMouse;
+        
 
         // Grid and line styling
         
@@ -1183,7 +1165,7 @@ const isSharedEdge = (line1, line2) => {
 
             const currentPoint = getClosestPoint(offsetMousePos.x, offsetMousePos.y);
 
-            //if (currentPoint.x !== endingPoint.x * squareSize || currentPoint.y !== endingPoint.y * squareSize) {
+            //if currentPoint in endPoints
             if (!containsMatchingObject({x:(currentPoint.x /squareSize),y:(currentPoint.y /squareSize)}, endingPoints)){
 
                 //chosenEndingPoint = { x: null, y: null};
