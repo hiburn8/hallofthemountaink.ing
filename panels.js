@@ -1788,20 +1788,40 @@ const levelData = [
     ],
 },
 {
-  location: 'Quarry',
+  location: 'Quarry needs sun logic fix',
   level: getID(),
   theme: 'brown',
   gridSizeX: 5,
   gridSizeY: 5,
-  puzzles: [],
+  puzzles: [
+    { x: 0, y: 0, value: 'redsun' },
+    { x: 1, y: 0, value: 'redsun' },
+    { x: 2, y: 0, value: 'redsun' },
+    { x: 3, y: 0, value: 'yellowsun' },
+    { x: 4, y: 0, value: 'yellowsun' },
+    
+    { x: 0, y: 1, value: 'redsun' },
+    { x: 0, y: 2, value: 'redsun' },
+    { x: 0, y: 3, value: 'yellowsun' },
+    
+    { x: 4, y: 1, value: 'yellowsun' },
+    { x: 4, y: 2, value: 'redsun' },
+    { x: 4, y: 3, value: 'redsun' },
+    
+    { x: 0, y: 4, value: 'yellowsun' },
+    { x: 1, y: 4, value: 'yellowsun' },
+    { x: 2, y: 4, value: 'redsun' },
+    { x: 3, y: 4, value: 'redsun' },
+    { x: 4, y: 4, value: 'redsun' },
+    ],
   blockedLines: [],
   hiddenLines: [],
   hexagons: [],
   startingPoints: [
-    { x: 2, y: 5 },
+    { x: 5, y: 5 },
     ],
   endingPoints: [
-    { x: 3, y: 0 },
+    { x: 0, y: 0 },
     ],
 },
 {

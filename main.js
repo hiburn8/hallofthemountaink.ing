@@ -2,7 +2,6 @@
 
 Fixes:
     fix hexagons not working with (or scaling to) squareSize changes
-    find out why level changes are sometimes empty (usually when a theme changes) 
     fix aggressive backtracking player line :line 1433
     fix playing fail sound when clicking directly on an endPoint
     fix drawing hexagon over start of playerline. presumably we draw hexagons after startpoints.
@@ -470,184 +469,8 @@ High effort features:
         let scaleX; 
         let scaleY;
 
-        function loadLevel(n){
-            let level = levelData[n];
-
-            applyTheme(level.theme);
-
-            grid = convertToMultidimensional(level.puzzles, level.gridSizeX,level.gridSizeY);
-
-            gridSizeX = level.gridSizeX;
-            gridSizeY = level.gridSizeY;
-            
-            hexagons = level.hexagons;
-            startingPoints = level.startingPoints;
-            endingPoints = level.endingPoints;
-            endingPoint = level.endingPoint;
-            maxCoordinateX = gridSizeX * squareSize;
-            maxCoordinateY = gridSizeY * squareSize;
-
-            //Canvas setup
-            offset = squareSize;
-            canvas.width = gridSizeX * squareSize + offset;
-            canvas.height = gridSizeY * squareSize + offset;
-            ctx.translate(offset/2, offset/2);
-            
-            viewportWidth = window.innerWidth; // Width of the viewport
-            viewportHeight = window.innerHeight; // Height of the viewport
-
-            scaleX = viewportWidth / canvas.width;
-            scaleY = viewportHeight / canvas.height;
-
-            ctx.lineWidth = squareSize / 5;
-
-            //Set up blocked lines structure. pretty, but needs impossible lines pruning. i.e. [0][0][0][5]
-            blockedLines = Array.from({ length: gridSizeX + 1 }, () =>
-              Array.from({ length: gridSizeY + 1 }, () =>
-                Array.from({ length: gridSizeX + 1 }, () =>
-                  Array.from({ length: gridSizeY + 1 }, () => 0)
-                )
-              )
-            );
-            for (let i = 0; i < level.blockedLines.length; i++){
-                blockedLines[level.blockedLines[i].x1][level.blockedLines[i].y1][level.blockedLines[i].x2][level.blockedLines[i].y2] = 1;
-            }
-
-            //Set up hidden lines structure. pretty, but needs impossible lines pruning. i.e. [0][0][0][5]
-            hiddenLines = Array.from({ length: gridSizeX + 1 }, () =>
-              Array.from({ length: gridSizeY + 1 }, () =>
-                Array.from({ length: gridSizeX + 1 }, () =>
-                  Array.from({ length: gridSizeY + 1 }, () => 0)
-                )
-              )
-            );
-            for (let i = 0; i < level.hiddenLines.length; i++){
-                hiddenLines[level.hiddenLines[i].x1][level.hiddenLines[i].y1][level.hiddenLines[i].x2][level.hiddenLines[i].y2] = 1;
-            }
-    
-        } 
-        
-        loadLevel(level);
-
-        // Drawing state variables
-        let isDrawing = false;
-        let lastPoint = null;
-        let completed = false;
-        
-        let drawnPoints = [];
-
-    //I refuse to resort to a second overlay Canvas to make this work. I am only temporarily giving up.
-    //drawGrowingCircle(200, 200, 20, 15, 3); // x, y, maxSize, growthRate (in pixels per second), durationInSeconds
-    function drawGrowingCircle(x, y, maxSize, growthRate, durationInSeconds) {
-      const canvas = document.getElementById('myCanvas');
-      const ctx = canvas.getContext('2d');
-
-      let startTime = null;
-      let currentSize = 0;
-      let intervalId = null;
-      let endTime = null;
-
-      function drawFrame() {
-        const now = Date.now();
-        const elapsedTime = now - startTime;
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.beginPath();
-        ctx.arc(x, y, currentSize, 0, 2 * Math.PI);
-        ctx.strokeStyle = '#ffffffa1';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-        
-        if (endTime && now >= endTime && currentSize === 0) {
-          cancelAnimation();
-        }
-
-        currentSize = (elapsedTime / 1000) * growthRate;
-
-        if (currentSize > maxSize) {
-          currentSize = 0;
-          startTime = now;
-        }
-      }
-
-      function startAnimation() {
-        startTime = Date.now(); // Initialize the start time
-        endTime = startTime + (durationInSeconds * 1000); // Calculate end time
-        intervalId = setInterval(drawFrame, 1000 / 60); // Run drawFrame approximately every 16.67 milliseconds (60 FPS)
-      }
-
-      function cancelAnimation() {
-        if (intervalId !== null) {
-          clearInterval(intervalId);
-          intervalId = null;
-        }
-      }
-
-      // Start animation immediately upon calling the function
-      startAnimation();
-
-      // Return the function to cancel the animation loop
-      return cancelAnimation;
-    }
-
-        function drawCorner(x, y){
-            ctx.beginPath();
-            ctx.arc(x*squareSize, y*squareSize, 0.1, 0, 2 * Math.PI);
-            ctx.fill();
-            ctx.stroke();
-        }
-
-        function drawTail(x, y, color){
-
-
-            ctx.strokeStyle = color;
-
-            let isTop = y === 0;
-            let isBottom = y === gridSizeY;
-            let isLeft = x === 0;
-            let isRight = x === gridSizeX;
-
-            let tailSize = squareSize/3;
-
-            ctx.beginPath();
-
-            ctx.moveTo(x * squareSize, y * squareSize);
-
-            let destinationX, destinationY;
-
-            if (isTop && isLeft) {
-                destinationX = x * squareSize - (tailSize / Math.sqrt(2)); //Pythagoras baby.
-                destinationY = y * squareSize - (tailSize / Math.sqrt(2));
-            } else if (isTop && isRight) {
-                destinationX = x * squareSize + (tailSize / Math.sqrt(2));
-                destinationY = y * squareSize - (tailSize / Math.sqrt(2));
-            } else if (isBottom && isLeft) {
-                destinationX = x * squareSize - (tailSize / Math.sqrt(2));
-                destinationY = y * squareSize + (tailSize / Math.sqrt(2));
-            } else if (isBottom && isRight) {
-                destinationX = x * squareSize + (tailSize / Math.sqrt(2));
-                destinationY = y * squareSize + (tailSize / Math.sqrt(2));
-            } else if (isTop) {
-                destinationX = x * squareSize;
-                destinationY = y * squareSize - tailSize;
-            } else if (isBottom) {
-                destinationX = x * squareSize;
-                destinationY = y * squareSize + tailSize;
-            } else if (isLeft) {
-                destinationX = x * squareSize - tailSize;
-                destinationY = y * squareSize;
-            } else if (isRight) {
-                destinationX = x * squareSize + tailSize;
-                destinationY = y * squareSize;
-            }
-            ctx.lineTo(destinationX, destinationY);
-            ctx.stroke();
-            drawCorner(destinationX / squareSize, destinationY / squareSize);
-        }
-
         // Function to draw the grid and points
-        const drawGridAndPoints = () => {
+        const drawGridAndPuzzles = () => {
 
             ctx.clearRect(0 -offset, 0 -offset, canvas.width +offset, canvas.height +offset);
             ctx.strokeStyle = gridColor;
@@ -840,6 +663,184 @@ High effort features:
             
 
         };
+
+        function loadLevel(n){
+            let level = levelData[n];
+
+            applyTheme(level.theme);
+
+            grid = convertToMultidimensional(level.puzzles, level.gridSizeX,level.gridSizeY);
+
+            gridSizeX = level.gridSizeX;
+            gridSizeY = level.gridSizeY;
+            
+            hexagons = level.hexagons;
+            startingPoints = level.startingPoints;
+            endingPoints = level.endingPoints;
+            endingPoint = level.endingPoint;
+            maxCoordinateX = gridSizeX * squareSize;
+            maxCoordinateY = gridSizeY * squareSize;
+
+            //Canvas setup
+            offset = squareSize;
+            canvas.width = gridSizeX * squareSize + offset;
+            canvas.height = gridSizeY * squareSize + offset;
+            ctx.translate(offset/2, offset/2);
+            
+            viewportWidth = window.innerWidth; // Width of the viewport
+            viewportHeight = window.innerHeight; // Height of the viewport
+
+            scaleX = viewportWidth / canvas.width;
+            scaleY = viewportHeight / canvas.height;
+
+            ctx.lineWidth = squareSize / 5;
+
+            //Set up blocked lines structure. pretty, but needs impossible lines pruning. i.e. [0][0][0][5]
+            blockedLines = Array.from({ length: gridSizeX + 1 }, () =>
+              Array.from({ length: gridSizeY + 1 }, () =>
+                Array.from({ length: gridSizeX + 1 }, () =>
+                  Array.from({ length: gridSizeY + 1 }, () => 0)
+                )
+              )
+            );
+            for (let i = 0; i < level.blockedLines.length; i++){
+                blockedLines[level.blockedLines[i].x1][level.blockedLines[i].y1][level.blockedLines[i].x2][level.blockedLines[i].y2] = 1;
+            }
+
+            //Set up hidden lines structure. pretty, but needs impossible lines pruning. i.e. [0][0][0][5]
+            hiddenLines = Array.from({ length: gridSizeX + 1 }, () =>
+              Array.from({ length: gridSizeY + 1 }, () =>
+                Array.from({ length: gridSizeX + 1 }, () =>
+                  Array.from({ length: gridSizeY + 1 }, () => 0)
+                )
+              )
+            );
+            for (let i = 0; i < level.hiddenLines.length; i++){
+                hiddenLines[level.hiddenLines[i].x1][level.hiddenLines[i].y1][level.hiddenLines[i].x2][level.hiddenLines[i].y2] = 1;
+            }
+            drawGridAndPuzzles();
+        } 
+        
+        loadLevel(level);
+
+        // Drawing state variables
+        let isDrawing = false;
+        let lastPoint = null;
+        let completed = false;
+        
+        let drawnPoints = [];
+
+    //I refuse to resort to a second overlay Canvas to make this work. I am only temporarily giving up.
+    //drawGrowingCircle(200, 200, 20, 15, 3); // x, y, maxSize, growthRate (in pixels per second), durationInSeconds
+    function drawGrowingCircle(x, y, maxSize, growthRate, durationInSeconds) {
+      const canvas = document.getElementById('myCanvas');
+      const ctx = canvas.getContext('2d');
+
+      let startTime = null;
+      let currentSize = 0;
+      let intervalId = null;
+      let endTime = null;
+
+      function drawFrame() {
+        const now = Date.now();
+        const elapsedTime = now - startTime;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        ctx.arc(x, y, currentSize, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#ffffffa1';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        if (endTime && now >= endTime && currentSize === 0) {
+          cancelAnimation();
+        }
+
+        currentSize = (elapsedTime / 1000) * growthRate;
+
+        if (currentSize > maxSize) {
+          currentSize = 0;
+          startTime = now;
+        }
+      }
+
+      function startAnimation() {
+        startTime = Date.now(); // Initialize the start time
+        endTime = startTime + (durationInSeconds * 1000); // Calculate end time
+        intervalId = setInterval(drawFrame, 1000 / 60); // Run drawFrame approximately every 16.67 milliseconds (60 FPS)
+      }
+
+      function cancelAnimation() {
+        if (intervalId !== null) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+      }
+
+      // Start animation immediately upon calling the function
+      startAnimation();
+
+      // Return the function to cancel the animation loop
+      return cancelAnimation;
+    }
+
+        function drawCorner(x, y){
+            ctx.beginPath();
+            ctx.arc(x*squareSize, y*squareSize, 0.1, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+        function drawTail(x, y, color){
+
+
+            ctx.strokeStyle = color;
+
+            let isTop = y === 0;
+            let isBottom = y === gridSizeY;
+            let isLeft = x === 0;
+            let isRight = x === gridSizeX;
+
+            let tailSize = squareSize/3;
+
+            ctx.beginPath();
+
+            ctx.moveTo(x * squareSize, y * squareSize);
+
+            let destinationX, destinationY;
+
+            if (isTop && isLeft) {
+                destinationX = x * squareSize - (tailSize / Math.sqrt(2)); //Pythagoras baby.
+                destinationY = y * squareSize - (tailSize / Math.sqrt(2));
+            } else if (isTop && isRight) {
+                destinationX = x * squareSize + (tailSize / Math.sqrt(2));
+                destinationY = y * squareSize - (tailSize / Math.sqrt(2));
+            } else if (isBottom && isLeft) {
+                destinationX = x * squareSize - (tailSize / Math.sqrt(2));
+                destinationY = y * squareSize + (tailSize / Math.sqrt(2));
+            } else if (isBottom && isRight) {
+                destinationX = x * squareSize + (tailSize / Math.sqrt(2));
+                destinationY = y * squareSize + (tailSize / Math.sqrt(2));
+            } else if (isTop) {
+                destinationX = x * squareSize;
+                destinationY = y * squareSize - tailSize;
+            } else if (isBottom) {
+                destinationX = x * squareSize;
+                destinationY = y * squareSize + tailSize;
+            } else if (isLeft) {
+                destinationX = x * squareSize - tailSize;
+                destinationY = y * squareSize;
+            } else if (isRight) {
+                destinationX = x * squareSize + tailSize;
+                destinationY = y * squareSize;
+            }
+            ctx.lineTo(destinationX, destinationY);
+            ctx.stroke();
+            drawCorner(destinationX / squareSize, destinationY / squareSize);
+        }
+
+        
         
         
 function containsMatchingObject(targetObj, arr) {
@@ -1090,7 +1091,7 @@ const redrawCanvas = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw grid and special cells
-    drawGridAndPoints(); // You already have this, presumably
+    drawGridAndPuzzles(); // You already have this, presumably
 
     // Draw the line
     for (let i = 1; i < drawnPoints.length; i++) {
@@ -1109,7 +1110,7 @@ const isSharedEdge = (line1, line2) => {
 
 
         // Initial draw
-        drawGridAndPoints();
+        drawGridAndPuzzles();
 
         // Utility functions
         const getClosestPoint = (x, y) => {
@@ -1131,7 +1132,7 @@ const isSharedEdge = (line1, line2) => {
         };
 
         const redrawPath = () => {
-            drawGridAndPoints();
+            drawGridAndPuzzles();
             for (let i = 0; i < drawnPoints.length - 1; i++) {
                 drawLine(drawnPoints[i], drawnPoints[i + 1], playerLineColor);
             }
@@ -1168,7 +1169,7 @@ const isSharedEdge = (line1, line2) => {
                     isDrawing = true;
                     lastPoint = closestPoint;
                     drawnPoints.push(lastPoint);
-                    drawGridAndPoints();
+                    drawGridAndPuzzles();
                 }
             }
             
@@ -1193,7 +1194,7 @@ const isSharedEdge = (line1, line2) => {
                 isDrawing = false;
                 lastPoint = null;
                 drawnPoints.length = 0;
-                drawGridAndPoints();
+                drawGridAndPuzzles();
             } else {
                 //chosenEndingPoint = {x:(currentPoint.x /squareSize),y:(currentPoint.y /squareSize)};
                 isDrawing = false;
