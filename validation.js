@@ -299,7 +299,7 @@ let filteredHexagons = hexagons;
     for (let i = 1; i < drawnPoints.length; i++) {
         let lineSegment = { x1: drawnPoints[i - 1].x, y1: drawnPoints[i - 1].y, x2: drawnPoints[i].x, y2: drawnPoints[i].y };
 
-        lineSegment = {x1: (lineSegment.x1 / 100) * 2, y1: (lineSegment.y1 / 100) * 2, x2: (lineSegment.x2 / 100) * 2, y2: (lineSegment.y2 / 100) * 2};
+        lineSegment = {x1: (lineSegment.x1 /squareSize) * 2, y1: (lineSegment.y1 /squareSize) * 2, x2: (lineSegment.x2 /squareSize) * 2, y2: (lineSegment.y2 /squareSize) * 2};
         //console.log (lineSegment);
 
         for (const hexagon of hexagons) {

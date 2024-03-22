@@ -1358,6 +1358,35 @@ const levelData = [
 {
   location: 'Town',
   level: getID(),
+  theme: 'green',
+  gridSizeX: 5,
+  gridSizeY: 5,
+  puzzles: [
+    { x: 0, y: 0, value: 'tromino_Right_R270_Rotatable' },
+    { x: 1, y: 0, value: 'tromino_Right_R270_Rotatable' },
+    { x: 2, y: 0, value: 'tromino_Right_R270_Rotatable' },
+    { x: 3, y: 0, value: 'tromino_Right_R270_Rotatable' },
+    { x: 4, y: 0, value: 'tromino_Right_R270_Rotatable' },
+
+    { x: 2, y: 2, value: 'redsun' },
+
+    { x: 0, y: 4, value: 'redsun' },
+    { x: 1, y: 4, value: 'redsun' },
+    { x: 2, y: 4, value: 'redsun' },
+    { x: 3, y: 4, value: 'redsun' },
+    { x: 4, y: 4, value: 'redsun' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  nonvisitingSquares: [],
+  hexagons: [],
+  startingPoints: [{ x: 0, y: 5 }],
+  endingPoints: [{ x: 5, y: 0 }],
+},
+{
+  location: 'Town',
+  level: getID(),
   theme: 'grey',
   gridSizeX: 3,
   gridSizeY: 3,
@@ -1588,7 +1617,42 @@ const levelData = [
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 0 }],
 },
-
+{
+  location: 'Treehouse',
+  level: getID(),
+  theme: 'treehouse_brown',
+  gridSizeX: 1,
+  gridSizeY: 2,
+  puzzles: [
+    { x: 0, y: 0, value: 'redsun' },
+    { x: 0, y: 1, value: 'redsun' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  nonvisitingSquares: [],
+  hexagons: [],
+  startingPoints: [{ x: 0, y: 2 }],
+  endingPoints: [{ x: 1, y: 0 }],
+},
+{
+  location: 'Treehouse',
+  level: getID(),
+  theme: 'treehouse_brown',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    { x: 0, y: 0, value: 'redsun' },
+    { x: 3, y: 3, value: 'redsun' },
+    ],
+  blockedLines: [
+     { x1: 0, y1: 0, x2: 1, y2: 0 },
+     ],
+  hiddenLines: [],
+  nonvisitingSquares: [],
+  hexagons: [],
+  startingPoints: [{ x: 0, y: 4 }],
+  endingPoints: [{ x: 4, y: 0 }],
+},
 {
   location: 'Quarry',
   level: getID(),
@@ -1716,6 +1780,23 @@ const levelData = [
     { x: 10, y: 4 },
     { x: 10, y: 7 },
     ],
+  startingPoints: [
+    { x: 2, y: 5 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'brown',
+  gridSizeX: 5,
+  gridSizeY: 5,
+  puzzles: [],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
   startingPoints: [
     { x: 2, y: 5 },
     ],
@@ -1881,12 +1962,34 @@ const levelData = [
   startingPoints: [{ x: 2, y: 5 }],
   endingPoints: [{ x: 2, y: 0 }],
 },
-
+{
+  location: 'Treehouse NEEDS HALF-entry/exit',
+  level: getID(),
+  theme: 'grey',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 0, y: 0, value: 'redsun' },
+    { x: 2, y: 2, value: 'redsun' },
+    ],
+  blockedLines: [
+     { x1: 0, y1: 0, x2: 0, y2: 1 },
+     { x1: 3, y1: 0, x2: 3, y2: 1 },
+     { x1: 0, y1: 2, x2: 1, y2: 2 },
+     { x1: 0, y1: 3, x2: 1, y2: 3 },
+     { x1: 2, y1: 2, x2: 3, y2: 2 },
+     ],
+  hiddenLines: [],
+  nonvisitingSquares: [],
+  hexagons: [],
+  startingPoints: [{ x: 1.5, y: 3 }], //TODO half square start-locations
+  endingPoints: [{ x: 1.5, y: 0 }],   //TODO half square end-locations
+},
 //Flex
-
 {
   location: 'Flex',
   level: getID(),
+  theme: 'green',
   gridSizeX: 5,
   gridSizeY: 7,
   puzzles: [
@@ -1906,7 +2009,6 @@ const levelData = [
     { x: 1, y: 4, value: 'triangle' },
     { x: 3, y: 4, value: 'yellowsun' },
     { x: 4, y: 4, value: 'yellowsun' },
-
     ],
   blockedLines: [
     { x1: 3, y1: 3, x2: 3, y2: 4 },
@@ -1922,6 +2024,6 @@ const levelData = [
   ],
   startingPoints: [{ x: 0, y: 5 }],
   endingPoints: [{ x: 5, y: 0 }],
-},
+}
 
 ];

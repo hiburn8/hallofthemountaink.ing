@@ -1,9 +1,11 @@
 /**
 
 Fixes:
+    fix hexagons not working with (or scaling to) squareSize changes
     find out why level changes are sometimes empty (usually when a theme changes) 
     fix aggressive backtracking player line :line 1433
     fix playing fail sound when clicking directly on an endPoint
+    fix drawing hexagon over start of playerline. presumably we draw hexagons after startpoints.
     support:
         remove the canvas bg colour, since sRGB colour profiles issues on old machines makes the canvas stand out.
         for some reason old browsers have issues with fill on drawCorner. i must have missed something.
@@ -168,97 +170,157 @@ High effort features:
         }, { passive: false });
 
         // Grid and line styling
-        const playerLineColorFail = "#FF0000";
-        const playerLineColorFinish = "#FFFFFF";
-        const playerLineColorSuccess = "#00FF00";
         
+        const playerLineColor = 'white';
+        const playerLineColorFinish = "#FFFFFF";
+    
+        let playerLineColorSuccess = '#00FF00';
+        let playerLineColorFail = '#FF0000';
         
         let bgColor;
         let gridColor;
-        let playerLineColor;
-        let endColor = '#00FF00';
+        let endColor;
         let shapeColour;
 
 
-        const themes = {
-          default: {
-            endColor: '#00FF00',
-            bgColor: '#02b35a',
-            gridColor: '#2f4f3e',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-          yellow_basic: {
-            endColor: 'rgba(0, 0, 0, 0)',
-            bgColor: '#f4c000',
-            gridColor: '#594400',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-          yellow: {
-            endColor: 'white',
-            bgColor: '#f4c000',
-            gridColor: '#594400',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-          blue: {
-            endColor: '#FFFFFF',
-            bgColor: '#5554fe',
-            gridColor: '#2202ab',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-          green: {
-            endColor: '#00FF00',
-            bgColor: '#00e255',
-            gridColor: '#027b30',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-          grey: {
-            endColor: '#00FF00',
-            bgColor: '#bfc3c2',
-            gridColor: '#676053',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-          red: {
-            endColor: '#00FF00',
-            bgColor: '#db1901',
-            gridColor: '#ff5d4c',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-          olive: {
-            endColor: '#00FF00',
-            bgColor: '#a1b002',
-            gridColor: '#c1bf65',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-          turquoise: {
-            endColor: '#00FF00',
-            bgColor: '#01abac',
-            gridColor: '#264860',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
-            orange: {
-            endColor: '#00FF00',
-            bgColor: '#f48e02',
-            gridColor: '#966300',
-            playerLineColor: 'white',
-            shapeColour: 'yellow'
-          },
-            purple: {
-            endColor: '#00FF00',
-            bgColor: '#8421a4',
-            gridColor: '#4c4b50',
-            playerLineColor: 'white',
-            shapeColour: 'orange'
-          },
 
+        const themes = {
+            default: {
+                endColor: '#00FF00',
+                bgColor: '#02b35a',
+                gridColor: '#2f4f3e',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#00FF00',
+                playerLineColorFail: '#0c0c0c'
+              },
+            yellow_basic: {
+                endColor: 'rgba(0, 0, 0, 0)',
+                bgColor: '#f4c000',
+                gridColor: '#594400',
+                shapeColour: 'orange',
+                playerLineColorSuccess: 'white',
+                playerLineColorFail: '#0c0c0c'
+              },
+            yellow: {
+                endColor: 'white',
+                bgColor: '#f4c000',
+                gridColor: '#594400',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#ffee5d',
+                playerLineColorFail: '#0c0c0c'
+              },
+            blue: {
+                endColor: '#FFFFFF',
+                bgColor: '#5554fe',
+                gridColor: '#2202ab',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#74aaf9',
+                playerLineColorFail: '#0c0c0c'
+              },
+            green: {
+                endColor: '#00FF00',
+                bgColor: '#00e255',
+                gridColor: '#027b30',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#b9ff13',
+                playerLineColorFail: '#0c0c0c'
+              },
+            grey: {
+                endColor: '#00FF00',
+                bgColor: '#bfc3c2',
+                gridColor: '#676053',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#dfeaf2',
+                playerLineColorFail: '#0c0c0c'
+              },
+            red: {
+                endColor: '#00FF00',
+                bgColor: '#db1901',
+                gridColor: '#ff5d4c',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#ffe828',
+                playerLineColorFail: '#0c0c0c'
+              },
+            olive: {
+                endColor: '#00FF00',
+                bgColor: '#a1b002',
+                gridColor: '#c1bf65',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#fefc25',
+                playerLineColorFail: '#0c0c0c'
+              },
+            turquoise: {
+                endColor: '#00FF00',
+                bgColor: '#01abac',
+                gridColor: '#264860',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#c28302',
+                playerLineColorFail: '#0c0c0c'
+              },
+            orange: {
+                endColor: '#00FF00',
+                bgColor: '#f48e02',
+                gridColor: '#966300',
+                shapeColour: 'yellow',
+                playerLineColorSuccess: '#faed29',
+                playerLineColorFail: '#FF0000' //check
+              },
+            brown: {
+                endColor: '#554114',
+                bgColor: '#554114',
+                gridColor: '#3c3517',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#faed29',
+                playerLineColorFail: '#FF0000' //check
+              },
+            purple: {
+                endColor: '#00FF00',
+                bgColor: '#8421a4',
+                gridColor: '#4c4b50',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#be55c1',
+                playerLineColorFail: '#FF0000' //check
+              },
+            treehouse_brown: {
+                endColor: '#554114',
+                bgColor: '#554114',
+                gridColor: '#3c3517',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#bb7705',
+                playerLineColorFail: '#FF0000' //check
+              },
+            treehouse_yellow: {
+                endColor: '#0c181f',
+                bgColor: '#4e5860',
+                gridColor: '#0c181f',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#fac427',
+                playerLineColorFail: '#FF0000' //check
+              },
+            treehouse_pink: {
+                endColor: '#0c181f',
+                bgColor: '#4e5860',
+                gridColor: '#0c181f',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#db02ef',
+                playerLineColorFail: '#FF0000' //check
+              },
+            treehouse_orange: {
+                endColor: '#0c181f',
+                bgColor: '#4e5860',
+                gridColor: '#0c181f',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#ee8f0f',
+                playerLineColorFail: '#FF0000' //check
+              },
+            treehouse_green: {
+                endColor: '#0c181f',
+                bgColor: '#4e5860',
+                gridColor: '#0c181f',
+                shapeColour: 'orange',
+                playerLineColorSuccess: '#db02ef',
+                playerLineColorFail: '#FF0000' //check
+              },
         };
 
 
@@ -269,11 +331,15 @@ High effort features:
             endColor = tm.endColor;
             bgColor = tm.bgColor;
             gridColor = tm.gridColor;
-            playerLineColor = tm.playerLineColor;
+            playerLineColorSuccess = tm.playerLineColorSuccess;
+            //playerLineColorSuccess = '#00FF00';
+            playerLineColorFail = tm.playerLineColorFail;
+            //playerLineColorFail = '#FF0000';
             shapeColour = tm.shapeColour;
-            document.body.style.backgroundColor = tm.bgColor;
-            canvas.style.backgroundColor = tm.bgColor;
+
             //why not
+            document.body.style.backgroundColor = tm.bgColor;
+            canvas.style.backgroundColor = tm.bgColor;            
             document.querySelector('a').style.color = tm.bgColor;
 
         }
@@ -577,7 +643,7 @@ High effort features:
             }
             ctx.lineTo(destinationX, destinationY);
             ctx.stroke();
-            drawCorner(destinationX/100, destinationY/100);
+            drawCorner(destinationX / squareSize, destinationY / squareSize);
         }
 
         // Function to draw the grid and points
@@ -804,13 +870,12 @@ const validateLine = () => {
             console.log("failed line! the line is a dot to you?!");
         }  
 
-        if ((drawnPoints[0].x /100 != chosenStartingPoint.x) || (drawnPoints[0].y /100 != chosenStartingPoint.y)){
+        if ((drawnPoints[0].x /squareSize != chosenStartingPoint.x) || (drawnPoints[0].y /squareSize != chosenStartingPoint.y)){
         isValid = false;
         console.log("failed line! you didnt start on a startingPoint");
         }
         
-        //if ((drawnPoints[drawnPoints.length - 1].x /100 != levelData[level].endingPoint.x) || (drawnPoints[drawnPoints.length - 1].y /100 != levelData[level].endingPoint.y)){
-        if (!containsMatchingObject({x:(drawnPoints[drawnPoints.length - 1].x /100),y:(drawnPoints[drawnPoints.length - 1].y /100)}, endingPoints)){
+        if (!containsMatchingObject({x:(drawnPoints[drawnPoints.length - 1].x /squareSize),y:(drawnPoints[drawnPoints.length - 1].y /squareSize)}, endingPoints)){
 
             isValid = false;
             console.log("failed line! you complete the line / reach an endingPoint");
@@ -823,9 +888,9 @@ const validateLine = () => {
             let xDiff = Math.abs(currentPoint.x - prevPoint.x);
             let yDiff = Math.abs(currentPoint.y - prevPoint.y);
             
-            if (!((xDiff === 100 && yDiff === 0) || (xDiff === 0 && yDiff === 100))) {
+            if (!((xDiff === squareSize && yDiff === 0) || (xDiff === 0 && yDiff === squareSize))) {
                 isValid = false;
-                console.log("failed line! each point is not exactly 100 x or y coordinate away");
+                console.log("failed line! each point is not exactly squareSize(100) x or y coordinate away");
                 break;
             }
         }
@@ -899,10 +964,11 @@ const validateLine = () => {
 
     } else {
         
-        //console.log(failed);
         playSFX("failure");
         
-        
+
+        redrawCanvas(); //Prevents the 'finished line' glow effect lingering
+
         redrawInvalidLine();
         drawnPoints.length = 0;
         lastPoint = null;
@@ -1102,6 +1168,7 @@ const isSharedEdge = (line1, line2) => {
                     isDrawing = true;
                     lastPoint = closestPoint;
                     drawnPoints.push(lastPoint);
+                    drawGridAndPoints();
                 }
             }
             
@@ -1351,10 +1418,10 @@ function segmentExists(x1, y1, x2, y2) {
 
     // Populate the 4D array based on the `drawnPoints` list
     for (let i = 1; i < drawnPoints.length; i++) {
-        const x1 = Math.floor(drawnPoints[i - 1].x / 100);
-        const y1 = Math.floor(drawnPoints[i - 1].y / 100);
-        const x2 = Math.floor(drawnPoints[i].x / 100);
-        const y2 = Math.floor(drawnPoints[i].y / 100);
+        const x1 = Math.floor(drawnPoints[i - 1].x / squareSize);
+        const y1 = Math.floor(drawnPoints[i - 1].y / squareSize);
+        const x2 = Math.floor(drawnPoints[i].x / squareSize);
+        const y2 = Math.floor(drawnPoints[i].y / squareSize);
 
         gridSegments[x1][y1][x2][y2] = true;
         gridSegments[x2][y2][x1][y1] = true;  // Optional: if the line can be traversed in both directions

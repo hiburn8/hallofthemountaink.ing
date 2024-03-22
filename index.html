@@ -12,6 +12,7 @@
             background-color: #02b35a;
         }
         body {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill:white; fill-opacity:0.5; stroke:white; stroke-opacity:0.1; stroke-width: 2;"><circle cx="12" cy="12" r="10"/></svg>'), auto;
             margin: 0;
             overflow: hidden;
             display: flex;
@@ -50,6 +51,7 @@
   display: none;
 }
  #sidebar {
+   cursor: default;
    display: none;
    width: 50%;
    position: fixed;
@@ -219,7 +221,7 @@ h4 {
         function debug(){
             document.getElementById('sidebar').style.display = 'block';
         }
-        
+        //debug();
     </script>
 
 </body>
