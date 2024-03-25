@@ -8,9 +8,25 @@
     
     <title>Hall of the Mountain King</title>
     <style>
-        #myCanvas {
-            background-color: #02b35a;
+
+        a{
+            color: #fff;
         }
+        h3 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        h4 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #ccc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        } 
         body {
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" style="fill:white; fill-opacity:0.5; stroke:white; stroke-opacity:0.1; stroke-width: 2;"><circle cx="12" cy="12" r="10"/></svg>'), auto;
             margin: 0;
@@ -19,7 +35,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #02b35a;
         }
         .overlay {
             position: fixed;
@@ -42,155 +57,125 @@
             padding: 10px 0;
             z-index: 2;
         }
-        a{
-            color: #fff;
-        }
 
         /*SIDEBAR*/
         .checkbox-container.hidden {
-  display: none;
-}
- #sidebar {
-   cursor: default;
-   display: none;
-   width: 50%;
-   position: fixed;
-   top: 0;
-   right: 0;
-   height: 100vh;
-   background-color: #333;
-   transition: transform 0.3s ease-in-out;
-   transform: translateX(0);
-   padding: 20px;
+            display: none;
+        }
+        #sidebar {
+            cursor: default;
+            display: none;
+            width: 80%;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            background-color: #333;
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(0);
+            padding: 20px;
 
-  }
-
-  #sidebar-tab {
-    color: #ccc;
-    position: absolute;
-    top: 50%;
-    left: -30px;
-    width: 30px;
-    height: 50px;
-    background-color: #333;
-    border: 1px solid #333;
-    border-right: none;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transform: translateY(-50%);
-  }
-
-  #sidebar.hidden {
-    transform: translateX(100%);
-  }
-
-  #sidebar.hidden #sidebar-tab {
-    left: -30px;
-  }
-        
-
-
-h3 {
-  margin-top: 0;
-  font-size: 20px;
-  color: #ccc;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-h4 {
-  margin-top: 0;
-  font-size: 16px;
-  color: #ccc;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Styling for the checkbox container */
-.checkbox-container {
-  display: block;
-  position: relative;
-  padding-left: 30px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Hide the default checkbox */
-.checkbox-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-/* Create a custom checkbox */
-.checkbox-span {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  border-radius: 30%;
-}
-
-/* When the checkbox is checked, add a blue background */
-.checkbox-container input:checked ~ .checkbox-span {
-  background-color: #2196F3;
-}
-
-/* Create the checkbox checkmark (hidden when not checked) */
-.checkbox-span:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the checkmark when checked */
-.checkbox-container input:checked ~ .checkbox-span:after {
-  display: block;
-}
-
-/* Style the checkmark */
-.checkbox-container .checkbox-span:after {
-  left: 7px;
-  top: 3px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-/* Styling for the checkbox container */
-.checkbox-container {
-  display: inline-block;
-  position: relative;
-  padding-left: 20px;
-  padding-top: 20px;
-  margin-right: 20px; /* Add some spacing between checkboxes */
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
+        }
+        #sidebar-tab {
+            color: #ccc;
+            position: absolute;
+            top: 50%;
+            left: -30px;
+            width: 30px;
+            height: 50px;
+            background-color: #333;
+            border: 1px solid #333;
+            border-right: none;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transform: translateY(-50%);
+        }
+        #sidebar.hidden {
+            transform: translateX(100%);
+        }
+        #sidebar.hidden #sidebar-tab {
+            left: -30px;
+        }
+        /* Styling for the checkbox container */
+        .checkbox-container {
+            display: block;
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        /* Hide the default checkbox */
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        /* Create a custom checkbox */
+        .checkbox-span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            border-radius: 30%;
+        }
+        /* When the checkbox is checked, add a blue background */
+        .checkbox-container input:checked ~ .checkbox-span {
+            background-color: #2196F3;
+        }
+        /* Create the checkbox checkmark (hidden when not checked) */
+        .checkbox-span:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        /* Show the checkmark when checked */
+        .checkbox-container input:checked ~ .checkbox-span:after {
+            display: block;
+        }
+        /* Style the checkmark */
+        .checkbox-container .checkbox-span:after {
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+        /* Styling for the checkbox container */
+        .checkbox-container {
+            display: inline-block;
+            position: relative;
+            padding-left: 20px;
+            padding-top: 20px;
+            margin-right: 20px; /* Add some spacing between checkboxes */
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
 
     </style>
 </head>
- <body>
+
+<body>
 
 <audio id="start" preload="auto"><source src="start.mp3" type="audio/mpeg"></audio>
 <audio id="abort" preload="auto"><source src="abort.mp3" type="audio/mpeg"></audio>

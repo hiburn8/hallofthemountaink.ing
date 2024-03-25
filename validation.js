@@ -187,6 +187,9 @@ function tetrisString2Shape(string) {
       tromino_T_R270_Rotatable,
       pentomino_V_R270,
       pentomino_V_R270_Rotatable,
+      pentomino_T,
+      pentomino_T_R180,
+      pentomino_T_R180_Rotatable,
       tromino_Straight_Rotatable
     };
 

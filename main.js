@@ -76,6 +76,12 @@ High effort features:
         });
 
 
+function rotateCanvasAroundCanvasOrigin(degrees){
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(degrees * Math.PI / 180);
+    ctx.translate(-canvas.width / 2, -canvas.height / 2);
+
+}
         function toggleFullScreen() {
             if (!!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)){
 
@@ -161,16 +167,12 @@ High effort features:
         let bgColor;
         let gridColor;
         let endColor;
-        let shapeColour;
-
-
 
         const themes = {
             default: {
                 endColor: '#00FF00',
                 bgColor: '#02b35a',
                 gridColor: '#2f4f3e',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#00FF00',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -178,7 +180,6 @@ High effort features:
                 endColor: 'rgba(0, 0, 0, 0)',
                 bgColor: '#f4c000',
                 gridColor: '#594400',
-                shapeColour: 'orange',
                 playerLineColorSuccess: 'white',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -186,7 +187,6 @@ High effort features:
                 endColor: 'white',
                 bgColor: '#f4c000',
                 gridColor: '#594400',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#ffee5d',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -194,7 +194,6 @@ High effort features:
                 endColor: '#FFFFFF',
                 bgColor: '#5554fe',
                 gridColor: '#2202ab',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#74aaf9',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -202,7 +201,6 @@ High effort features:
                 endColor: '#00FF00',
                 bgColor: '#00e255',
                 gridColor: '#027b30',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#b9ff13',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -210,7 +208,6 @@ High effort features:
                 endColor: '#00FF00',
                 bgColor: '#bfc3c2',
                 gridColor: '#676053',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#dfeaf2',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -218,7 +215,6 @@ High effort features:
                 endColor: '#00FF00',
                 bgColor: '#db1901',
                 gridColor: '#ff5d4c',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#ffe828',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -226,7 +222,6 @@ High effort features:
                 endColor: '#00FF00',
                 bgColor: '#a1b002',
                 gridColor: '#c1bf65',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#fefc25',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -234,7 +229,6 @@ High effort features:
                 endColor: '#00FF00',
                 bgColor: '#01abac',
                 gridColor: '#264860',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#c28302',
                 playerLineColorFail: '#0c0c0c'
               },
@@ -242,7 +236,6 @@ High effort features:
                 endColor: '#00FF00',
                 bgColor: '#f48e02',
                 gridColor: '#966300',
-                shapeColour: 'yellow',
                 playerLineColorSuccess: '#faed29',
                 playerLineColorFail: '#FF0000' //check
               },
@@ -250,7 +243,6 @@ High effort features:
                 endColor: '#554114',
                 bgColor: '#554114',
                 gridColor: '#3c3517',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#faed29',
                 playerLineColorFail: '#FF0000' //check
               },
@@ -258,15 +250,20 @@ High effort features:
                 endColor: '#00FF00',
                 bgColor: '#8421a4',
                 gridColor: '#4c4b50',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#be55c1',
+                playerLineColorFail: '#FF0000' //check
+              },
+            treehouse_grey: {
+                endColor: '#212728',
+                bgColor: '#677277',
+                gridColor: '#212728',
+                playerLineColorSuccess: '#ecb313',
                 playerLineColorFail: '#FF0000' //check
               },
             treehouse_brown: {
                 endColor: '#554114',
                 bgColor: '#554114',
                 gridColor: '#3c3517',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#bb7705',
                 playerLineColorFail: '#FF0000' //check
               },
@@ -274,7 +271,6 @@ High effort features:
                 endColor: '#0c181f',
                 bgColor: '#4e5860',
                 gridColor: '#0c181f',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#fac427',
                 playerLineColorFail: '#FF0000' //check
               },
@@ -282,7 +278,6 @@ High effort features:
                 endColor: '#0c181f',
                 bgColor: '#4e5860',
                 gridColor: '#0c181f',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#db02ef',
                 playerLineColorFail: '#FF0000' //check
               },
@@ -290,7 +285,6 @@ High effort features:
                 endColor: '#0c181f',
                 bgColor: '#4e5860',
                 gridColor: '#0c181f',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#ee8f0f',
                 playerLineColorFail: '#FF0000' //check
               },
@@ -298,7 +292,6 @@ High effort features:
                 endColor: '#0c181f',
                 bgColor: '#4e5860',
                 gridColor: '#0c181f',
-                shapeColour: 'orange',
                 playerLineColorSuccess: '#db02ef',
                 playerLineColorFail: '#FF0000' //check
               },
@@ -316,10 +309,11 @@ High effort features:
             //playerLineColorSuccess = '#00FF00';
             playerLineColorFail = tm.playerLineColorFail;
             //playerLineColorFail = '#FF0000';
-            shapeColour = tm.shapeColour;
 
             //why not
             document.body.style.backgroundColor = tm.bgColor;
+            //Canvas cannot be trusted to color-match canvas with traditional elements on old browsers, and we get some edge artifacting. so i want to remove this, BUT.. 
+            // we currently draw blocked lines, rather than not drawing them. so all gaps are bgColour.
             canvas.style.backgroundColor = tm.bgColor;            
             document.querySelector('a').style.color = tm.bgColor;
 
@@ -398,6 +392,9 @@ High effort features:
         'tromino_T_R270_Rotatable',
         'pentomino_V_R270',
         'pentomino_V_R270_Rotatable',
+        'pentomino_T',
+        'pentomino_T_R180',
+        'pentomino_T_R180_Rotatable',
         'tromino_Straight_Rotatable'
         ];
         
@@ -458,6 +455,7 @@ High effort features:
             ctx.strokeStyle = gridColor;
 
 
+            // Drawing squares and skip the hidden-edges
             let drawTop = false;
             let drawRight = false;
             let drawBottom = false;
@@ -602,7 +600,10 @@ High effort features:
                   const element = grid[row][col];
                   const x = (col + 0.5) * squareSize;
                   const y = (row + 0.5) * squareSize;
-                  const triangleSize = 20; // Adjust the size as needed
+
+
+                  //Triangles
+                  const triangleSize = squareSize / 5; // Adjust the size as needed
 
                   if (element === 'triangle') {
                       drawTriangle(x, y, triangleSize);
@@ -616,20 +617,25 @@ High effort features:
                       drawTriangle(x - triangleSize, y, triangleSize);
                       drawTriangle(x + triangleSize, y, triangleSize);
                   }
+
+                  //Squares
                   
-                  else if (element === 'blacksquare') {
-                      drawRoundedSquare(x, y, 'black');
+                  else if (element.endsWith("square")) {
+                    var squareColor = element.slice(0, -6)
+                    drawRoundedSquare(x, y, squareColor);
+
                   }
-                  
-                  else if (element === 'whitesquare') {
-                      drawRoundedSquare(x, y, 'white');
+
+                  //Suns
+   
+                  else if (element.endsWith("sun")) {
+                    var sunColor = element.slice(0, -3)
+                    drawSun(x, y, sunColor);
+
                   }
-                  else if (element === 'yellowsun'){
-                    drawSun(x, y, "yellow");
-                  }
-                  else if (element === 'redsun'){
-                    drawSun(x, y, "red");
-                  }
+
+                  //Tetris
+
                   else if (tetrisShapes.includes(element)) {
                     drawTetrisShape(x, y, tetrisString2Shape(element));
                   }
@@ -639,14 +645,13 @@ High effort features:
 
             // Draw Bestigons
             for (const hexagon of hexagons) {
-                drawHexagon(hexagon.x * (squareSize/2), hexagon.y * (squareSize/2), 8);
+                drawHexagon(hexagon.x * (squareSize/2), hexagon.y * (squareSize/2), 8); //TODO: squareSize / 12.5
             }
-
-            
 
         };
 
         function loadLevel(n){
+
             let level = levelData[n];
 
             applyTheme(level.theme);

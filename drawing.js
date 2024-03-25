@@ -6,6 +6,26 @@ function makeRotatable(shape){
 
 }
 
+function color2Hex(color){
+
+    switch (color) {
+        case 'white':
+            return '#FFFFFF';
+        case 'black':
+            return '#000000';
+        case 'yellow':
+            return '#ecbd06';
+        case 'orange':
+            return '#e37608';
+        case 'pink':
+            return '#c837d1';
+        case 'lime':
+            return '#99ff1d';
+        default:
+            console.log('Unknown color.');
+        return;
+    }
+}
 
 // Function to draw a triangle (used as a puzzle element)
 const drawTriangle = (x, y, size) => {
@@ -131,7 +151,7 @@ function getShapeHeightWidth(shape) {
     return {x: maxX, y: maxY};
 }
 
-function drawTetrisShape(x, y, shape) { // Added isShapeRotatable as a parameter
+function drawTetrisShape(x, y, shape, shapeColour='#ecbd06') { // Added isShapeRotatable as a parameter
 
     isShapeRotatable = isRotatable(shape);
 
@@ -360,6 +380,17 @@ const pentomino_V = [
 
 const pentomino_V_R270 = normalizeShape(transformShape(pentomino_V, false, false, 270));
 const pentomino_V_R270_Rotatable = makeRotatable(pentomino_V_R270);
+
+const pentomino_T = [
+    {x: 0, y: 0},
+    {x: 1, y: 0},
+    {x: 2, y: 0},
+    {x: 1, y: 1},
+    {x: 1, y: 2}
+];
+
+const pentomino_T_R180 = normalizeShape(transformShape(pentomino_T, false, false, 180));
+const pentomino_T_R180_Rotatable = makeRotatable(pentomino_T_R180);
 
 
 const hexomino_Rectangle = [
