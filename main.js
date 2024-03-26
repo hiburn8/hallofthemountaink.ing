@@ -56,23 +56,23 @@ High effort features:
         document.addEventListener('fullscreenchange', function() {
             document.getElementById('footer').style.display = document.fullscreenElement ? 'none' : '';
             document.getElementById('sidebar').style.display = document.fullscreenElement ? 'none' : 'block';
-            document.getElementById('sidebar-tab').style.display = document.fullscreenElement ? 'none' : 'block';
+            document.getElementById('sidebar-tab').style.display = document.fullscreenElement ? 'none' : '';
         });
         document.addEventListener('mozfullscreenchange', function() {
             document.getElementById('footer').style.display = document.mozFullScreenElement ? 'none' : '';
             document.getElementById('sidebar').style.display = document.mozFullScreenElement ? 'none' : 'block';
-            document.getElementById('sidebar-tab').style.display = document.mozFullScreenElement ? 'none' : 'block';
+            document.getElementById('sidebar-tab').style.display = document.mozFullScreenElement ? 'none' : '';
 
         });
         document.addEventListener('webkitfullscreenchange', function() {
             document.getElementById('footer').style.display = document.webkitFullscreenElement ? 'none' : '';
             document.getElementById('sidebar').style.display = document.webkitFullscreenElement ? 'none' : 'block';
-            document.getElementById('sidebar-tab').style.display = document.webkitFullscreenElement ? 'none' : 'block';
+            document.getElementById('sidebar-tab').style.display = document.webkitFullscreenElement ? 'none' : '';
         });
         document.addEventListener('msfullscreenchange', function() {
             document.getElementById('footer').style.display = document.msFullscreenElement ? 'none' : '';
             document.getElementById('sidebar').style.display = document.msFullscreenElement ? 'none' : 'block';
-            document.getElementById('sidebar-tab').style.display = document.msFullscreenElement ? 'none' : 'block';
+            document.getElementById('sidebar-tab').style.display = document.msFullscreenElement ? 'none' : '';
         });
 
 
@@ -310,12 +310,16 @@ function rotateCanvasAroundCanvasOrigin(degrees){
             playerLineColorFail = tm.playerLineColorFail;
             //playerLineColorFail = '#FF0000';
 
-            //why not
+            //match body to canvas colour
             document.body.style.backgroundColor = tm.bgColor;
+            
             //Canvas cannot be trusted to color-match canvas with traditional elements on old browsers, and we get some edge artifacting. so i want to remove this, BUT.. 
             // we currently draw blocked lines, rather than not drawing them. so all gaps are bgColour.
             canvas.style.backgroundColor = tm.bgColor;            
             document.querySelector('a').style.color = tm.bgColor;
+            
+            //favicon flexin'
+            updateFavicon(bgColor);
 
         }
         

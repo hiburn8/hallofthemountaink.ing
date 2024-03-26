@@ -5,6 +5,7 @@ sidebar.classList.toggle('hidden');
 
 sidebarTab.addEventListener('click', () => {
   sidebar.classList.toggle('hidden');
+  document.getElementById('sidebar-tab').textContent = (document.getElementById('sidebar-tab').textContent == '<') ? '>' : '<';
 });
 
 

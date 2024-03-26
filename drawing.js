@@ -6,6 +6,36 @@ function makeRotatable(shape){
 
 }
 
+//All this so i can change the shape of the SVG and i can still dynamically recolor it
+function updateFavicon(newColor) {
+    // Get the current favicon element
+    var link = document.querySelector('link[rel*="icon"]');
+    if (!link) return; // No favicon found
+
+    // Decode the SVG from the favicon's href
+    var svgData = link.href;
+    var prefix = 'data:image/svg+xml;base64,';
+    var base64Content = svgData.includes(prefix) ? svgData.split(prefix)[1] : '';
+    var svgText = base64Content ? atob(base64Content) : '';
+
+    // Convert the SVG text to a DOM element
+    var parser = new DOMParser();
+    var svgDoc = parser.parseFromString(svgText, "image/svg+xml");
+    var circle = svgDoc.getElementById('faviconCircle');
+    if (!circle) return; // No circle found in the SVG
+
+    // Change the circle's fill color
+    circle.setAttribute('fill', newColor);
+
+    // Convert the updated SVG back to a Data URL
+    var serializer = new XMLSerializer();
+    var newSvgText = serializer.serializeToString(svgDoc.documentElement);
+    var newDataUrl = 'data:image/svg+xml;base64,' + btoa(newSvgText);
+
+    // Update the favicon
+    link.href = newDataUrl;
+}
+
 function color2Hex(color){
 
     switch (color) {

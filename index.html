@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="icon" href="data:,">
     <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="expires" content="0">
-    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGlkPSJmYXZpY29uQ2lyY2xlIiBjeD0iNTAiIGN5PSI1MCIgcj0iNDAiIGZpbGw9InJnYigyNDQsMTkyLDApIiAvPjwvc3ZnPg==">
+
+
     <title>Hall of the Mountain King</title>
     <style>
 
@@ -43,6 +44,7 @@
             width: 100%;
             height: 100%;
             box-shadow: inset 0 0 50px #000;
+            touch-action: none;
             pointer-events: none; /* Allows mouse events to pass through the overlay */
         }
         .footer {
@@ -177,14 +179,14 @@
 
 <body>
 
-<audio id="start" preload="auto"><source src="start.mp3" type="audio/mpeg"></audio>
-<audio id="abort" preload="auto"><source src="abort.mp3" type="audio/mpeg"></audio>
-<audio id="finish" preload="auto"><source src="finish.mp3" type="audio/mpeg"></audio>
-<audio id="failure" preload="auto"><source src="failure.mp3" type="audio/mpeg"></audio>
-<audio id="success" preload="auto"><source src="success.mp3" type="audio/mpeg"></audio>
 <audio id="challenge" preload="auto"><source src="kevin-macleod-hall-of-the-mountain-king.mp3" type="audio/mpeg"></audio>
+<audio id="start" preload="auto"><source src="start.mp3" type="audio/mpeg"></audio>
+<audio id="success" preload="auto"><source src="success.mp3" type="audio/mpeg"></audio>
+<audio id="finish" preload="auto"><source src="finish.mp3" type="audio/mpeg"></audio>
+<audio id="abort" preload="auto"><source src="abort.mp3" type="audio/mpeg"></audio>
+<audio id="failure" preload="auto"><source src="failure.mp3" type="audio/mpeg"></audio>
 
-    <div class="overlay" style="touch-action: none"></div>
+    <div class="overlay"></div>
 
     <canvas id="myCanvas"></canvas>
     <script src="panels.js" defer></script>
@@ -195,7 +197,7 @@
 
     <div id="sidebar">
         <h3>Levels</h3>
-        <div id="sidebar-tab"></div>
+        <div id="sidebar-tab"><</div>
     </div>
 
     <div id="footer" class="footer">
@@ -203,10 +205,20 @@
     </div>
 
     <script>
+        //Offline mode
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+              .catch(error => {
+                console.error('Service Worker registration failed:', error);
+              });
+          });
+        }
+
         function debug(){
             document.getElementById('sidebar').style.display = 'block';
         }
-        if (window.location.hostname === 'localhost'){debug();};
+        if (window.location.hostname !== 'hallofthemountaink.ing'){debug();};
     </script>
 
 </body>
