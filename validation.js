@@ -272,17 +272,13 @@ function checkSuns(arrays) {
             colorCount[color][shape]++;
         }
 
-        let isValid = true;
-        for(const color in colorCount) {
+       let isValid = true;
+        for (const color in colorCount) {
             const { sun, square } = colorCount[color];
-
-            if (sun !== 0) { 
-                if (sun % 2 !== 0) {
-                    if (square !== 1) {
-                        isValid = false;
-                        break;
-                    }
-                } else if (square % 2 !== 0) {
+            
+            // Check if the total shapes for colors with a sun are exactly two
+            if (sun > 0) {
+                if (sun + square !== 2) {
                     isValid = false;
                     break;
                 }

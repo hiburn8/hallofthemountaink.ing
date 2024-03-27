@@ -1950,7 +1950,7 @@ const levelData = [
     ],
 },
 {
-  location: 'Quarry needs sun logic fix',
+  location: 'Quarry',
   level: getID(),
   theme: 'brown',
   gridSizeX: 5,
