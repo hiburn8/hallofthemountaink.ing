@@ -623,7 +623,6 @@ function rotateCanvasAroundCanvasOrigin(degrees){
                   }
 
                   //Squares
-                  
                   else if (element.endsWith("square")) {
                     var squareColor = element.slice(0, -6)
                     drawRoundedSquare(x, y, squareColor);
@@ -631,7 +630,6 @@ function rotateCanvasAroundCanvasOrigin(degrees){
                   }
 
                   //Suns
-   
                   else if (element.endsWith("sun")) {
                     var sunColor = element.slice(0, -3)
                     drawSun(x, y, sunColor);
@@ -639,10 +637,15 @@ function rotateCanvasAroundCanvasOrigin(degrees){
                   }
 
                   //Tetris
-
                   else if (tetrisShapes.includes(element)) {
                     drawTetrisShape(x, y, tetrisString2Shape(element));
                   }
+
+                  //Y-Shapes
+                  else if (element === 'Y') {
+                    drawYShape(x, y, squareSize / 8);
+                  }
+                  
                   
               }
             }
@@ -914,7 +917,7 @@ const validateLine = () => {
         isValid = false;
         console.log("failed hexagons!");
     }
-        //Validate Trianges
+        //Validate Triangles
     if (checkTriangles() === false){
         isValid = false;
         console.log("failed triangles!");

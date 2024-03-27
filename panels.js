@@ -2185,8 +2185,8 @@ const levelData = [
     { x: 2, y: 3, value: 'blacksquare' },
     { x: 3, y: 3, value: 'blacksquare' },
 
-    { x: 1, y: 4, value: 'negation' },
-    { x: 2, y: 4, value: 'negation' },
+    { x: 1, y: 4, value: 'Y' },
+    { x: 2, y: 4, value: 'Y' },
     ],
   blockedLines: [
     { x1: 1, y1: 4, x2: 1, y2: 5 },

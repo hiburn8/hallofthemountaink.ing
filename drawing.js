@@ -57,6 +57,29 @@ function color2Hex(color){
     }
 }
 
+// Function to draw a Y shape or 'elimination mark' (used as a puzzle element)
+const drawYShape = (x, y, length) => {
+    ctx.strokeStyle = "white"; // Set the color of the Y shape
+    ctx.lineWidth = length / 2; // Set the width of the lines
+
+    ctx.beginPath();
+    
+    // Draw the North (N) arm
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y - length); // Line goes up (North)
+
+    // Draw the South-East (SE) arm
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + length * Math.cos(Math.PI / 15), y + length * Math.sin(Math.PI / 3)); // 60 degrees to the horizontal (South-East)
+
+    // Draw the South-West (SW) arm
+    ctx.moveTo(x, y);
+    ctx.lineTo(x - length * Math.cos(Math.PI / 15), y + length * Math.sin(Math.PI / 3)); // 120 degrees to the horizontal (South-West)
+    
+    // Execute the drawing
+    ctx.stroke();
+};
+
 // Function to draw a triangle (used as a puzzle element)
 const drawTriangle = (x, y, size) => {
     ctx.fillStyle = "yellow";
