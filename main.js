@@ -1229,21 +1229,19 @@ const isSharedEdge = (line1, line2) => {
         });
 
         document.addEventListener('keydown', function(event) {
-            if (debug){
-                if (event.key === "Enter") {
-                    if (level !== levelData.length - 1){
-                        level ++;
-                        loadLevel(level);
-                    }
-                }
-                else if (event.key === "Backspace") {
-                    if (level !== 0){
-                        level --;
-                        loadLevel(level);
-                    }
+            
+            if (event.key === "Enter") {
+                if (level !== levelData.length - 1){
+                    level ++;
+                    loadLevel(level);
                 }
             }
-            
+            else if (event.key === "Backspace") {
+                if (level !== 0){
+                    level --;
+                    loadLevel(level);
+                }
+            } 
         });
 
 
