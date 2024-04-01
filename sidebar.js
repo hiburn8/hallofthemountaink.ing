@@ -3,9 +3,13 @@ const sidebarTab = document.getElementById('sidebar-tab');
 
 sidebar.classList.toggle('hidden');
 
-sidebarTab.addEventListener('click', () => {
+function toggleSidebar(){
   sidebar.classList.toggle('hidden');
   document.getElementById('sidebar-tab').textContent = (document.getElementById('sidebar-tab').textContent == '<') ? '>' : '<';
+}
+
+sidebarTab.addEventListener('click', () => {
+  toggleSidebar();  
 });
 
 
@@ -45,6 +49,7 @@ for (let i = 0; i < uniqueSections.length; i++) {
       span.onclick = function() {
           level = levels[j].level;
           loadLevel(levels[j].level);
+          toggleSidebar();
       };
 
       // Append the checkbox and span to the label

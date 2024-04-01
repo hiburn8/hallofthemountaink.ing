@@ -1,7 +1,7 @@
 // validation.js
 // Validation functions
 function rotateShape(shape, angle) {
-    console.log('testing with degree' , angle);
+    //console.log('testing with degree' , angle);
     // Ensure the angle is one of 0, 90, 180, 270
     angle = angle % 360;
     if (angle < 0) angle += 360;
@@ -21,14 +21,14 @@ function rotateShape(shape, angle) {
 }
 
 function isRotatable(shape) {
-    console.log('shape can rotate');
+    //console.log('shape can rotate');
     // Check if the shape contains the special object marking it as rotatable.
     return shape.some(block => block.x === null && block.y === null);
 
 }
 
 function removeRotationMarker(shape) {
-    console.log('removing marker');
+    //console.log('removing marker');
     // Filter out the special object used to mark the shape as rotatable.
     return shape.filter(block => block.x !== null || block.y !== null);
 }
@@ -190,7 +190,9 @@ function tetrisString2Shape(string) {
       pentomino_T,
       pentomino_T_R180,
       pentomino_T_R180_Rotatable,
-      tromino_Straight_Rotatable
+      tromino_Straight_Rotatable,
+      decomino_Skewed,
+      decomino_Skewed_Rotatable
     };
 
     return shapeArrays[string];
@@ -235,7 +237,7 @@ function checkSquares(puzzlesInAreas) {
   // Loop through each sub-array
   for (let i = 0; i < puzzlesInAreas.length; i++) {
  
-        const colours = ['blacksquare', 'whitesquare'];
+        const colours = ['blacksquare', 'whitesquare', 'limesquare', 'magentasquare'];
         const matchedWords = colours.filter(word => puzzlesInAreas[i].includes(word));
     
         if (matchedWords.length > 1){

@@ -399,7 +399,9 @@ function rotateCanvasAroundCanvasOrigin(degrees){
         'pentomino_T',
         'pentomino_T_R180',
         'pentomino_T_R180_Rotatable',
-        'tromino_Straight_Rotatable'
+        'tromino_Straight_Rotatable',
+        'decomino_Skewed',
+        'decomino_Skewed_Rotatable'
         ];
         
         // Initialise Grid
@@ -451,6 +453,13 @@ function rotateCanvasAroundCanvasOrigin(degrees){
 
         let scaleX; 
         let scaleY;
+
+        // Drawing state variables
+        let isDrawing = false;
+        let lastPoint = null;
+        let completed = false;
+        
+        let drawnPoints = [];
 
         // Function to draw the grid and points
         const drawGridAndPuzzles = () => {
@@ -583,13 +592,14 @@ function rotateCanvasAroundCanvasOrigin(degrees){
             
 
             for (const endTail of endingPoints) {
-
+                    //TODO: i *think* this fixes some endPoint-corners from being coloured incorrectly
+                    ctx.strokeStyle = ((completed && (endTail.x === chosenEndingPoint.x && endTail.y === chosenEndingPoint.y)) ? playerLineColorSuccess : gridColor);
                     drawCorner(endTail.x,endTail.y); //hack for first levels
+                    
                     //colour the tail depending on if its the chosen end and success
                     drawTail(endTail.x,endTail.y, ((endColor === 'rgba(0, 0, 0, 0)') ? endColor : (((completed && (endTail.x === chosenEndingPoint.x && endTail.y === chosenEndingPoint.y)) ? playerLineColorSuccess : gridColor))));
+                    
             }
-
-            
 
             //TODO: replace below with a 'tail'
             //ctx.fillStyle = (endColor === 'rgba(0, 0, 0, 0)') ? endColor : (completed ? playerLineColorSuccess : endColor); 
@@ -717,12 +727,7 @@ function rotateCanvasAroundCanvasOrigin(degrees){
         
         loadLevel(level);
 
-        // Drawing state variables
-        let isDrawing = false;
-        let lastPoint = null;
-        let completed = false;
-        
-        let drawnPoints = [];
+
 
     //I refuse to resort to a second overlay Canvas to make this work. I am only temporarily giving up.
     //drawGrowingCircle(200, 200, 20, 15, 3); // x, y, maxSize, growthRate (in pixels per second), durationInSeconds
@@ -1223,6 +1228,24 @@ const isSharedEdge = (line1, line2) => {
                 };
         });
 
+        document.addEventListener('keydown', function(event) {
+            if (debug){
+                if (event.key === "Enter") {
+                    if (level !== levelData.length - 1){
+                        level ++;
+                        loadLevel(level);
+                    }
+                }
+                else if (event.key === "Backspace") {
+                    if (level !== 0){
+                        level --;
+                        loadLevel(level);
+                    }
+                }
+            }
+            
+        });
+
 
         canvas.addEventListener('mousemove', (e) => {
             if (!isDrawing) return;
@@ -1313,7 +1336,7 @@ const playSFX = (sfx) => {
         fx = new Audio("kevin-macleod-hall-of-the-mountain-king.mp3");
         fx.addEventListener('ended', function() {
             
-            var userResponse = window.confirm('you reached level '+(level+1)+' before the music ended. keep playing new puzzles with level-select unlocked [OK], or try again from level 1 [Cancel].');
+            var userResponse = window.confirm('you reached level '+(level+1)+' before the music ended.\nkeep playing new puzzles with the level-select menu unlocked (OK), or try again from level 1 (Cancel).');
             if (userResponse) {
                 debug();
             } else {

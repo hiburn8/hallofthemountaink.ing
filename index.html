@@ -197,6 +197,8 @@
 
     <div id="sidebar">
         <h3>Levels</h3>
+
+        
         <div id="sidebar-tab"><</div>
     </div>
 
@@ -216,8 +218,11 @@
         }
 
         function debug(){
+            debug = true;
             document.getElementById('sidebar').style.display = 'block';
+            document.getElementById('footer').innerHTML += '<br>UNLOCKED: You now have a level menu (right tab) and can press [Enter] to skip a level & [Backspace] to go back.';
         }
+
         if (window.location.hostname !== 'hallofthemountaink.ing'){debug();};
     </script>
 
