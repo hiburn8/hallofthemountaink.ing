@@ -270,6 +270,7 @@ const drawYShape = (x, y, length) => {
     
     // Execute the drawing
     ctx.stroke();
+    ctx.lineWidth = squareSize / 5;
 };
 
 // Function to draw a triangle (used as a puzzle element)

@@ -1,10 +1,9 @@
 /**
 
 Fixes:
-    fix hexagons not working with (or scaling to) squareSize changes
-    fix aggressive backtracking player line :line 1433
-    fix playing fail sound when clicking directly on an endPoint
-    fix drawing hexagon over start of playerline. presumably we draw hexagons after startpoints.
+    bugs:
+        fix Ys not needing to be used
+        fix getPuzzlesInAreas and findAreas showing 'non-visiting' squares 
     support:
         remove the canvas bg colour, since sRGB colour profiles issues on old machines makes the canvas stand out.
         for some reason old browsers have issues with fill on drawCorner. i must have missed something.
@@ -13,18 +12,22 @@ Fixes:
     optimization:
         +draw and redraw grid calls
         +validation
+    improve:
+        hexagons not working with (or scaling to) squareSize changes
+        aggressive backtracking player line :line 1433
+        playing fail sound when clicking directly on an endPoint
+        drawing hexagon over start of playerline. presumably we draw hexagons after startpoints.        
 
 Low effort features:
     create basic line sanity check function (pre-puzzle)
     localstorage score
-
-Medium effort features:
     scale game to viewport for large/small levels.
+    
+Medium effort features:
+    support Y shapes
+            the Speedhack/early-exit in checkTetrisShapesInArea() will need to go. as we'll need to know exactly how many shapes can be fit. or we can use it if there are no negations.
 
 High effort features: 
-    support Y shapes
-        the Speedhack/early-exit in checkTetrisShapesInArea() will need to go. as we'll need to know exactly how many shapes can be fit. or we can use it if there are no negations.
-    support rotated tetris shapes
     support symmetry
     support inverted/negative tetris shapes
 
@@ -295,6 +298,13 @@ function rotateCanvasAroundCanvasOrigin(degrees){
                 playerLineColorSuccess: '#db02ef',
                 playerLineColorFail: '#FF0000' //check
               },
+            quarry_black: {
+                endColor: '#628f86',
+                bgColor: '#3a3a3a',
+                gridColor: '#628f86',
+                playerLineColorSuccess: 'white',
+                playerLineColorFail: '#FF0000' //check
+              },
         };
 
 
@@ -466,7 +476,6 @@ function rotateCanvasAroundCanvasOrigin(degrees){
 
             ctx.clearRect(0 -offset, 0 -offset, canvas.width +offset, canvas.height +offset);
             ctx.strokeStyle = gridColor;
-
 
             // Drawing squares and skip the hidden-edges
             let drawTop = false;
@@ -666,6 +675,33 @@ function rotateCanvasAroundCanvasOrigin(degrees){
             }
 
         };
+
+        function UAT(){
+
+            for (let i = 0; i < levelData.length; i++) {
+                level = i;
+                if (levelData[i].UAT && levelData[i].UAT.length > 0) {
+             
+                    loadLevel(i);
+
+                    //drawnPoints = [...levelData[level].UAT];
+                    drawnPoints = levelData[level].UAT.map(level => ({
+                        x: level.x * squareSize,
+                        y: level.y * squareSize
+                    }));
+
+                    chosenStartingPoint.x = drawnPoints[0].x /squareSize;
+                    chosenStartingPoint.y = drawnPoints[0].y /squareSize;
+
+                    chosenEndingPoint.x = drawnPoints[drawnPoints.length - 1].x /squareSize;
+                    chosenEndingPoint.y = drawnPoints[drawnPoints.length - 1].y /squareSize;
+
+                    
+                    validateLine();
+
+                }
+            }
+        }
 
         function loadLevel(n){
 
@@ -915,36 +951,91 @@ const validateLine = () => {
         }
     }
 
+
+
+    const Areas = findAreas();
     const puzzlesInAreas = getPuzzlesInAreas();
-
-    //Validate Hexagons
-    if (checkHexagons(hexagons).length != 0){
-        isValid = false;
-        console.log("failed hexagons!");
-    }
-        //Validate Triangles
-    if (checkTriangles() === false){
-        isValid = false;
-        console.log("failed triangles!");
-    }
-
-    //Validate Squares
-    if (checkSquares(puzzlesInAreas) === false){
-        isValid = false;
-        console.log("failed squares!");
-    }
     
-  //Validate Suns
-    if (checkSuns(puzzlesInAreas).includes(false)){
-        isValid = false;
-        console.log("failed suns!");
+    let areYsValid = false;
+    let areTrianglesValid = false;
+    let areHexagonsValid = false;
+    let areSquaresValid = false;
+    let areSunsValid = false;
+    let areTetrisValid = false;
+
+    //Itterate each Area of the grid
+    for (let i = 0; i < puzzlesInAreas.length; i++) {
+
+        //Itterate and solve possible puzzle Areas based on Negations
+        let puzzlesInAreaCombinations = generatePuzzleCombinations(puzzlesInAreas[i]);
+        
+        for (let j = 0; j < puzzlesInAreaCombinations.length; j++) {
+
+
+
+            //Validate Ys
+            if (checkYsInArea(puzzlesInAreaCombinations[j]) === false){
+                areYsValid = false;
+                console.log("failed Ys!");
+            }else{
+                areYsValid = true;
+            }
+
+            //Validate Triangles
+            
+            //if (checkTrianglesInArea(puzzlesInAreaCombinations[j]) === false){
+            if (checkTriangles() === false){
+                areTrianglesValid = false;
+                console.log("failed triangles!");
+            }else{
+                areTrianglesValid = true;
+            }
+
+
+            //Validate Hexagons
+            if (checkHexagonsInArea(puzzlesInAreaCombinations[j]) === false){
+                areHexagonsValid = false;
+                console.log("failed hexagons!");
+            }else{
+                areHexagonsValid = true;
+            }
+
+            //Validate Squares
+            if (checkSquaresInArea(puzzlesInAreaCombinations[j]) === false){
+                areSquaresValid = false;
+                console.log("failed squares!");
+            }else{
+                areSquaresValid = true;
+            }
+            
+            //Validate Suns
+            if (checkSunsInArea(puzzlesInAreaCombinations[j]) === false){
+                areSunsValid = false;
+                console.log("failed suns!");
+            }else{
+                areSunsValid = true;
+            }
+          
+            //Validate Tetris (please work, i spent way too long on this)
+            if (checkTetrisInArea(Areas[i], puzzlesInAreaCombinations[j]) === false){
+                areTetrisValid = false;
+                console.log("failed tetris!");
+            }else{
+                areTetrisValid = true;
+            }
+
+            if (areYsValid && areTrianglesValid && areHexagonsValid && areSquaresValid && areSunsValid && areTetrisValid){
+                break;
+            }else{
+                if (j == puzzlesInAreaCombinations.length - 1){
+                    isValid = false;
+                }
+            }
+
+        }
+
     }
-  
-  //Validate Tetris (please work, i spent way too long on this)
-    if (checkTetris(puzzlesInAreas) === false){
-        isValid = false;
-        console.log("failed tetris!");
-    }
+
     if (isValid) {
       
         console.log("Valid line!");
@@ -1074,13 +1165,20 @@ function getPuzzlesInAreas(){
         
         // Loop through each object in the sub-array
         for (let j = 0; j < subArray.length; j++) {
-          const element = subArray[j];
+            const element = subArray[j];
           
-          areaPuzzles.push(grid[element.y][element.x]);
-
+            if (grid[element.y][element.x] != ""){
+                areaPuzzles.push(grid[element.y][element.x]);
+            }
         }
+
+        //Dont forget the sexy hexies
+        const hexagonCount = filterHexagonsFromPlayerLine(filterHexagonsWithinArea(arrayOfArrays[i], hexagons));
+        areaPuzzles.push(...Array(hexagonCount.length).fill('hexagon'));
         
+
         areasPuzzles.push(areaPuzzles);
+        
       }
       return areasPuzzles;
 }

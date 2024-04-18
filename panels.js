@@ -94,7 +94,7 @@ const levelData = [
 
 //Breakout
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'yellow_basic',
   gridSizeX: 3,
@@ -113,9 +113,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 0 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'yellow_basic',
   gridSizeX: 3,
@@ -146,9 +147,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 3, y: 3 }],
   endingPoints: [{ x: 0, y: 0 }],
+  UAT: [ { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 }, { "x": 2, "y": 0 }, { "x": 1, "y": 0 }, { "x": 0, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'yellow',
   gridSizeX: 4,
@@ -175,10 +177,11 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 0 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 1, "y": 4 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 } ],
 },
 
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'yellow',
   gridSizeX: 6,
@@ -225,11 +228,12 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 4, y: 4 }],
   endingPoints: [{ x: 2, y: 0 }],
+  UAT: [ { "x": 4, "y": 4 }, { "x": 3, "y": 4 }, { "x": 2, "y": 4 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 4, "y": 3 }, { "x": 4, "y": 2 }, { "x": 5, "y": 2 }, { "x": 6, "y": 2 }, { "x": 6, "y": 1 }, { "x": 6, "y": 0 }, { "x": 5, "y": 0 }, { "x": 5, "y": 1 }, { "x": 4, "y": 1 }, { "x": 4, "y": 0 }, { "x": 3, "y": 0 }, { "x": 3, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 } ],
 }
 ,
 
   {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'yellow',
   gridSizeX: 6,
@@ -276,12 +280,13 @@ const levelData = [
     { x: 6, y: 6 },
     ],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 6, "y": 6 }, { "x": 6, "y": 5 }, { "x": 6, "y": 4 }, { "x": 5, "y": 4 }, { "x": 5, "y": 3 }, { "x": 6, "y": 3 }, { "x": 6, "y": 2 }, { "x": 5, "y": 2 }, { "x": 4, "y": 2 }, { "x": 3, "y": 2 }, { "x": 3, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 2, "y": 1 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 } ],
 },
 
 /**
 // TODO: add scaling. 10x10 isnt fun to draw at this scale
   {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'yellow',
   gridSizeX: 10,
@@ -314,7 +319,7 @@ const levelData = [
       
 //Blue Tutorial Levels
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 1,
@@ -327,9 +332,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 1 }],
   endingPoints: [{ x: 1, y: 1 }],
+  UAT: [ { "x": 0, "y": 1 }, { "x": 1, "y": 1 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 1,
@@ -342,9 +348,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 2 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 1,
@@ -358,9 +365,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 2,
@@ -375,9 +383,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 2 }],
   endingPoints: [{ x: 2, y: 0 }],
+  UAT: [ { "x": 0, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 3,
@@ -397,9 +406,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 2 }, { "x": 3, "y": 2 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 3,
@@ -419,9 +429,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 0, y: 2 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 2 }, { "x": 0, "y": 2 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 4,
@@ -437,9 +448,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 1, "y": 2 }, { "x": 2, "y": 2 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 4 }, { "x": 4, "y": 4 }, { "x": 4, "y": 3 }, { "x": 4, "y": 2 }, { "x": 4, "y": 1 }, { "x": 4, "y": 0 }, { "x": 3, "y": 0 }, { "x": 3, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 1, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 4,
@@ -455,9 +467,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 2 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 1, "y": 4 }, { "x": 2, "y": 4 }, { "x": 3, "y": 4 }, { "x": 3, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 3 }, { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 2, "y": 1 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 }, { "x": 4, "y": 1 }, { "x": 4, "y": 2 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'blue',
   gridSizeX: 4,
@@ -473,11 +486,12 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 3, y: 4 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 }, { "x": 3, "y": 1 }, { "x": 3, "y": 2 }, { "x": 2, "y": 2 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 4 } ],
 },
 
 //Greenshed
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'green',
   gridSizeX: 2,
@@ -490,9 +504,10 @@ const levelData = [
     { x: 4, y: 4 },],
   startingPoints: [{ x: 0, y: 2 }],
   endingPoints: [{ x: 2, y: 0 }],
+  UAT: [ { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 1, "y": 1 }, { "x": 1, "y": 2 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'green',
   gridSizeX: 3,
@@ -513,9 +528,10 @@ const levelData = [
     ],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'green',
   gridSizeX: 3,
@@ -537,10 +553,11 @@ const levelData = [
     ],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 2, "y": 1 }, { "x": 2, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 } ],
 },
 
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'green',
   gridSizeX: 3,
@@ -564,9 +581,10 @@ const levelData = [
     { x: 1, y: 1 },
     { x: 2, y: 2 }],
   endingPoints: [{ x: 0, y: 1 }],
+  UAT: [ { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 }, { "x": 3, "y": 1 }, { "x": 3, "y": 2 }, { "x": 3, "y": 3 }, { "x": 2, "y": 3 }, { "x": 1, "y": 3 }, { "x": 1, "y": 2 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 } ],
 },
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'green',
   gridSizeX: 3,
@@ -591,10 +609,11 @@ const levelData = [
     { x: 3, y: 0 },
     { x: 3, y: 2 }],
   endingPoints: [{ x: 0, y: 1 }],
+  UAT: [ { "x": 3, "y": 0 }, { "x": 3, "y": 1 }, { "x": 3, "y": 2 }, { "x": 3, "y": 3 }, { "x": 2, "y": 3 }, { "x": 1, "y": 3 }, { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 1, "y": 2 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 1, "y": 0 }, { "x": 1, "y": 1 }, { "x": 0, "y": 1 } ],
 },
 //StartAreaSecrets
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'green',
   gridSizeX: 4,
@@ -628,10 +647,11 @@ const levelData = [
     { x: 8, y: 8 }],
   startingPoints: [{ x: 2, y: 2 }],
   endingPoints: [{ x: 4, y: 0 }],
+  UAT: [ { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 1, "y": 0 }, { "x": 0, "y": 0 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 2 }, { "x": 0, "y": 2 }, { "x": 0, "y": 3 }, { "x": 0, "y": 4 }, { "x": 1, "y": 4 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 4 }, { "x": 3, "y": 4 }, { "x": 4, "y": 4 }, { "x": 4, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 4, "y": 2 }, { "x": 4, "y": 1 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 } ],
 },
 
 {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'grey',
   gridSizeX: 3,
@@ -648,9 +668,10 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
     {
-  location: 'Starting Area',
+  location: 'Entry Area',
   level: getID(),
   theme: 'green',
   gridSizeX: 4,
@@ -686,6 +707,7 @@ const levelData = [
     { x: 8, y: 8 }],
   startingPoints: [{ x: 2, y: 2 }],
   endingPoints: [{ x: 4, y: 0 }],
+  UAT: [ { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 2 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 }, { "x": 2, "y": 0 }, { "x": 1, "y": 0 }, { "x": 0, "y": 0 }, { "x": 0, "y": 1 }, { "x": 0, "y": 2 }, { "x": 0, "y": 3 }, { "x": 0, "y": 4 }, { "x": 1, "y": 4 }, { "x": 2, "y": 4 }, { "x": 3, "y": 4 }, { "x": 4, "y": 4 }, { "x": 4, "y": 3 }, { "x": 4, "y": 2 }, { "x": 4, "y": 1 }, { "x": 4, "y": 0 } ],
 },
 //Tetris
 //intro
@@ -701,6 +723,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 1 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 } ],
 },
 //Olive bank 1
 {
@@ -715,6 +738,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 2 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -728,6 +752,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -741,6 +766,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -754,6 +780,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 2 }],
   endingPoints: [{ x: 2, y: 0 }],
+  UAT: [ { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 1, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -771,6 +798,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 1, "y": 1 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -791,6 +819,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 5 }],
   endingPoints: [{ x: 5, y: 0 }],
+  UAT: [ { "x": 0, "y": 5 }, { "x": 1, "y": 5 }, { "x": 2, "y": 5 }, { "x": 2, "y": 4 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 3, "y": 2 }, { "x": 4, "y": 2 }, { "x": 4, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 4 }, { "x": 3, "y": 5 }, { "x": 4, "y": 5 }, { "x": 4, "y": 4 }, { "x": 5, "y": 4 }, { "x": 5, "y": 3 }, { "x": 5, "y": 2 }, { "x": 5, "y": 1 }, { "x": 4, "y": 1 }, { "x": 3, "y": 1 }, { "x": 2, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 }, { "x": 5, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -808,6 +837,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 1, "y": 2 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -825,6 +855,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -840,6 +871,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 2, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 1, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -855,6 +887,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -870,6 +903,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -885,6 +919,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -900,6 +935,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -915,6 +951,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
 //Red bank
 {
@@ -934,6 +971,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 0 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 2, "y": 1 }, { "x": 2, "y": 2 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 4, "y": 3 }, { "x": 4, "y": 2 }, { "x": 4, "y": 1 }, { "x": 4, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -952,6 +990,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 0 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 1, "y": 1 }, { "x": 1, "y": 2 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 } ],
 },
 
 {//FYI this is the puzzle that broke me
@@ -970,6 +1009,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 5 }],
   endingPoints: [{ x: 5, y: 0 }],
+  UAT: [ { "x": 0, "y": 5 }, { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 2, "y": 1 }, { "x": 2, "y": 2 }, { "x": 2, "y": 3 }, { "x": 2, "y": 4 }, { "x": 2, "y": 5 }, { "x": 3, "y": 5 }, { "x": 3, "y": 4 }, { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 3, "y": 1 }, { "x": 4, "y": 1 }, { "x": 5, "y": 1 }, { "x": 5, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -988,6 +1028,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 5 }],
   endingPoints: [{ x: 5, y: 0 }],
+  UAT: [ { "x": 0, "y": 5 }, { "x": 1, "y": 5 }, { "x": 1, "y": 4 }, { "x": 1, "y": 3 }, { "x": 1, "y": 2 }, { "x": 2, "y": 2 }, { "x": 2, "y": 3 }, { "x": 2, "y": 4 }, { "x": 3, "y": 4 }, { "x": 4, "y": 4 }, { "x": 5, "y": 4 }, { "x": 5, "y": 3 }, { "x": 5, "y": 2 }, { "x": 4, "y": 2 }, { "x": 4, "y": 1 }, { "x": 3, "y": 1 }, { "x": 2, "y": 1 }, { "x": 1, "y": 1 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 }, { "x": 5, "y": 0 } ],
 },
 //weird shapes bank
 {
@@ -1005,6 +1046,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -1021,6 +1063,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 3, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 2, "y": 1 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -1038,6 +1081,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 0 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 1, "y": 4 }, { "x": 1, "y": 3 }, { "x": 1, "y": 2 }, { "x": 2, "y": 2 }, { "x": 2, "y": 1 }, { "x": 3, "y": 1 }, { "x": 4, "y": 1 }, { "x": 4, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -1055,6 +1099,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 0 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 1, "y": 4 }, { "x": 2, "y": 4 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 4, "y": 3 }, { "x": 4, "y": 2 }, { "x": 4, "y": 1 }, { "x": 3, "y": 1 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 } ],
 },
 //1st rotating bank
 {
@@ -1071,6 +1116,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 1, y: 0 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -1086,6 +1132,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 3 }],
   endingPoints: [{ x: 2, y: 0 }],
+  UAT: [ { "x": 0, "y": 3 }, { "x": 0, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -1105,6 +1152,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 0 }],
+  UAT: [ { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 1, "y": 4 }, { "x": 2, "y": 4 }, { "x": 2, "y": 3 }, { "x": 2, "y": 2 }, { "x": 3, "y": 2 }, { "x": 3, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -1127,6 +1175,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 5 }],
   endingPoints: [{ x: 5, y: 0 }],
+  UAT: [ { "x": 0, "y": 5 }, { "x": 0, "y": 4 }, { "x": 0, "y": 3 }, { "x": 1, "y": 3 }, { "x": 2, "y": 3 }, { "x": 3, "y": 3 }, { "x": 3, "y": 2 }, { "x": 2, "y": 2 }, { "x": 1, "y": 2 }, { "x": 1, "y": 1 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 }, { "x": 5, "y": 0 } ],
 },
 //Orange bank
 {
@@ -1150,6 +1199,7 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 5 }],
   endingPoints: [{ x: 5, y: 0 }],
+  UAT: [ { "x": 0, "y": 5 }, { "x": 1, "y": 5 }, { "x": 2, "y": 5 }, { "x": 2, "y": 4 }, { "x": 3, "y": 4 }, { "x": 4, "y": 4 }, { "x": 4, "y": 3 }, { "x": 5, "y": 3 }, { "x": 5, "y": 2 }, { "x": 5, "y": 1 }, { "x": 4, "y": 1 }, { "x": 3, "y": 1 }, { "x": 2, "y": 1 }, { "x": 2, "y": 2 }, { "x": 1, "y": 2 }, { "x": 0, "y": 2 }, { "x": 0, "y": 1 }, { "x": 0, "y": 0 }, { "x": 1, "y": 0 }, { "x": 2, "y": 0 }, { "x": 3, "y": 0 }, { "x": 4, "y": 0 }, { "x": 5, "y": 0 } ],
 },
 {
   location: 'Marsh',
@@ -1245,100 +1295,6 @@ const levelData = [
   hexagons: [],
   startingPoints: [{ x: 0, y: 4 }],
   endingPoints: [{ x: 4, y: 0 }],
-},
-{
-  location: 'Bunker',
-  level: getID(),
-  theme: 'green',
-  gridSizeX: 4,
-  gridSizeY: 5,
-  puzzles: [
-    { x: 0, y: 0, value: 'blacksquare' },
-    { x: 1, y: 0, value: 'blacksquare' },
-    { x: 2, y: 0, value: 'blacksquare' },
-    { x: 3, y: 0, value: 'blacksquare' },
-    { x: 0, y: 1, value: 'blacksquare' },
-    { x: 1, y: 1, value: 'whitesquare' },
-    { x: 2, y: 1, value: 'whitesquare' },
-    { x: 3, y: 1, value: 'blacksquare' },
-    { x: 0, y: 2, value: 'blacksquare' },
-    { x: 1, y: 2, value: 'whitesquare' },
-    { x: 2, y: 2, value: 'whitesquare' },
-    { x: 3, y: 2, value: 'blacksquare' },
-    { x: 0, y: 3, value: 'blacksquare' },
-    { x: 1, y: 3, value: 'blacksquare' },
-    { x: 3, y: 3, value: 'blacksquare' },
-
-    ],
-  blockedLines: [
-    { x1: 1, y1: 4, x2: 1, y2: 5 },
-    { x1: 3, y1: 4, x2: 3, y2: 5 },
-    ],
-  hiddenLines: [
-    { x1: 0, y1: 4, x2: 0, y2: 5 },
-    { x1: 0, y1: 5, x2: 1, y2: 5 },
-    { x1: 3, y1: 5, x2: 4, y2: 5 },
-    { x1: 4, y1: 4, x2: 4, y2: 5 },
-    ],
-  hexagons: [],
-  startingPoints: [{ x: 2, y: 5 }],
-  endingPoints: [{ x: 2, y: 0 }],
-},
-{
-  location: 'Bunker',
-  level: getID(),
-  theme: 'grey',
-  gridSizeX: 3,
-  gridSizeY: 3,
-  puzzles: [
-    { x: 0, y: 2, value: 'triangle' },
-    ],
-  blockedLines: [
-    { x1: 0, y1: 0, x2: 0, y2: 1 },
-    { x1: 1, y1: 0, x2: 2, y2: 0 },
-    { x1: 3, y1: 0, x2: 3, y2: 1 },
-    { x1: 2, y1: 1, x2: 2, y2: 2 },
-    { x1: 1, y1: 3, x2: 2, y2: 3 },
-    ],
-  hiddenLines: [],
-  hexagons: [],
-  startingPoints: [{ x: 0, y: 3 }],
-  endingPoints: [{ x: 3, y: 0 }],
-},
-{
-  location: 'Bunker',
-  level: getID(),
-  theme: 'green',
-  gridSizeX: 4,
-  gridSizeY: 5,
-  puzzles: [
-    { x: 0, y: 0, value: 'tromino_Right' },
-    { x: 0, y: 3, value: 'tromino_Right_R90' },
-    { x: 1, y: 1, value: 'blacksquare' },
-    { x: 2, y: 1, value: 'blacksquare' },
-    { x: 1, y: 2, value: 'blacksquare' },
-    { x: 2, y: 2, value: 'blacksquare' },
-    { x: 3, y: 0, value: 'tromino_Right_R270' },
-    { x: 3, y: 3, value: 'tromino_Right_R180' },
-
-    ],
-  blockedLines: [
-    { x1: 1, y1: 4, x2: 1, y2: 5 },
-    { x1: 3, y1: 4, x2: 3, y2: 5 },
-    ],
-  hiddenLines: [
-    { x1: 0, y1: 4, x2: 0, y2: 5 },
-    { x1: 0, y1: 5, x2: 1, y2: 5 },
-    { x1: 3, y1: 5, x2: 4, y2: 5 },
-    { x1: 4, y1: 4, x2: 4, y2: 5 },
-    ],
-  nonvisitingSquares: [
-    { x: 0, y: 4 },
-    { x: 3, y: 4 }
-  ],
-  hexagons: [],
-  startingPoints: [{ x: 2, y: 5 }],
-  endingPoints: [{ x: 2, y: 0 }],
 },
 {
   location: 'Town',
@@ -3028,6 +2984,7 @@ const levelData = [
     { x: 5, y: 2 }
     ],
 },
+/**
 {
   location: 'Treehouse - NEEDS COLORED POLYONOMOES',
   level: getID(),
@@ -3053,6 +3010,7 @@ const levelData = [
   startingPoints: [{ x: 3, y: 6 }],
   endingPoints: [{ x: 3, y: 0 }],
 },
+**/
 {
   location: 'Quarry',
   level: getID(),
@@ -3249,7 +3207,423 @@ const levelData = [
     ],
 },
 {
-  location: 'Castle [100%]',
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 2,
+  gridSizeY: 2,
+  puzzles: [
+    { x: 1, y: 1, value: 'Y' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [
+    { x: 0, y: 0 }
+    ],
+  startingPoints: [
+    { x: 0, y: 2 },
+    ],
+  endingPoints: [
+    { x: 2, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 0, y: 2, value: 'Y' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [
+    { x: 0, y: 3 },
+    { x: 3, y: 0 },
+    { x: 3, y: 6 },
+    { x: 6, y: 3 },
+    ],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 1, y: 1, value: 'Y' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [
+    { x: 1, y: 0 },
+    { x: 4, y: 1 },
+    { x: 2, y: 2 },
+    { x: 5, y: 2 },
+    { x: 0, y: 3 },
+    { x: 3, y: 4 },
+    { x: 6, y: 4 },
+    { x: 5, y: 6 },
+    ],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 1, y: 1, value: 'Y' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [
+    { x: 0, y: 0 },
+    { x: 2, y: 0 },
+    { x: 4, y: 0 },
+    { x: 6, y: 0 },
+
+    { x: 0, y: 2 },
+    { x: 2, y: 2 },
+    { x: 4, y: 2 },
+    { x: 6, y: 2 },
+
+    { x: 0, y: 4 },
+    { x: 2, y: 4 },
+    { x: 4, y: 4 },
+    { x: 6, y: 4 },
+
+    { x: 0, y: 6 },
+    { x: 2, y: 6 },
+    { x: 4, y: 6 },
+    { x: 6, y: 6 },
+    ],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [
+  { x: 1, y: 0 },
+  { x: 3, y: 0 },
+  { x: 0, y: 3 },
+  { x: 2, y: 3 },
+  { x: 4, y: 3 },
+  { x: 1, y: 6 },
+  { x: 3, y: 6 }
+    ],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 2, y: 0, value: 'Y' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [
+  { x: 1, y: 0 },
+  { x: 3, y: 0 },
+  { x: 0, y: 3 },
+  { x: 2, y: 3 },
+  { x: 4, y: 3 },
+  { x: 1, y: 6 },
+  { x: 3, y: 6 }
+    ],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+//Quary bank 2
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 2,
+  gridSizeY: 2,
+  puzzles: [
+    { x: 0, y: 0, value: 'limesquare' },
+    { x: 1, y: 0, value: 'limesquare' },
+    { x: 0, y: 1, value: 'magentasquare' },
+    { x: 1, y: 1, value: 'Y' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 2 },
+    ],
+  endingPoints: [
+    { x: 2, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 1, y: 0, value: 'limesquare' },
+    { x: 2, y: 0, value: 'magentasquare' },
+    { x: 1, y: 1, value: 'magentasquare' },
+    { x: 2, y: 1, value: 'limesquare' },
+    
+    { x: 0, y: 2, value: 'Y' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 0, y: 0, value: 'magentasquare' },
+    { x: 1, y: 0, value: 'magentasquare' },
+    { x: 2, y: 0, value: 'magentasquare' },
+
+    { x: 0, y: 1, value: 'magentasquare' },
+    { x: 1, y: 1, value: 'limesquare' },
+    { x: 2, y: 1, value: 'magentasquare' },
+
+    { x: 0, y: 2, value: 'Y' },
+    { x: 1, y: 2, value: 'magentasquare' },
+    { x: 2, y: 2, value: 'magentasquare' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 0, y: 0, value: 'magentasquare' },
+    { x: 1, y: 0, value: 'magentasquare' },
+    { x: 2, y: 0, value: 'magentasquare' },
+
+    { x: 0, y: 1, value: 'magentasquare' },
+    { x: 1, y: 1, value: 'limesquare' },
+    { x: 2, y: 1, value: 'limesquare' },
+
+    { x: 0, y: 2, value: 'Y' },
+    { x: 1, y: 2, value: 'magentasquare' },
+    { x: 2, y: 2, value: 'magentasquare' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    { x: 0, y: 0, value: 'magentasquare' },
+    { x: 1, y: 0, value: 'limesquare' },
+    { x: 2, y: 0, value: 'magentasquare' },
+
+
+    { x: 0, y: 1, value: 'magentasquare' },
+    { x: 1, y: 1, value: 'Y' },
+    { x: 2, y: 1, value: 'magentasquare' },
+    { x: 3, y: 1, value: 'limesquare' },
+
+
+    { x: 1, y: 2, value: 'limesquare' },
+    { x: 2, y: 2, value: 'magentasquare' },
+
+    { x: 0, y: 3, value: 'magentasquare' },
+    { x: 1, y: 3, value: 'magentasquare' },
+    { x: 2, y: 3, value: 'limesquare' },
+    { x: 3, y: 3, value: 'magentasquare' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 4 },
+    ],
+  endingPoints: [
+    { x: 4, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    { x: 0, y: 0, value: 'magentasquare' },
+    { x: 1, y: 0, value: 'limesquare' },
+    { x: 2, y: 0, value: 'limesquare' },
+
+
+    { x: 0, y: 1, value: 'magentasquare' },
+    { x: 1, y: 1, value: 'Y' },
+    { x: 2, y: 1, value: 'magentasquare' },
+    { x: 3, y: 1, value: 'limesquare' },
+
+
+    { x: 1, y: 2, value: 'limesquare' },
+    { x: 2, y: 2, value: 'magentasquare' },
+
+    { x: 0, y: 3, value: 'magentasquare' },
+    { x: 1, y: 3, value: 'magentasquare' },
+    { x: 2, y: 3, value: 'limesquare' },
+    { x: 3, y: 3, value: 'magentasquare' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 4 },
+    ],
+  endingPoints: [
+    { x: 4, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    { x: 0, y: 0, value: 'whitesquare' },
+    { x: 1, y: 0, value: 'magentasquare' },
+    { x: 2, y: 0, value: 'magentasquare' },
+    { x: 3, y: 0, value: 'limesquare' },
+
+
+    { x: 0, y: 1, value: 'magentasquare' },
+    { x: 1, y: 1, value: 'magentasquare' },
+    { x: 2, y: 1, value: 'magentasquare' },
+    { x: 3, y: 1, value: 'magentasquare' },
+
+
+    { x: 0, y: 2, value: 'magentasquare' },
+    { x: 1, y: 2, value: 'magentasquare' },
+    { x: 2, y: 2, value: 'magentasquare' },
+    { x: 3, y: 2, value: 'magentasquare' },
+
+    { x: 0, y: 3, value: 'Y' },
+    { x: 1, y: 3, value: 'magentasquare' },
+    { x: 2, y: 3, value: 'magentasquare' },
+    { x: 3, y: 3, value: 'blacksquare' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 4 },
+    ],
+  endingPoints: [
+    { x: 4, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 0, y: 0, value: 'whitesquare' },
+    { x: 1, y: 0, value: 'whitesquare' },
+    { x: 2, y: 0, value: 'whitesquare' },
+
+    { x: 0, y: 1, value: 'limesquare' },
+    { x: 1, y: 1, value: 'Y' },
+    { x: 2, y: 1, value: 'magentasquare' },
+
+    { x: 0, y: 2, value: 'limesquare' },
+    { x: 1, y: 2, value: 'limesquare' },
+    { x: 2, y: 2, value: 'magentasquare' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+
+{
+  location: 'Keep',
   level: getID(),
   theme: 'orange',
   gridSizeX: 4,
@@ -3271,7 +3645,7 @@ const levelData = [
   endingPoints: [{ x: 1, y: 0 }],
 },
 {
-  location: 'Castle [100%]',
+  location: 'Keep',
   level: getID(),
   theme: 'purple',
   gridSizeX: 4,
@@ -3293,7 +3667,7 @@ const levelData = [
   endingPoints: [{ x: 0, y: 2 }],
 },
 {
-  location: 'Castle [100%]',
+  location: 'Keep',
   level: getID(),
   theme: 'green',
   gridSizeX: 4,
@@ -3309,7 +3683,7 @@ const levelData = [
   endingPoints: [{ x: 0, y: 0 }],
 },
 {
-  location: 'Castle [100%]',
+  location: 'Keep',
   level: getID(),
   theme: 'grey',
   gridSizeX: 3,
@@ -3327,7 +3701,7 @@ const levelData = [
   endingPoints: [{ x: 3, y: 0 }],
 },
 {
-  location: 'Castle [100%]',
+  location: 'Keep',
   level: getID(),
   theme: 'blue',
   gridSizeX: 4,
@@ -3347,7 +3721,7 @@ const levelData = [
     { x: 4, y: 2 }],
 },
 {
-  location: 'Castle [100%]',
+  location: 'Keep',
   level: getID(),
   theme: 'grey',
   gridSizeX: 3,
@@ -3366,7 +3740,7 @@ const levelData = [
   endingPoints: [{ x: 0, y: 0 }],
 },
 {
-  location: 'Castle [100%]',
+  location: 'Keep',
   level: getID(),
   theme: 'orange',
   gridSizeX: 8,
@@ -3400,7 +3774,101 @@ const levelData = [
   endingPoints: [{ x: 1, y: 8 }],
 },
 {
-  location: 'Bunker [WIP - NEEDS Negation symbol]',
+  location: 'Bunker',
+  level: getID(),
+  theme: 'green',
+  gridSizeX: 4,
+  gridSizeY: 5,
+  puzzles: [
+    { x: 0, y: 0, value: 'blacksquare' },
+    { x: 1, y: 0, value: 'blacksquare' },
+    { x: 2, y: 0, value: 'blacksquare' },
+    { x: 3, y: 0, value: 'blacksquare' },
+    { x: 0, y: 1, value: 'blacksquare' },
+    { x: 1, y: 1, value: 'whitesquare' },
+    { x: 2, y: 1, value: 'whitesquare' },
+    { x: 3, y: 1, value: 'blacksquare' },
+    { x: 0, y: 2, value: 'blacksquare' },
+    { x: 1, y: 2, value: 'whitesquare' },
+    { x: 2, y: 2, value: 'whitesquare' },
+    { x: 3, y: 2, value: 'blacksquare' },
+    { x: 0, y: 3, value: 'blacksquare' },
+    { x: 1, y: 3, value: 'blacksquare' },
+    { x: 3, y: 3, value: 'blacksquare' },
+
+    ],
+  blockedLines: [
+    { x1: 1, y1: 4, x2: 1, y2: 5 },
+    { x1: 3, y1: 4, x2: 3, y2: 5 },
+    ],
+  hiddenLines: [
+    { x1: 0, y1: 4, x2: 0, y2: 5 },
+    { x1: 0, y1: 5, x2: 1, y2: 5 },
+    { x1: 3, y1: 5, x2: 4, y2: 5 },
+    { x1: 4, y1: 4, x2: 4, y2: 5 },
+    ],
+  hexagons: [],
+  startingPoints: [{ x: 2, y: 5 }],
+  endingPoints: [{ x: 2, y: 0 }],
+},
+{
+  location: 'Bunker',
+  level: getID(),
+  theme: 'grey',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 0, y: 2, value: 'triangle' },
+    ],
+  blockedLines: [
+    { x1: 0, y1: 0, x2: 0, y2: 1 },
+    { x1: 1, y1: 0, x2: 2, y2: 0 },
+    { x1: 3, y1: 0, x2: 3, y2: 1 },
+    { x1: 2, y1: 1, x2: 2, y2: 2 },
+    { x1: 1, y1: 3, x2: 2, y2: 3 },
+    ],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [{ x: 0, y: 3 }],
+  endingPoints: [{ x: 3, y: 0 }],
+},
+{
+  location: 'Bunker',
+  level: getID(),
+  theme: 'green',
+  gridSizeX: 4,
+  gridSizeY: 5,
+  puzzles: [
+    { x: 0, y: 0, value: 'tromino_Right' },
+    { x: 0, y: 3, value: 'tromino_Right_R90' },
+    { x: 1, y: 1, value: 'blacksquare' },
+    { x: 2, y: 1, value: 'blacksquare' },
+    { x: 1, y: 2, value: 'blacksquare' },
+    { x: 2, y: 2, value: 'blacksquare' },
+    { x: 3, y: 0, value: 'tromino_Right_R270' },
+    { x: 3, y: 3, value: 'tromino_Right_R180' },
+
+    ],
+  blockedLines: [
+    { x1: 1, y1: 4, x2: 1, y2: 5 },
+    { x1: 3, y1: 4, x2: 3, y2: 5 },
+    ],
+  hiddenLines: [
+    { x1: 0, y1: 4, x2: 0, y2: 5 },
+    { x1: 0, y1: 5, x2: 1, y2: 5 },
+    { x1: 3, y1: 5, x2: 4, y2: 5 },
+    { x1: 4, y1: 4, x2: 4, y2: 5 },
+    ],
+  nonvisitingSquares: [
+    { x: 0, y: 4 },
+    { x: 3, y: 4 }
+  ],
+  hexagons: [],
+  startingPoints: [{ x: 2, y: 5 }],
+  endingPoints: [{ x: 2, y: 0 }],
+},
+{
+  location: 'Bunker',
   level: getID(),
   theme: 'green',
   gridSizeX: 4,
@@ -3441,7 +3909,7 @@ const levelData = [
   endingPoints: [{ x: 2, y: 0 }],
 },
 {
-  location: 'Secret needs rotation',
+  location: 'The End',
   level: getID(),
   theme: 'yellow',
   gridSizeX: 4,
@@ -3477,12 +3945,13 @@ const levelData = [
 },
 //Flex
 {
-  location: 'Flex',
+  location: 'Bonus',
   level: getID(),
   theme: 'green',
   gridSizeX: 5,
   gridSizeY: 7,
   puzzles: [
+    //{ x: 3, y: 0, value: 'Y' },
     { x: 0, y: 0, value: 'blacksquare' },
     { x: 1, y: 0, value: 'tetromino_L_R180' },
     { x: 2, y: 0, value: 'domino_R90' },
