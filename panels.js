@@ -3148,67 +3148,6 @@ const levelData = [
 {
   location: 'Quarry',
   level: getID(),
-  theme: 'brown',
-  gridSizeX: 5,
-  gridSizeY: 5,
-  puzzles: [
-    { x: 0, y: 0, value: 'redsun' },
-    { x: 1, y: 0, value: 'redsun' },
-    { x: 2, y: 0, value: 'redsun' },
-    { x: 3, y: 0, value: 'yellowsun' },
-    { x: 4, y: 0, value: 'yellowsun' },
-    
-    { x: 0, y: 1, value: 'redsun' },
-    { x: 0, y: 2, value: 'redsun' },
-    { x: 0, y: 3, value: 'yellowsun' },
-    
-    { x: 4, y: 1, value: 'yellowsun' },
-    { x: 4, y: 2, value: 'redsun' },
-    { x: 4, y: 3, value: 'redsun' },
-    
-    { x: 0, y: 4, value: 'yellowsun' },
-    { x: 1, y: 4, value: 'yellowsun' },
-    { x: 2, y: 4, value: 'redsun' },
-    { x: 3, y: 4, value: 'redsun' },
-    { x: 4, y: 4, value: 'redsun' },
-    ],
-  blockedLines: [],
-  hiddenLines: [],
-  hexagons: [],
-  startingPoints: [
-    { x: 5, y: 5 },
-    ],
-  endingPoints: [
-    { x: 0, y: 0 },
-    ],
-},
-{
-  location: 'Quarry',
-  level: getID(),
-  theme: 'olive',
-  gridSizeX: 4,
-  gridSizeY: 4,
-  puzzles: [
-    { x: 2, y: 2, value: 'pentomino_T_R180_Rotatable' },
-    { x: 2, y: 3, value: 'tromino_Straight' },
-    ],
-  blockedLines: [
-    { x1: 1, y1: 0, x2: 2, y2: 0 },
-    { x1: 4, y1: 1, x2: 4, y2: 2 },
-    { x1: 0, y1: 4, x2: 1, y2: 4 },
-    ],
-  hiddenLines: [],
-  hexagons: [],
-  startingPoints: [
-    { x: 0, y: 4 },
-    ],
-  endingPoints: [
-    { x: 4, y: 0 },
-    ],
-},
-{
-  location: 'Quarry',
-  level: getID(),
   theme: 'quarry_black',
   gridSizeX: 2,
   gridSizeY: 2,
@@ -3622,6 +3561,187 @@ const levelData = [
     ],
 },
 
+//Quarry Outdoors Bank 1
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'brown',
+  gridSizeX: 5,
+  gridSizeY: 5,
+  puzzles: [
+    { x: 0, y: 0, value: 'redsun' },
+    { x: 1, y: 0, value: 'redsun' },
+    { x: 2, y: 0, value: 'redsun' },
+    { x: 3, y: 0, value: 'yellowsun' },
+    { x: 4, y: 0, value: 'yellowsun' },
+    
+    { x: 0, y: 1, value: 'redsun' },
+    { x: 0, y: 2, value: 'redsun' },
+    { x: 0, y: 3, value: 'yellowsun' },
+    
+    { x: 4, y: 1, value: 'yellowsun' },
+    { x: 4, y: 2, value: 'redsun' },
+    { x: 4, y: 3, value: 'redsun' },
+    
+    { x: 0, y: 4, value: 'yellowsun' },
+    { x: 1, y: 4, value: 'yellowsun' },
+    { x: 2, y: 4, value: 'redsun' },
+    { x: 3, y: 4, value: 'redsun' },
+    { x: 4, y: 4, value: 'redsun' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 5, y: 5 },
+    ],
+  endingPoints: [
+    { x: 0, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'olive',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    { x: 2, y: 2, value: 'pentomino_T_R180_Rotatable' },
+    { x: 2, y: 3, value: 'tromino_Straight' },
+    ],
+  blockedLines: [
+    { x1: 1, y1: 0, x2: 2, y2: 0 },
+    { x1: 4, y1: 1, x2: 4, y2: 2 },
+    { x1: 0, y1: 4, x2: 1, y2: 4 },
+    ],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 4 },
+    ],
+  endingPoints: [
+    { x: 4, y: 0 },
+    ],
+},
+
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 0, y: 0, value: 'domino' },
+
+    { x: 0, y: 1, value: 'tromino_Straight_R90' },
+    { x: 1, y: 1, value: 'Y' },
+    { x: 2, y: 1, value: 'tetromino_Straight' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    { x: 0, y: 1, value: 'monomino' },
+    { x: 1, y: 1, value: 'monomino' },
+    { x: 2, y: 1, value: 'monomino' },
+    { x: 0, y: 3, value: 'Y' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 4 },
+    ],
+  endingPoints: [
+    { x: 4, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    { x: 2, y: 1, value: 'Y' },
+    { x: 0, y: 2, value: 'tetromino_Straight_R90' },
+    { x: 3, y: 2, value: 'tetromino_Straight' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 4 },
+    ],
+  endingPoints: [
+    { x: 4, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 3,
+  gridSizeY: 3,
+  puzzles: [
+    { x: 1, y: 0, value: 'domino_R90' },
+    { x: 2, y: 0, value: 'monomino' },
+    { x: 0, y: 1, value: 'Y' },
+    { x: 1, y: 1, value: 'tetromino_L_R270' },
+    { x: 1, y: 2, value: 'domino_R90' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 3 },
+    ],
+  endingPoints: [
+    { x: 3, y: 0 },
+    ],
+},
+{
+  location: 'Quarry',
+  level: getID(),
+  theme: 'quarry_black',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    { x: 0, y: 0, value: 'Y' },
+    { x: 3, y: 0, value: 'domino_Skewed' },
+
+    { x: 1, y: 1, value: 'domino_Skewed' },
+    { x: 2, y: 2, value: 'domino_Skewed_R90' },
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [
+    { x: 0, y: 4 },
+    ],
+  endingPoints: [
+    { x: 4, y: 0 },
+    ],
+},
+//Quarry Outdoors Bank 2
+
+//TODO: needs removable corners
+
+//Keep
 {
   location: 'Keep',
   level: getID(),

@@ -892,9 +892,10 @@ const validateLine = () => {
     failed = {};
 
 
-    //Validate Line
-    
-    //PreValidation sanity check - dont validate puzzles if this fails
+    //Validate Solution
+    //First we check the line isn't completely silly, then validate it against the puzzles
+
+    //Pre-Validation line sanity check
     if (!(Array.isArray(drawnPoints)) || (drawnPoints.length === 0)){
         isValid = false;
         console.log("failed line! the line is empty?!");
@@ -952,7 +953,7 @@ const validateLine = () => {
     }
 
 
-
+    //Puzzle validation logic
     const Areas = findAreas();
     const puzzlesInAreas = getPuzzlesInAreas();
     
@@ -963,26 +964,40 @@ const validateLine = () => {
     let areSunsValid = false;
     let areTetrisValid = false;
 
-    //Itterate each Area of the grid
+    //Loop each Area of the grid
     for (let i = 0; i < puzzlesInAreas.length; i++) {
 
-        //Itterate and solve possible puzzle Areas based on Negations
+        //Easy fail if the solution would otherwise be valid but we have a Y/Negation
+        if (puzzlesInAreas[i].includes("Y")){
+
+            if  ((checkTriangles() != false) &&
+                (checkHexagonsInArea(puzzlesInAreas[i]) != false) &&
+                (checkSquaresInArea(puzzlesInAreas[i]) != false) &&
+                (checkSunsInArea(puzzlesInAreas[i]) != false) &&
+                (checkTetrisInArea(Areas[i], puzzlesInAreas[i]) != false))
+            {
+                isValid = false;
+                console.log("failed Ys! didn't break a puzzle");
+                break;
+            }
+
+        }
+
+        //Itterate and solve possible puzzle Areas based on Ys/Negations, looking for a scenarion where all puzzle checks are valid
         let puzzlesInAreaCombinations = generatePuzzleCombinations(puzzlesInAreas[i]);
         
         for (let j = 0; j < puzzlesInAreaCombinations.length; j++) {
 
 
-
             //Validate Ys
             if (checkYsInArea(puzzlesInAreaCombinations[j]) === false){
                 areYsValid = false;
-                console.log("failed Ys!");
+                console.log("failed Ys! didn't use them all");
             }else{
                 areYsValid = true;
             }
 
             //Validate Triangles
-            
             //if (checkTrianglesInArea(puzzlesInAreaCombinations[j]) === false){
             if (checkTriangles() === false){
                 areTrianglesValid = false;
@@ -990,7 +1005,6 @@ const validateLine = () => {
             }else{
                 areTrianglesValid = true;
             }
-
 
             //Validate Hexagons
             if (checkHexagonsInArea(puzzlesInAreaCombinations[j]) === false){
@@ -1029,6 +1043,7 @@ const validateLine = () => {
             }else{
                 if (j == puzzlesInAreaCombinations.length - 1){
                     isValid = false;
+                    break;
                 }
             }
 
