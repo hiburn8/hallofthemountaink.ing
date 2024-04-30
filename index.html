@@ -218,10 +218,13 @@
         }
 
         function debug(){
+            debugMode = true;
             document.getElementById('sidebar').style.display = 'block';
-            document.getElementById('footer').innerHTML += '<br>UNLOCKED: You now have a level menu (right tab) and can press [Enter] to skip a level & [Backspace] to go back.';
         }
-
+        function hideDebug(){
+            debugMode = false;
+            document.getElementById('sidebar').style.display = 'none';
+        }
         if (window.location.hostname !== 'hallofthemountaink.ing'){debug();};
     </script>
 

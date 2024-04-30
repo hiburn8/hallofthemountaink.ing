@@ -54,12 +54,15 @@ High effort features:
         let scaleY = window.innerHeight / canvas.height;
         **/
 
+
         // Fullscreen
         // Listen for fullscreen change events
-        document.addEventListener('fullscreenchange', function() {
+        document.addEventListener('fullscreenchange', function() { 
             document.getElementById('footer').style.display = document.fullscreenElement ? 'none' : '';
-            document.getElementById('sidebar').style.display = document.fullscreenElement ? 'none' : 'block';
-            document.getElementById('sidebar-tab').style.display = document.fullscreenElement ? 'none' : '';
+            if (debugMode === true && challengeMode === false){
+                document.getElementById('sidebar').style.display = document.fullscreenElement ? 'none' : 'block';
+                document.getElementById('sidebar-tab').style.display = document.fullscreenElement ? 'none' : '';
+            }
         });
         document.addEventListener('mozfullscreenchange', function() {
             document.getElementById('footer').style.display = document.mozFullScreenElement ? 'none' : '';
@@ -69,13 +72,17 @@ High effort features:
         });
         document.addEventListener('webkitfullscreenchange', function() {
             document.getElementById('footer').style.display = document.webkitFullscreenElement ? 'none' : '';
-            document.getElementById('sidebar').style.display = document.webkitFullscreenElement ? 'none' : 'block';
-            document.getElementById('sidebar-tab').style.display = document.webkitFullscreenElement ? 'none' : '';
+            if (debugMode === true && challengeMode === false){
+                document.getElementById('sidebar').style.display = document.webkitFullscreenElement ? 'none' : 'block';
+                document.getElementById('sidebar-tab').style.display = document.webkitFullscreenElement ? 'none' : '';
+            }
         });
         document.addEventListener('msfullscreenchange', function() {
             document.getElementById('footer').style.display = document.msFullscreenElement ? 'none' : '';
-            document.getElementById('sidebar').style.display = document.msFullscreenElement ? 'none' : 'block';
-            document.getElementById('sidebar-tab').style.display = document.msFullscreenElement ? 'none' : '';
+            if (debugMode === true && challengeMode === false){
+                document.getElementById('sidebar').style.display = document.msFullscreenElement ? 'none' : 'block';
+                document.getElementById('sidebar-tab').style.display = document.msFullscreenElement ? 'none' : '';
+            }
         });
 
 
@@ -337,6 +344,8 @@ function rotateCanvasAroundCanvasOrigin(degrees){
         //Global Vars
 
         let soundPlayed = false;
+        let challengeMode = false;
+        let debugMode = (window.location.hostname !== 'hallofthemountaink.ing') ? true : false;
         
         // Grid size and other constants
         const squareSize = 100;
@@ -1055,7 +1064,7 @@ const validateLine = () => {
       
         console.log("Valid line!");
         completed = true;
-        if (level === 0){
+        if (level === 0 && challengeMode === true){
                 // Hall of the Mountain Kind
                 playSFX("challenge");
         }
@@ -1067,6 +1076,11 @@ const validateLine = () => {
 
         playSFX("success");
         redrawCanvas();
+        if (level === 22 && debug === false && challengeMode === false){
+                // We're over 21 and can drink
+                document.getElementById('footer').innerHTML += '<br>UNLOCKED: You now have a level-select menu (right tab), can press [Enter]/[Backspace] to jump levels, and CHALLENGE MODE!';
+                debug();
+        }
 
     } else {
         
@@ -1344,17 +1358,22 @@ const isSharedEdge = (line1, line2) => {
         document.addEventListener('keydown', function(event) {
             
             if (event.key === "Enter") {
-                if (level !== levelData.length - 1){
-                    level ++;
-                    loadLevel(level);
+                if (challengeMode === false && debugMode === true){
+                    if (level !== levelData.length - 1){
+                        level ++;
+                        loadLevel(level);
+                    }
+                    
                 }
             }
             else if (event.key === "Backspace") {
-                if (level !== 0){
-                    level --;
-                    loadLevel(level);
+                if (challengeMode === false && debugMode === true){
+                    if (level !== 0){
+                        level --;
+                        loadLevel(level);
+                    }
                 }
-            } 
+            }
         });
 
 
@@ -1447,8 +1466,9 @@ const playSFX = (sfx) => {
         fx = new Audio("kevin-macleod-hall-of-the-mountain-king.mp3");
         fx.addEventListener('ended', function() {
             
-            var userResponse = window.confirm('you reached level '+(level+1)+' before the music ended.\nkeep playing new puzzles with the level-select menu unlocked (OK), or try again from level 1 (Cancel).');
+            var userResponse = window.confirm('you reached level '+(level+1)+' before the music ended.\nkeep playing, or try again from level 1 (Cancel).');
             if (userResponse) {
+                challengeMode = false;
                 debug();
             } else {
                 level = 0;

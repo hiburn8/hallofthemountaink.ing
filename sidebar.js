@@ -63,3 +63,51 @@ for (let i = 0; i < uniqueSections.length; i++) {
       document.getElementById('sidebar').appendChild(sectionDiv);
     }
 }
+
+
+// CHALLENGE
+
+// Create the section div and set its class
+let sectionDiv = document.createElement('div');
+sectionDiv.className = 'section';
+
+// Create the <h4> element and append it
+const h4 = document.createElement('h4');
+sectionDiv.appendChild(h4);
+
+h4.textContent = 'Challenge Mode'; 
+
+
+// Create the label, set its class, and prepare for the checkbox
+const label = document.createElement('label');
+label.className = 'checkbox-container';
+
+// Create the checkbox input, set its type and id
+const checkbox = document.createElement('input');
+checkbox.setAttribute('type', 'checkbox');
+checkbox.disabled = true;
+checkbox.id = 0; // Adjust id for each checkbox
+
+// Create the span for the custom checkbox appearance
+const span = document.createElement('span');
+span.className = 'checkbox-span';
+span.style.backgroundColor = themes[levelData[0].theme].bgColor;
+
+span.onclick = function() {
+    challengeMode = true;
+    hideDebug();
+    level = 0;
+    loadLevel(0);
+    toggleSidebar();
+};
+
+// Append the checkbox and span to the label
+label.appendChild(checkbox);
+label.appendChild(span);
+
+// Append the label to the section div
+sectionDiv.appendChild(label);
+
+// Finally, append the section div
+document.getElementById('sidebar').appendChild(sectionDiv);
+    

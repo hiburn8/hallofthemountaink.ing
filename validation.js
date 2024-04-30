@@ -394,7 +394,7 @@ function checkSquares(puzzlesInAreas) {
 
 function checkSquaresInArea(puzzlesInArea) {
   
-    const colours = ['blacksquare', 'whitesquare', 'limesquare', 'magentasquare'];
+    const colours = ['blacksquare', 'whitesquare', 'limesquare', 'orangesquare', 'magentasquare'];
     const matchedWords = colours.filter(word => puzzlesInArea.includes(word));
 
     if (matchedWords.length > 1){
