@@ -1076,7 +1076,7 @@ const validateLine = () => {
 
         playSFX("success");
         redrawCanvas();
-        if (level === 22 && debug === false && challengeMode === false){
+        if (level === 22 && debugMode === false && challengeMode === false){
                 // We're over 21 and can drink
                 document.getElementById('footer').innerHTML += '<br>UNLOCKED: You now have a level-select menu (right tab), can press [Enter]/[Backspace] to jump levels, and CHALLENGE MODE!';
                 debug();
