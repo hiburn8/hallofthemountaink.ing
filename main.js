@@ -2,34 +2,26 @@
 
 Fixes:
     bugs:
-        fix Ys not needing to be used
         fix getPuzzlesInAreas and findAreas showing 'non-visiting' squares 
-    support:
-        remove the canvas bg colour, since sRGB colour profiles issues on old machines makes the canvas stand out.
-        for some reason old browsers have issues with fill on drawCorner. i must have missed something.
-    cleanup:
-        -remove all the legacy fullscreen/scaling hacks.
-    optimization:
-        +draw and redraw grid calls
-        +validation
-    improve:
         hexagons not working with (or scaling to) squareSize changes
         aggressive backtracking player line :line 1433
         playing fail sound when clicking directly on an endPoint
         drawing hexagon over start of playerline. presumably we draw hexagons after startpoints.        
-
+    support:
+        remove the canvas bg colour, since sRGB colour profiles issues on old machines makes the canvas stand out.
+        for some reason old browsers have issues with fill on drawCorner. i must have missed something.
+        
 Low effort features:
     create basic line sanity check function (pre-puzzle)
-    localstorage score
+    localstorage highscore & debug save
     scale game to viewport for large/small levels.
     
 Medium effort features:
-    support Y shapes
-            the Speedhack/early-exit in checkTetrisShapesInArea() will need to go. as we'll need to know exactly how many shapes can be fit. or we can use it if there are no negations.
+    support for multiple Y shapes in the same area. this scenario isnt in the game so it didn't occur to me that each Y needs to independantly break something.
+    support symmetry
 
 High effort features: 
-    support symmetry
-    support inverted/negative tetris shapes
+    support inverted/negative tetris shapes (this blows my mind a bit atm)
 
 **/
     
@@ -86,12 +78,13 @@ High effort features:
         });
 
 
-function rotateCanvasAroundCanvasOrigin(degrees){
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.rotate(degrees * Math.PI / 180);
-    ctx.translate(-canvas.width / 2, -canvas.height / 2);
+        function rotateCanvasAroundCanvasOrigin(degrees){
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(degrees * Math.PI / 180);
+            ctx.translate(-canvas.width / 2, -canvas.height / 2);
 
-}
+        }
+
         function toggleFullScreen() {
             if (!!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)){
 
@@ -885,14 +878,13 @@ function rotateCanvasAroundCanvasOrigin(degrees){
         }
 
         
-        
-        
-function containsMatchingObject(targetObj, arr) {
-    return arr.some(obj => {
-        // Check every key in the target object against the current object
-        return Object.keys(targetObj).every(key => obj[key] === targetObj[key]);
-    });
-}
+        function containsMatchingObject(targetObj, arr) {
+            return arr.some(obj => {
+                // Check every key in the target object against the current object
+                return Object.keys(targetObj).every(key => obj[key] === targetObj[key]);
+            });
+        }
+
 
 // Function to check if the user-drawn line meets the success criteria
 let failed = {};
@@ -1466,14 +1458,10 @@ const playSFX = (sfx) => {
         fx = new Audio("kevin-macleod-hall-of-the-mountain-king.mp3");
         fx.addEventListener('ended', function() {
             
-            var userResponse = window.confirm('you reached level '+(level+1)+' before the music ended.\nkeep playing, or try again from level 1 (Cancel).');
-            if (userResponse) {
-                challengeMode = false;
-                debug();
-            } else {
-                level = 0;
-                loadLevel(level);
-            }
+            alert('you reached level '+(level+1)+' before the music ended.');        
+            challengeMode = false;
+            debug();
+            
         });
         break;
       
