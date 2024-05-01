@@ -3947,7 +3947,7 @@ const levelData = [
   endingPoints: [{ x: 1, y: 8 }],
 },
 {
-  location: 'Bunker',
+  location: 'Theater',
   level: getID(),
   theme: 'green',
   gridSizeX: 4,
@@ -3985,7 +3985,7 @@ const levelData = [
   endingPoints: [{ x: 2, y: 0 }],
 },
 {
-  location: 'Bunker',
+  location: 'Theater',
   level: getID(),
   theme: 'grey',
   gridSizeX: 3,
@@ -4006,7 +4006,7 @@ const levelData = [
   endingPoints: [{ x: 3, y: 0 }],
 },
 {
-  location: 'Bunker',
+  location: 'Theater',
   level: getID(),
   theme: 'green',
   gridSizeX: 4,
@@ -4041,7 +4041,7 @@ const levelData = [
   endingPoints: [{ x: 2, y: 0 }],
 },
 {
-  location: 'Bunker',
+  location: 'Theater',
   level: getID(),
   theme: 'green',
   gridSizeX: 4,

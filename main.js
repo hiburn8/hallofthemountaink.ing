@@ -386,7 +386,7 @@ High effort features:
         'tetromino_Skewed',
         'pentomino_Skewed',
         //ROTATABLES
-        //Bunker
+        //Theater
         'tetromino_T_R270_Rotatable',
         //Castle
         'tetromino_L_FH_R90_Rotatable',
