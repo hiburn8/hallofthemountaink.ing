@@ -22,7 +22,7 @@ Medium effort features:
 
 High effort features: 
     support inverted/negative tetris shapes (this blows my mind a bit atm)
-    
+
 **/
     
         // Initialize canvas and context
@@ -1069,7 +1069,7 @@ const validateLine = () => {
 
         playSFX("success");
         redrawCanvas();
-        if (level === 22 && debugMode === false && challengeMode === false){
+        if (level === 22 && challengeMode === false){
                 // We're over 21 and can drink
                 localStorage.setItem('king', 'true');
                 document.getElementById('footer').innerHTML += '<br>UNLOCKED: You now have a level-select menu (right tab), can press [Enter]/[Backspace] to jump levels, and CHALLENGE MODE!';
