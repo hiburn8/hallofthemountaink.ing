@@ -3050,7 +3050,7 @@ const levelData = [
   gridSizeY: 4,
   puzzles: [
     { x: 0, y: 3, value: 'tetromino_L' },
-    { x: 3, y: 3, value: 'tetromino_L_R180' },
+    { x: 3, y: 3, value: 'tetromino_L_FH_R180' },
     ],
   blockedLines: [],
   hiddenLines: [],
