@@ -225,7 +225,7 @@
             debugMode = false;
             document.getElementById('sidebar').style.display = 'none';
         }
-        if (window.location.hostname !== 'hallofthemountaink.ing'){debug();};
+        if (window.location.hostname !== 'hallofthemountaink.ing' || localStorage.getItem('king') == 'true') {debug();};
     </script>
 
 </body>
