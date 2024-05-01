@@ -1061,7 +1061,7 @@ const validateLine = () => {
                 playSFX("challenge");
         }
 
-        //set check on level in menu. TODO: this needs abstracting to an event.
+        //set check on level in menu
         document.getElementById(level).checked = true;
         markLevelCompleted(level);
 
