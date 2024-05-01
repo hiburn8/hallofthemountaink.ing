@@ -2662,7 +2662,7 @@ const levelData = [
   puzzles: [
     { x: 0, y: 0, value: 'orangesun' },
     { x: 1, y: 0, value: 'magentasun' },
-    { x: 2, y: 0, value: 'orangesun' },
+    { x: 3, y: 0, value: 'orangesun' },
     { x: 0, y: 1, value: 'magentasun' },
     { x: 1, y: 1, value: 'magentasun' },
     { x: 2, y: 2, value: 'magentasun' },
