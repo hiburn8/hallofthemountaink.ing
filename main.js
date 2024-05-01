@@ -13,7 +13,7 @@ Fixes:
         
 Low effort features:
     create basic line sanity check function (pre-puzzle)
-    localstorage highscore & debug save
+    localstorage highscore
     scale game to viewport for large/small levels.
     
 Medium effort features:
@@ -22,7 +22,7 @@ Medium effort features:
 
 High effort features: 
     support inverted/negative tetris shapes (this blows my mind a bit atm)
-
+    
 **/
     
         // Initialize canvas and context
@@ -1063,6 +1063,7 @@ const validateLine = () => {
 
         //set check on level in menu. TODO: this needs abstracting to an event.
         document.getElementById(level).checked = true;
+        markLevelCompleted(level);
 
         level ++;
 

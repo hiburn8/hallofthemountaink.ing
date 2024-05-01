@@ -12,6 +12,30 @@ sidebarTab.addEventListener('click', () => {
   toggleSidebar();  
 });
 
+// Function to mark a level as completed
+function markLevelCompleted(level) {
+    // Retrieve existing completed levels from localStorage or initialize an empty array if none exist
+    let completedLevels = JSON.parse(localStorage.getItem('halls')) || [];
+
+    // Check if the level is not already completed
+    if (!completedLevels.includes(level)) {
+        // Add the level to the array of completed levels
+        completedLevels.push(level);
+
+        // Save the updated array back to localStorage
+        localStorage.setItem('halls', JSON.stringify(completedLevels));
+    }
+}
+
+// Function to check if a level is completed
+function isLevelCompleted(level) {
+    // Retrieve existing completed levels from localStorage or initialize an empty array if none exist
+    const completedLevels = JSON.parse(localStorage.getItem('halls')) || [];
+
+    // Return true if the level is in the array of completed levels, false otherwise
+    return completedLevels.includes(level);
+}
+
 
 const uniqueSections = [...new Set(levelData.map(obj => obj['location']))];
 
@@ -110,4 +134,19 @@ sectionDiv.appendChild(label);
 
 // Finally, append the section div
 document.getElementById('sidebar').appendChild(sectionDiv);
+
+
+// Mark done levels
+for (let l = 0; l < levelData.length; l++) {
+
+  if (isLevelCompleted(l)){document.getElementById(l).checked = true;}
+
+}
+
+
+
+
+
+
+
     
