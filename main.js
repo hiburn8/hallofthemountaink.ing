@@ -338,7 +338,7 @@ High effort features:
 
         let soundPlayed = false;
         let challengeMode = false;
-        let debugMode = (window.location.hostname !== 'hallofthemountaink.ing') ? true : false;
+        let debugMode = (window.location.hostname !== 'hallofthemountaink.ing' || localStorage.getItem('king') == 'true') ? true : false;
         
         // Grid size and other constants
         const squareSize = 100;
@@ -1070,6 +1070,7 @@ const validateLine = () => {
         redrawCanvas();
         if (level === 22 && debugMode === false && challengeMode === false){
                 // We're over 21 and can drink
+                localStorage.setItem('king', 'true');
                 document.getElementById('footer').innerHTML += '<br>UNLOCKED: You now have a level-select menu (right tab), can press [Enter]/[Backspace] to jump levels, and CHALLENGE MODE!';
                 debug();
         }
