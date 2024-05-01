@@ -2644,7 +2644,6 @@ const levelData = [
     { x: 0, y: 1, value: 'magentasun' },
     { x: 2, y: 3, value: 'magentasun' },
     { x: 3, y: 2, value: 'magentasun' },
-    { x: 0, y: 2, value: 'orangesun' },
     { x: 3, y: 3, value: 'orangesun' },
     ],
   blockedLines: [],
