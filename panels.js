@@ -944,7 +944,7 @@ const levelData = [
   gridSizeX: 3,
   gridSizeY: 3,
   puzzles: [
-    { x: 0, y: 0, value: 'tromino_Straight_R90' },
+    { x: 0, y: 0, value: 'domino_R90' },
     { x: 2, y: 2, value: 'tetromino_Square' }],
   blockedLines: [],
   hiddenLines: [],
