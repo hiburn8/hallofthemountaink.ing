@@ -3766,32 +3766,7 @@ const levelData = [
     { x: 4, y: 4 },
     ],
 },
-//Quarry Outdoors Bank 2
-//test
-{
-  location: 'Quarry',
-  level: getID(),
-  theme: 'quarry_black',
-  gridSizeX: 4,
-  gridSizeY: 4,
-  puzzles: [
-    { x: 1, y: 0, value: 'whitesquare' },
-    { x: 2, y: 0, value: 'whitesquare' },
-    { x: 1, y: 1, value: 'blacksquare' },
-
-    { x: 2, y: 2, value: 'Y' },
-    { x: 3, y: 2, value: 'Y' },
-    ],
-  blockedLines: [],
-  hiddenLines: [],
-  hexagons: [],
-  startingPoints: [
-    { x: 0, y: 4 },
-    ],
-  endingPoints: [
-    { x: 4, y: 0 },
-    ],
-},
+//TODO: Quarry Outdoors Bank 2
 //TODO: needs removable corners
 
 //Keep
@@ -3942,7 +3917,9 @@ const levelData = [
     ],
   hiddenLines: [],
   hexagons: [
-    { x: 11, y: 14 },],
+    { x: 15, y: 10 },
+    { x: 11, y: 14 },
+    ],
   startingPoints: [{ x: 8, y: 8 }],
   endingPoints: [{ x: 1, y: 8 }],
 },
