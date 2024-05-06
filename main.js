@@ -1276,24 +1276,26 @@ const isSharedEdge = (line1, line2) => {
                 completed = false;
                 drawnPoints.length = 0;
             }
+            else {
 
-            offsetMousePos = getAdjustedMousePos(e);
+                offsetMousePos = getAdjustedMousePos(e);
 
-            const closestPoint = getClosestPoint(offsetMousePos.x, offsetMousePos.y);
+                const closestPoint = getClosestPoint(offsetMousePos.x, offsetMousePos.y);
 
-            for (const startCircle of startingPoints) {
-                
-                if (closestPoint.x === startCircle.x * squareSize && closestPoint.y === startCircle.y * squareSize) {
-                    chosenStartingPoint = startCircle;
-                    playSFX("start");
-                    isDrawing = true;
-                    lastPoint = closestPoint;
-                    drawnPoints.push(lastPoint);
-                    drawGridAndPuzzles();
+                for (const startCircle of startingPoints) {
+                    
+                    if (closestPoint.x === startCircle.x * squareSize && closestPoint.y === startCircle.y * squareSize) {
+                        chosenStartingPoint = startCircle;
+                        playSFX("start");
+                        isDrawing = true;
+                        lastPoint = closestPoint;
+                        drawnPoints.push(lastPoint);
+                        drawGridAndPuzzles();
+                    }
                 }
             }
-            
-        });
+        }
+        );
 
         canvas.addEventListener('mouseup', (e) => {
             cancelAnimationFrame(animationId);
@@ -1323,6 +1325,7 @@ const isSharedEdge = (line1, line2) => {
             }
         });
         
+        //TODO: arrow controls
         canvas.addEventListener('keydown', (e) => {
 
             let direction;
