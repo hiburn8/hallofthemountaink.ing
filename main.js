@@ -120,43 +120,48 @@ High effort features:
         });
 
         //Convert touch events to mouse events, we should have used pointer events, but i didn't know about them.
-        //Props to vetruvet for this idea @ https://blog.vetruvet.com/2010/12/converting-single-touch-events-to-mouse.html?m=1
-        var touchToMouse = function(event) {
-            // Exit if multi-touch
-            if (event.touches.length > 1) return;
+        function setupTouchEvents(canvas) {
+            const eventMap = {
+                'touchstart': 'mousedown',
+                'touchmove': 'mousemove',
+                'touchend': 'mouseup',
+                'touchcancel': 'mouseup'
+            };
 
-            let mouseEventType;
-            switch (event.type) {
-                case "touchstart": mouseEventType = "mousedown"; break;
-                case "touchmove":  mouseEventType = "mousemove"; break;
-                case "touchend":   mouseEventType = "mouseup"; break;
-                default: return;
+            function handleTouch(event) {
+                const touch = event.changedTouches[0];
+                const mouseEventType = eventMap[event.type];
+                if (!mouseEventType) return; // Ignore events that don't have a mapped mouse event type
+
+                const mouseEvent = new MouseEvent(mouseEventType, {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window,
+                    detail: touch.detail,
+                    screenX: touch.screenX,
+                    screenY: touch.screenY,
+                    clientX: touch.clientX,
+                    clientY: touch.clientY,
+                    ctrlKey: touch.ctrlKey,
+                    altKey: touch.altKey,
+                    shiftKey: touch.shiftKey,
+                    metaKey: touch.metaKey,
+                    button: 0,
+                    relatedTarget: null,
+                });
+
+                touch.target.dispatchEvent(mouseEvent);
+                event.preventDefault();
             }
 
-            // Only proceed if a valid mouse event type is set
-            if (!mouseEventType) return;
+            canvas.addEventListener('touchstart', handleTouch, { passive: false });
+            canvas.addEventListener('touchmove', handleTouch, { passive: false });
+            canvas.addEventListener('touchend', handleTouch, { passive: false });
+            canvas.addEventListener('touchcancel', handleTouch, { passive: false });
+        }
 
-            const touch = event.changedTouches[0];
-            const simulatedEvent = new MouseEvent(mouseEventType, {
-                bubbles: true,
-                cancelable: true,
-                view: window,
-                detail: 1,
-                screenX: touch.screenX,
-                screenY: touch.screenY,
-                clientX: touch.clientX,
-                clientY: touch.clientY,
-                button: 0
-            });
+        setupTouchEvents(document.getElementById('myCanvas'));
 
-            // Dispatch the event to the target of the touch event
-            touch.target.dispatchEvent(simulatedEvent);
-            event.preventDefault();
-        };
-
-        canvas.ontouchstart = touchToMouse;
-        canvas.ontouchmove = touchToMouse;
-        canvas.ontouchend = touchToMouse;
         
 
         // Grid and line styling
@@ -1438,10 +1443,64 @@ const isSharedEdge = (line1, line2) => {
             
             
         });
-        
 
-const playSFX = (sfx) => {
+//SFX
+//Web Audio API over HTML5, which fixes audio lag on mobile. Despite not working when a device is in silent-mode (user error)
+let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+let audioBuffer = {};
+
+function loadAudio(url, id) {
+    fetch(url)
+        .then(response => response.arrayBuffer())
+        .then(data => audioContext.decodeAudioData(data))
+        .then(buffer => {
+            audioBuffer[id] = buffer;
+        })
+        .catch(error => console.error('Error loading audio:', error));
+}
+
+async function playAudio(id) {
+
+    // Ensure the audio context is in a running state
+    if (audioContext.state === 'suspended') {
+        await audioContext.resume();
+    }
+
+    if (audioBuffer[id]) {
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer[id];
+        source.connect(audioContext.destination);
+        source.start(0);
+
+
+        // Add onended event listener
+        source.onended = () => {
+          if (id === 'challenge') {
+            alert('you reached level '+(level+1)+' before the music ended.');        
+            challengeMode = false;
+            debug();
+          }
+        };
+    }
+}
+
+// Preload audio files in order they are likely to get used (failure > success)
 //https://www.soundboard.com/track/1047032
+loadAudio('start.mp3', 'start');
+loadAudio('abort.mp3', 'abort');
+loadAudio('finish.mp3', 'finish');
+loadAudio('failure.mp3', 'failure');
+loadAudio('success.mp3', 'success');
+loadAudio('kevin-macleod-hall-of-the-mountain-king.mp3', 'challenge');
+
+// Play audio
+function playSFX(id) {
+    playAudio(id);
+}
+
+
+const playSFX_old = (sfx) => {
+
     var fx;
     switch(sfx) {
       case "start":
@@ -1476,6 +1535,8 @@ const playSFX = (sfx) => {
     }
     fx.play();
 }
+
+
 function findAreas() {   
     let visited = new Array(gridSizeX).fill(null).map(() => new Array(gridSizeY).fill(false));
 
