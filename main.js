@@ -827,8 +827,11 @@ High effort features:
       return cancelAnimation;
     }
 
+
         function drawCorner(x, y){
+            
             ctx.beginPath();
+            //ctx.arc(x*squareSize, y*squareSize, radius, 0, 2 * Math.PI);
             ctx.arc(x*squareSize, y*squareSize, 0.1, 0, 2 * Math.PI);
             ctx.fill();
             ctx.stroke();
@@ -838,6 +841,7 @@ High effort features:
 
 
             ctx.strokeStyle = color;
+            ctx.lineCap = 'round';
 
             let isTop = y === 0;
             let isBottom = y === gridSizeY;
@@ -879,7 +883,10 @@ High effort features:
             }
             ctx.lineTo(destinationX, destinationY);
             ctx.stroke();
-            drawCorner(destinationX / squareSize, destinationY / squareSize);
+            
+            //default value
+            ctx.lineCap = 'butt';
+
         }
 
         
@@ -1248,12 +1255,16 @@ const isSharedEdge = (line1, line2) => {
            
 
             ctx.strokeStyle = color;
+            ctx.lineCap = 'round';    
+            
             ctx.beginPath();
-             //drawCorner(from.x / squareSize, from.y / squareSize);
-            drawCorner(to.x / squareSize, to.y / squareSize);
             ctx.moveTo(from.x, from.y);
             ctx.lineTo(to.x, to.y);
             ctx.stroke();
+
+            //default value
+            ctx.lineCap = 'butt';
+            
         };
 
         const redrawPath = () => {
