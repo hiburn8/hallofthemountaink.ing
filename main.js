@@ -828,10 +828,22 @@ High effort features:
     }
 
 
+        function drawCorner2(x, y, color){
+
+            ctx.fillStyle = color;
+            
+            ctx.beginPath();
+
+            radius = ctx.lineWidth / 2;
+            ctx.arc(x*squareSize, y*squareSize, radius, 0, 2 * Math.PI);
+            ctx.fill();
+            //we explicitly do not want the line, just the fill
+            //ctx.stroke();
+        }
+
         function drawCorner(x, y){
             
             ctx.beginPath();
-            //ctx.arc(x*squareSize, y*squareSize, radius, 0, 2 * Math.PI);
             ctx.arc(x*squareSize, y*squareSize, 0.1, 0, 2 * Math.PI);
             ctx.fill();
             ctx.stroke();
@@ -839,9 +851,10 @@ High effort features:
 
         function drawTail(x, y, color){
 
-
             ctx.strokeStyle = color;
-            ctx.lineCap = 'round';
+            ctx.fillStyle = color;
+            //altCap
+            //ctx.lineCap = 'round';
 
             let isTop = y === 0;
             let isBottom = y === gridSizeY;
@@ -883,9 +896,14 @@ High effort features:
             }
             ctx.lineTo(destinationX, destinationY);
             ctx.stroke();
-            
-            //default value
-            ctx.lineCap = 'butt';
+
+            //altCap
+            //ctx.lineCap = 'butt';
+
+            radius = ctx.lineWidth / 2.
+            //ctx.arc(x*squareSize, y*squareSize, radius, 0, 2 * Math.PI);
+            ctx.arc(destinationX, destinationY, radius, 0, 2 * Math.PI);
+            ctx.fill();
 
         }
 
@@ -1256,7 +1274,6 @@ const isSharedEdge = (line1, line2) => {
 
             ctx.strokeStyle = color;
             ctx.lineCap = 'round';    
-            
             ctx.beginPath();
             ctx.moveTo(from.x, from.y);
             ctx.lineTo(to.x, to.y);
@@ -1264,6 +1281,9 @@ const isSharedEdge = (line1, line2) => {
 
             //default value
             ctx.lineCap = 'butt';
+
+            //drawCorner(from.x / squareSize, from.y / squareSize);
+            drawCorner(to.x / squareSize, to.y / squareSize);
             
         };
 
