@@ -198,6 +198,14 @@ function makeRotatable(shape){
 
 }
 
+function makeAntipoly(shape){
+
+    const magic = {x:Infinity,y:Infinity};
+    
+    return [magic].concat(shape);
+
+}
+
 //All this so i can change the shape of the SVG and i can still dynamically recolor it
 function updateFavicon(newColor) {
     // Get the current favicon element
@@ -397,14 +405,26 @@ function getShapeHeightWidth(shape) {
     return {x: maxX, y: maxY};
 }
 
-function drawTetrisShape(x, y, shape, shapeColour='#ecbd06') { // Added isShapeRotatable as a parameter
+function drawTetrisShape(x, y, shape, shapeColour = '#ecbd06') {
+    // Determine if the shape is rotatable
+    const isShapeRotatable = isRotatable(shape);
 
-    isShapeRotatable = isRotatable(shape);
-
-    if (isShapeRotatable){
+    if (isShapeRotatable) {
         shape = removeRotationMarker(shape);
     }
 
+    // Determine if the shape is an anti-polyomino
+    const isShapeAntipolyomino = isAntipoly(shape);
+
+    if (isShapeAntipolyomino) {
+        shape = removeAntipolyMarker(shape);
+    }
+
+
+    // Set the line width for anti-polyomino
+    const antipolyLineWidth = shapeSize / 5;
+
+    // Calculate dimensions
     const dimensions = getShapeHeightWidth(shape);
     const totalWidth = (dimensions.x + 1) * (shapeSize + shapeGapSize) - shapeGapSize;
     const totalHeight = (dimensions.y + 1) * (shapeSize + shapeGapSize) - shapeGapSize;
@@ -425,25 +445,51 @@ function drawTetrisShape(x, y, shape, shapeColour='#ecbd06') { // Added isShapeR
         ctx.translate(centerX, centerY);
 
         // Rotate the canvas by 15 degrees (converted to radians)
-        ctx.rotate(-15 * Math.PI / 180);
+        ctx.rotate((-15 * Math.PI) / 180);
 
         // Move the canvas origin back
         ctx.translate(-centerX, -centerY);
     }
 
-    // Draw the shape blocks as usual but with potentially rotated context
-    shape.forEach(square => {
-        const xPos = startX + (square.x * (shapeSize + shapeGapSize));
-        const yPos = startY + (square.y * (shapeSize + shapeGapSize));
+    if (isShapeAntipolyomino) {
+        // Save current state
+        ctx.save();
+        ctx.strokeStyle = '#4a5cbb'; // Blue for Antipolyominoes
+        ctx.lineWidth = antipolyLineWidth;
+
+        // Adjust the square size to accommodate the line width
+        const adjustedShapeSize = shapeSize - antipolyLineWidth;
+        const offset = antipolyLineWidth / 2;
+
+        // Draw the shape blocks with a thick blue outline
+        shape.forEach((square) => {
+            const xPos = startX + square.x * (shapeSize + shapeGapSize) + offset;
+            const yPos = startY + square.y * (shapeSize + shapeGapSize) + offset;
+
+            ctx.strokeRect(xPos, yPos, adjustedShapeSize, adjustedShapeSize);
+        });
+
+        // Restore previous state
+        ctx.restore();
+    } else {
+        // Set the fill style
         ctx.fillStyle = shapeColour;
-        ctx.fillRect(xPos, yPos, shapeSize, shapeSize);
-    });
+
+        // Draw the shape blocks as usual
+        shape.forEach((square) => {
+            const xPos = startX + square.x * (shapeSize + shapeGapSize);
+            const yPos = startY + square.y * (shapeSize + shapeGapSize);
+
+            ctx.fillRect(xPos, yPos, shapeSize, shapeSize);
+        });
+    }
 
     // If the shape was rotatable, restore the canvas to its original state
     if (isShapeRotatable) {
         ctx.restore();
     }
 }
+
 
 
 function transformShape(shape, flipHorizontal = false, flipVertical = false, rotation = 0) {
@@ -694,8 +740,5 @@ const tetromino_T_R180_Rotatable = makeRotatable(tetromino_T_R180);
 const pentomino_L_Rotatable = makeRotatable(pentomino_L);
 const tetromino_L_R90_Rotatable = makeRotatable(tetromino_L_R90);
 
-
-
-
-
+const monomino_Anti = makeAntipoly(monomino);
 

@@ -418,7 +418,8 @@ High effort features:
         'pentomino_T_R180_Rotatable',
         'tromino_Straight_Rotatable',
         'decomino_Skewed',
-        'decomino_Skewed_Rotatable'
+        'decomino_Skewed_Rotatable',
+        'monomino_Anti'
         ];
         
         // Initialise Grid

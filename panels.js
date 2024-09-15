@@ -4135,4 +4135,25 @@ const levelData = [
   endingPoints: [{ x: 5, y: 0 }],
 }
 
+/**,
+{
+  location: 'Antipolyomino Test (non-working)',
+  level: getID(),
+  theme: 'grey',
+  gridSizeX: 4,
+  gridSizeY: 4,
+  puzzles: [
+    //{ x: 3, y: 0, value: 'Y' },
+    { x: 1, y: 2, value: 'tetromino_Straight_R90' },
+    { x: 1, y: 3, value: 'tetromino_Straight' },
+    { x: 1, y: 0, value: 'monomino_Anti' },
+
+    ],
+  blockedLines: [],
+  hiddenLines: [],
+  hexagons: [],
+  startingPoints: [{ x: 0, y: 4 }],
+  endingPoints: [{ x: 4, y: 0 }],
+}
+**/
 ];

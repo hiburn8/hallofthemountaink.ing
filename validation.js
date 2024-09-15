@@ -139,16 +139,25 @@ function rotateShape(shape, angle) {
 }
 
 function isRotatable(shape) {
-    //console.log('shape can rotate');
     // Check if the shape contains the special object marking it as rotatable.
     return shape.some(block => block.x === null && block.y === null);
 
 }
 
 function removeRotationMarker(shape) {
-    //console.log('removing marker');
     // Filter out the special object used to mark the shape as rotatable.
     return shape.filter(block => block.x !== null || block.y !== null);
+}
+
+function isAntipoly(shape) {
+    // Check if the shape contains the special object marking it as an antipoly.
+    return shape.some(block => block.x === Infinity && block.y === Infinity);
+
+}
+
+function removeAntipolyMarker(shape) {
+    // Filter out the special object used to mark the shape as an antipoly.
+    return shape.filter(block => block.x !== Infinity || block.y !== Infinity);
 }
 
 // Function to check if we can place all the provided shapes in the given area
@@ -310,7 +319,8 @@ function tetrisString2Shape(string) {
       pentomino_T_R180_Rotatable,
       tromino_Straight_Rotatable,
       decomino_Skewed,
-      decomino_Skewed_Rotatable
+      decomino_Skewed_Rotatable,
+      monomino_Anti
     };
 
     return shapeArrays[string];
